@@ -1,0 +1,38 @@
+{
+  "name": "reflar/webhooks",
+  "description": "Flarum with webhooks",
+  "keywords": [
+    "flarum"
+  ],
+  "type": "flarum-extension",
+  "license": "MIT",
+  "require": {
+    "flarum/core": "^0.1.0-beta-7",
+    "guzzlehttp/guzzle": "~6.0"
+  },
+  "authors": [
+    {
+      "name": "David Sevilla Martín",
+      "email": "david.s@redevs.org",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Reflar\\Webhooks\\": "src/"
+    }
+  },
+  "extra": {
+    "flarum-extension": {
+      "title": "ReFlar Webhooks",
+      "icon": {
+        "name": "fas fa-external-link-alt",
+        "backgroundColor": "#263238",
+        "color": "#FFF"
+      }
+    },
+    "flagrow": {
+      "discuss": ""
+    }
+  }
+}
