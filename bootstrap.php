@@ -23,8 +23,10 @@ return [
         ->css(__DIR__.'/resources/less/admin.less'),
     new Extend\Locales(__DIR__ . '/resources/locale'),
     (new Extend\Routes('api'))
-        ->get('/reflar/webhooks', 'reflar.webhooks.index', Api\Controllers\ListWebhooksController::class),
+        ->post('/reflar/webhooks', 'reflar.webhooks.create', Api\Controller\CreateWebhookController::class)
+        ->get('/reflar/webhooks', 'reflar.webhooks.index', Api\Controller\ListWebhooksController::class),
     function (Dispatcher $dispatcher) {
         $dispatcher->subscribe(Listener\TriggerListener::class);
+        $dispatcher->subscribe(Listener\AddRelationships::class);
     }
 ];

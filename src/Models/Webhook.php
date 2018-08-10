@@ -27,7 +27,6 @@ class Webhook extends AbstractModel
     protected $table = 'webhooks';
 
     /**
-     * Create a webhook
      * @param string $service
      * @param string $url
      * @return static

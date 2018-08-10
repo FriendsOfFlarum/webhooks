@@ -76,7 +76,7 @@ class Response
 
     /**
      * @param string $nameOrUrl
-     * @param array|null $data (optional)
+     * @param array|null $data [optional]
      * @return $this
      */
     public function setURL(string $nameOrUrl, $data) {

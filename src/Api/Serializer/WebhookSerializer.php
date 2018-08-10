@@ -11,7 +11,7 @@
  *  file that was distributed with this source code.
  */
 
-namespace Reflar\Webhooks\Api\Serializers;
+namespace Reflar\Webhooks\Api\Serializer;
 
 use Flarum\Api\Serializer\AbstractSerializer;
 use InvalidArgumentException;

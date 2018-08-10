@@ -31,7 +31,7 @@ class TriggerListener
     /**
      * @var ArrayObject<String, Action>
      */
-    protected static $listeners = [];
+    public static $listeners = null;
 
     /**
      * EventListener constructor.
@@ -40,10 +40,7 @@ class TriggerListener
     public function __construct(SettingsRepositoryInterface $settings) {
         $this->settings = $settings;
 
-        self::$listeners = [
-            \Flarum\Post\Event\Posted::class => new Actions\Post\Posted(),
-            \Flarum\Discussion\Event\Started::class => new Actions\Discussion\Started(),
-        ];
+        if (self::$listeners == null) $this::setupDefaultListeners();
     }
 
     /**
@@ -84,12 +81,20 @@ class TriggerListener
         if (isset($response)) $this->handle($response);
     }
 
+    static function setupDefaultListeners() {
+        self::$listeners = [
+            \Flarum\Post\Event\Posted::class => new Actions\Post\Posted(),
+            \Flarum\Discussion\Event\Started::class => new Actions\Discussion\Started(),
+        ];
+    }
+
     /**
      * @param Response $response
      * @throws \Exception
      */
     private function handle(Response $response) {
         if (!$response) return;
+
 
         (new Adapters\Discord\Adapter())->send("https://canary.discordapp.com/api/webhooks/358753571426009088/2_ZT5qtPYv4tKdybEeF9cdd9KaN3prRuXPqVw7KoV_p181E7x4g3K-Z_EBVXegYeIS6Z", $response);
 

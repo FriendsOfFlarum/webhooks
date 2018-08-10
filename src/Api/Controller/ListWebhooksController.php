@@ -11,15 +11,15 @@
  *  file that was distributed with this source code.
  */
 
-namespace Reflar\Webhooks\Api\Controllers;
+namespace Reflar\Webhooks\Api\Controller;
 
-use Flarum\Api\Controller\AbstractCreateController;
+use Flarum\Api\Controller\AbstractListController;
 use Psr\Http\Message\ServerRequestInterface;
-use Reflar\Webhooks\Api\Serializers\WebhookSerializer;
+use Reflar\Webhooks\Api\Serializer\WebhookSerializer;
 use Reflar\Webhooks\Models\Webhook;
 use Tobscure\JsonApi\Document;
 
-class ListWebhooksController extends AbstractCreateController
+class ListWebhooksController extends AbstractListController
 {
     /**
      * {@inheritdoc}
