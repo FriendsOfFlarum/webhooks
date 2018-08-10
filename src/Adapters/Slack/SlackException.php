@@ -29,12 +29,22 @@ class SlackException extends Exception
         $this->http = $res->getStatusCode();
         $this->url = $url;
 
+        if ($this->http == 302) $this->http = 404;
+
         $body = json_decode($res->getBody()->getContents());
 
-        parent::__construct($body->message, $body->code);
+        if ($this->http == 404) {
+            parent::__construct(app('translator')->trans('reflar-webhooks.adapters.errors.404'));
+        } else {
+            parent::__construct($body->message, $body->code);
+        }
+
     }
 
     public function __toString() {
-        return "Slack: HTTP $this->http – $this->code $this->message ($this->url)";
+        $code = $this->code;
+        $message = $code ? "$code $this->message" : $this->message;
+
+        return "HTTP $this->http – $message ($this->url)";
     }
 }

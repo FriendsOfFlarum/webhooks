@@ -14,11 +14,13 @@
 namespace Reflar\Webhooks\Listener;
 
 use Flarum\Api\Controller\ShowForumController;
+use Flarum\Api\Event\Serializing;
 use Flarum\Api\Event\WillGetData;
 use Flarum\Api\Event\WillSerializeData;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Event\GetApiRelationship;
 use Illuminate\Contracts\Events\Dispatcher;
+use Reflar\Webhooks\Adapters\Adapters;
 use Reflar\Webhooks\Api\Serializer\WebhookSerializer;
 use Reflar\Webhooks\Models\Webhook;
 
@@ -33,6 +35,7 @@ class AddRelationships {
         $events->listen(GetApiRelationship::class, [$this, 'getApiAttributes']);
         $events->listen(WillSerializeData::class, [$this, 'loadWebhooksRelationship']);
         $events->listen(WillGetData::class, [$this, 'includeWebhooks']);
+        $events->listen(Serializing::class, [$this, 'includeAdapters']);
     }
 
     /**
@@ -53,6 +56,12 @@ class AddRelationships {
     {
         if ($event->isController(ShowForumController::class)) {
             $event->data['webhooks'] = $event->actor->isAdmin() ? Webhook::all() : [];
+        }
+    }
+
+    public function includeAdapters(Serializing $event) {
+        if ($event->isSerializer(ForumSerializer::class) && $event->actor->isAdmin()) {
+            $event->attributes['reflar-webhooks-services'] = array_keys(Adapters::all());
         }
     }
 

@@ -21,32 +21,24 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
 {
     public static $client;
 
-    protected $exception =  DiscordException::class;
+    protected $exception = DiscordException::class;
 
     /**
      * Sends a message through the webhook
      * @param string $url
      * @param Response $response
-     * @return \Psr\Http\Message\ResponseInterface
-     * @throws \GuzzleHttp\Exception\RequestException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function send(string $url, Response $response) {
         if (!isset($response)) return;
 
-        return $this->request($url, [
+        $this->request($url, [
             "username" => $this->settings->get('reflar-webhooks.settings.discordName') ?: $this->settings->get('forum_title'),
             "avatar_url" => $this->getAvatarUrl(),
             "embeds" => [
                 $this->toArray($response)
             ]
         ]);
-
-//        $http_status = $response ?: $response->getStatusCode();
-
-//        if ($http_status != 200 && $http_status >= 400) {
-//            app('log')->error("[reflar/webhooks] Discord: An error may have occurred:  HTTP " . $http_status);
-//            throw new DiscordException($http_status, $response->getStatusCode(), $response->getReasonPhrase());
-//        }
     }
 
     /**
@@ -66,11 +58,11 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
     function toArray(Response $response)
     {
         return [
-            'title' => $response->title,
+            'title' => substr($response->title, 0, 256),
             'url' => $response->url,
-            'description' => $response->description,
+            'description' => $response->description ? substr($response->description, 0, 2048) : null,
             'author' => isset($response->author) ? [
-                'name' => $response->author->username,
+                'name' => substr($response->author->username, 0, 256),
                 'url' => $response->getAuthorUrl(),
                 'icon_url' => $response->author->avatar_url,
             ] : null,

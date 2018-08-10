@@ -52,14 +52,16 @@ abstract class Adapter
      * @throws \ReflectionException
      */
     public function handle(Webhook $webhook, Response $response) {
+        $clazz = new \ReflectionClass($this->exception);
+
         try {
             $this->send($webhook->url, $response);
             if (isset($webhook->error)) $webhook->setAttribute('error', null);
-        } catch (GuzzleException $e) {
-            if ($e instanceof RequestException && $e->hasResponse()) {
+        } catch (RequestException $e) {
+            if ($e->hasResponse()) {
                 $webhook->setAttribute(
                     'error',
-                    (new \ReflectionClass($this->exception))->newInstance($e->getResponse(), $webhook->url)
+                    $clazz->newInstance($e->getResponse(), $webhook->url)
                 );
             } else {
                 $webhook->setAttribute(
@@ -67,6 +69,11 @@ abstract class Adapter
                     $e->getMessage()
                 );
             }
+        } catch (\Exception $e) {
+            $webhook->setAttribute(
+                'error',
+                $clazz->isInstance($e) ? $e : $e->getMessage()
+            );
         }
 
         $webhook->save();
@@ -97,11 +104,12 @@ abstract class Adapter
      * @param string $url
      * @param array $json
      * @return \Psr\Http\Message\ResponseInterface
-     * @throws RequestException
+     * @throws GuzzleException
      */
     protected function request(string $url, array $json) {
         return self::$client->request('POST', $url, [
             'json' => $json,
+            'allow_redirects' => false
         ]);
     }
 }

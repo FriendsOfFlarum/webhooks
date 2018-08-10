@@ -21,7 +21,6 @@ class WebhookValidator extends AbstractValidator
         'service' => [
             'required',
             'string',
-            'regex:/discord|slack/i'
         ],
         'url' => [
             'required',

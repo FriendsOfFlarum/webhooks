@@ -202,14 +202,14 @@ function (_Page) {
 
   _proto.init = function init() {
     this.values = {};
-    this.services = this.getServices().reduce(function (o, service) {
-      o[service.toLowerCase()] = service;
+    this.services = app.forum.attribute('reflar-webhooks-services').reduce(function (o, service) {
+      o[service] = app.translator.trans("reflar-webhooks.admin.settings.services." + service);
       return o;
     }, {});
     this.webhooks = app.forum.webhooks();
     this.settingsPrefix = 'reflar.webhooks';
     this.newWebhook = {
-      service: m.prop(''),
+      service: m.prop('discord'),
       url: m.prop(''),
       loading: m.prop(false)
     };
@@ -223,7 +223,7 @@ function (_Page) {
     var _this = this;
 
     return m("div", {
-      className: "SettingsPage"
+      className: "WebhooksPage"
     }, m("div", {
       className: "container"
     }, m("form", {
@@ -257,7 +257,7 @@ function (_Page) {
         onclick: function onclick() {
           return _this.deleteWebhook(webhook);
         }
-      })), webhook.error() && flarum_components_Alert__WEBPACK_IMPORTED_MODULE_1___default.a.component({
+      })), webhook.error && webhook.error() && flarum_components_Alert__WEBPACK_IMPORTED_MODULE_1___default.a.component({
         children: webhook.error(),
         className: 'Webhook-error',
         type: 'error',
@@ -337,7 +337,7 @@ function (_Page) {
         url: m.prop(response.data.attributes.url)
       });
 
-      _this3.newWebhook.service('');
+      _this3.newWebhook.service('discord');
 
       _this3.newWebhook.url('');
 
@@ -367,11 +367,12 @@ function (_Page) {
     });
   };
 
-  _proto.getServices = function getServices() {
-    var items = [];
-    items.push('Discord');
-    items.push('Slack');
-    return items;
+  _proto.deleteWebhook = function deleteWebhook(webhook) {
+    app.request({
+      method: 'DELETE',
+      url: app.forum.attribute('apiUrl') + "/reflar/webhooks/" + webhook.id()
+    });
+    this.webhooks.splice(this.webhooks.indexOf(webhook), 1);
   };
   /**
    * @returns boolean

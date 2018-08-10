@@ -17,18 +17,24 @@ namespace Reflar\Webhooks\Extend;
 use Flarum\Extend\ExtenderInterface;
 use Flarum\Extension\Extension;
 use Illuminate\Contracts\Container\Container;
+use Reflar\Webhooks\Action;
+use Reflar\Webhooks\Adapters\Adapter;
+use Reflar\Webhooks\Adapters\Adapters;
 use Reflar\Webhooks\Listener\TriggerListener;
 
 class ReflarWebhooksExtender implements ExtenderInterface
 {
     private $listeners = [];
-
-    // TODO: implement
     private $adapters = [];
 
     public function __construct() {}
 
-    public function listener($clazz, $action) {
+    /**
+     * @param string $clazz
+     * @param Action|string $action
+     * @return $this
+     */
+    public function listener(string $clazz, $action) {
         assert(isset($clazz) && is_string($clazz), "\$clazz must be a string");
         assert(isset($action), "\$action is required");
 
@@ -41,12 +47,36 @@ class ReflarWebhooksExtender implements ExtenderInterface
         return $this;
     }
 
+    /**
+     * @param string $name
+     * @param Adapter|string $adapter
+     * @return $this
+     */
+    public function adapter(string $name, $adapter) {
+        assert(isset($name) && is_string($name), "\$name must be a string");
+        assert(isset($adapter), "\$adapter is required");
+
+        if (is_string($adapter)) {
+            $adapter = (new \ReflectionClass($adapter))->newInstance();
+        }
+
+        $this->adapters[$name] = $adapter;
+
+        return $this;
+    }
+
     public function __invoke(Container $container, Extension $extension = null)
     {
         if (TriggerListener::$listeners == null) TriggerListener::setupDefaultListeners();
 
         foreach($this->listeners as $clazz => $action) {
             TriggerListener::$listeners[$clazz] = $action;
+        }
+
+        if (Adapters::length() == 0) Adapters::initialize();
+
+        foreach($this->adapters as $name => $adapter) {
+            Adapters::add($name, $adapter);
         }
     }
 }

@@ -1,13 +1,13 @@
 <?php
 
 /**
- *  This file is part of reflar/webhooks
+ *  This file is part of reflar/webhooks.
  *
  *  Copyright (c) ReFlar.
  *
  *  https://reflar.redevs.org
  *
- *  For the full copyright and license information, please view the license.md
+ *  For the full copyright and license information, please view the LICENSE.md
  *  file that was distributed with this source code.
  */
 
@@ -15,10 +15,10 @@ namespace Reflar\Webhooks\Command;
 
 use Flarum\User\User;
 
-class UpdateWebhook
+class DeleteWebhook
 {
     /**
-     * The ID of the webhook to edit.
+     * The ID of the webhook to delete.
      *
      * @var int
      */
@@ -40,7 +40,7 @@ class UpdateWebhook
     public $data;
 
     /**
-     * @param int   $webhookId The ID of the webhook to edit.
+     * @param int   $webhookId The ID of the webhook to delete.
      * @param User  $actor      The user performing the action.
      * @param array $data       Any other reaction input associated with the action. This
      *                          is unused by default, but may be used by extensions.

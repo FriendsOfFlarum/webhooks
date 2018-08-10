@@ -36,6 +36,6 @@ class DiscordException extends Exception
     }
 
     public function __toString() {
-        return "Discord: HTTP $this->http – $this->code $this->message ($this->url)";
+        return "HTTP $this->http – $this->code $this->message ($this->url)";
     }
 }

@@ -7,8 +7,8 @@ import saveSettings from 'flarum/utils/saveSettings';
 export default class SettingsPage extends Page {
     init() {
         this.values = {};
-        this.services = this.getServices().reduce((o, service) => {
-            o[service.toLowerCase()] = service;
+        this.services = app.forum.attribute('reflar-webhooks-services').reduce((o, service) => {
+            o[service] = app.translator.trans(`reflar-webhooks.admin.settings.services.${service}`);
             return o;
         }, {});
 
@@ -17,7 +17,7 @@ export default class SettingsPage extends Page {
         this.settingsPrefix = 'reflar.webhooks';
 
         this.newWebhook = {
-            service: m.prop(''),
+            service: m.prop('discord'),
             url: m.prop(''),
             loading: m.prop(false),
         };
@@ -28,7 +28,7 @@ export default class SettingsPage extends Page {
      */
     view() {
         return (
-            <div className="SettingsPage">
+            <div className="WebhooksPage">
                 <div className="container">
                     <form onsubmit={this.onsubmit.bind(this)}>
                         <fieldset>
@@ -63,7 +63,8 @@ export default class SettingsPage extends Page {
                                                 })}
                                             </div>
 
-                                            {webhook.error() &&
+                                            {webhook.error &&
+                                                webhook.error() &&
                                                 Alert.component({
                                                     children: webhook.error(),
                                                     className: 'Webhook-error',
@@ -162,7 +163,7 @@ export default class SettingsPage extends Page {
                     url: m.prop(response.data.attributes.url),
                 });
 
-                this.newWebhook.service('');
+                this.newWebhook.service('discord');
                 this.newWebhook.url('');
                 this.newWebhook.loading(false);
 
@@ -192,13 +193,13 @@ export default class SettingsPage extends Page {
         });
     }
 
-    getServices() {
-        const items = [];
+    deleteWebhook(webhook) {
+        app.request({
+            method: 'DELETE',
+            url: `${app.forum.attribute('apiUrl')}/reflar/webhooks/${webhook.id()}`,
+        });
 
-        items.push('Discord');
-        items.push('Slack');
-
-        return items;
+        this.webhooks.splice(this.webhooks.indexOf(webhook), 1);
     }
 
     /**

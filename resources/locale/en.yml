@@ -5,3 +5,16 @@ reflar-webhooks:
 
     post:
       posted: "New post in {1}"
+
+  adapters:
+    errors:
+      404: "Webhook Not Found"
+
+  admin:
+    settings:
+      help:
+        url: The webhook's endpoint to be executed
+
+      services:
+        discord: Discord
+        slack: Slack

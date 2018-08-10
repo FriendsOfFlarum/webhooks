@@ -14,6 +14,8 @@
 namespace Reflar\Webhooks\Api\Controller;
 
 use Flarum\Api\Controller\AbstractListController;
+use Flarum\User\Exception\PermissionDeniedException;
+use Flarum\User\User;
 use Psr\Http\Message\ServerRequestInterface;
 use Reflar\Webhooks\Api\Serializer\WebhookSerializer;
 use Reflar\Webhooks\Models\Webhook;
@@ -31,9 +33,16 @@ class ListWebhooksController extends AbstractListController
      * @param Document $document
      *
      * @return mixed
+     * @throws PermissionDeniedException
      */
     protected function data(ServerRequestInterface $request, Document $document)
     {
+        $actor = $request->getAttribute('actor');
+
+        if (!$actor->isAdmin()) {
+            throw new PermissionDeniedException;
+        }
+
         return Webhook::all();
     }
 }

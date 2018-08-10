@@ -14,6 +14,7 @@
 namespace Reflar\Webhooks\Adapters\Slack;
 
 use Flarum\Http\UrlGenerator;
+use GuzzleHttp\Exception\RequestException;
 use Reflar\Webhooks\Response;
 
 class Adapter extends \Reflar\Webhooks\Adapters\Adapter
@@ -26,18 +27,23 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
      * Sends a message through the webhook
      * @param string $url
      * @param Response $response
-     * @throws \GuzzleHttp\Exception\RequestException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws SlackException
      */
     public function send(string $url, Response $response) {
         if (!isset($response)) return;
 
-        $this->request($url, [
+        $res = $this->request($url, [
             "username" => $this->settings->get('reflar-webhooks.settings.discordName') ?: $this->settings->get('forum_title'),
             "avatar_url" => $this->getAvatarUrl(),
             "attachments" => [
                 $this->toArray($response)
             ]
         ]);
+
+        if ($res->getStatusCode() == 302) {
+            throw new SlackException($res, $url);
+        }
     }
 
     /**

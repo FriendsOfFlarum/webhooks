@@ -96,13 +96,12 @@ class TriggerListener
     private function handle(Response $response) {
         if (!$response) return;
 
+        if (Adapters\Adapters::length() == 0) Adapters\Adapters::initialize();
+
         foreach(Webhook::all() as $webhook) {
-            // TODO: extendable list w/ adapters
-            if ($webhook->service == "discord") {
-                (new Adapters\Discord\Adapter())->handle($webhook, $response);
-            } else if ($webhook->service == "slack") {
-                (new Adapters\Slack\Adapter())->handle($webhook, $response);
-            }
+            $adapter = Adapters\Adapters::get($webhook->service);
+
+            if (isset($adapter)) $adapter->handle($webhook, $response);
         }
     }
 }
