@@ -33,6 +33,7 @@ class Started extends Action
                 'id' => $event->discussion->id
             ])
             ->setAuthor($event->actor)
-            ->setColor("2ecc71");
+            ->setColor("2ecc71")
+            ->setTimestamp($event->discussion->start_time);
     }
 }

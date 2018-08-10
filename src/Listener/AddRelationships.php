@@ -52,9 +52,7 @@ class AddRelationships {
     public function loadWebhooksRelationship(WillSerializeData $event)
     {
         if ($event->isController(ShowForumController::class)) {
-            if ($event->actor->isAdmin()) {
-                $event->data['webhooks'] = Webhook::all();
-            }
+            $event->data['webhooks'] = $event->actor->isAdmin() ? Webhook::all() : [];
         }
     }
 

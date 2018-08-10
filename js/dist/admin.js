@@ -96,7 +96,7 @@ module.exports =
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _src_admin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./src/admin */ "./src/admin/index.js");
+/* harmony import */ var _src_admin__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/admin */ "./src/admin/index.js");
 /* empty/unused harmony star reexport */
 
 /***/ }),
@@ -235,20 +235,20 @@ function (_Page) {
     }, this.webhooks.map(function (webhook) {
       return [m("div", {
         className: "Webhooks--row"
+      }, m("div", {
+        className: "Webhook-input"
       }, flarum_components_Select__WEBPACK_IMPORTED_MODULE_4___default.a.component({
         options: _this.services,
         value: webhook.service(),
-        onchange: function onchange() {
-          return _this.updateService(webhook);
+        onchange: function onchange(value) {
+          return _this.updateWebhook(webhook, 'service', value);
         }
       }), m("input", {
         className: "FormControl Webhook-url",
         type: "url",
         value: webhook.url(),
         placeholder: app.translator.trans('reflar-webhooks.admin.settings.help.url'),
-        onchange: m.withAttr('value', function () {
-          return _this.updateUrl(webhook);
-        })
+        onchange: m.withAttr('value', _this.updateWebhook.bind(_this, webhook, 'url'))
       }), flarum_components_Button__WEBPACK_IMPORTED_MODULE_2___default.a.component({
         type: 'button',
         className: 'Button Button--warning Webhook-button',
@@ -256,9 +256,16 @@ function (_Page) {
         onclick: function onclick() {
           return _this.deleteWebhook(webhook);
         }
+      })), webhook.error() && flarum_components_Alert__WEBPACK_IMPORTED_MODULE_1___default.a.component({
+        children: webhook.error(),
+        className: 'Webhook-error',
+        type: 'error',
+        dismissible: false
       }))];
     }), m("br", null), m("div", {
       className: "Webhooks--row"
+    }, m("div", {
+      className: "Webhook-input"
     }, flarum_components_Select__WEBPACK_IMPORTED_MODULE_4___default.a.component({
       options: this.services,
       value: this.newWebhook.service(),
@@ -275,7 +282,7 @@ function (_Page) {
       onclick: function onclick() {
         return _this.addWebhook(_this);
       }
-    })))))));
+    }))))))));
   };
 
   _proto.onsubmit = function onsubmit(e) {
@@ -332,6 +339,22 @@ function (_Page) {
       _this3.newWebhook.url('');
 
       m.lazyRedraw();
+    });
+  };
+
+  _proto.updateWebhook = function updateWebhook(webhook, field, value) {
+    var _data;
+
+    app.request({
+      method: 'PATCH',
+      url: app.forum.attribute('apiUrl') + "/reflar/webhooks/" + webhook.id(),
+      data: (_data = {}, _data[field] = value, _data)
+    });
+    this.webhooks.some(function (w) {
+      if (w.id() === webhook.id()) {
+        w[field] = m.prop(value);
+        return true;
+      }
     });
   };
 
@@ -423,11 +446,11 @@ function (_mixin) {
 }(flarum_utils_mixin__WEBPACK_IMPORTED_MODULE_2___default()(flarum_Model__WEBPACK_IMPORTED_MODULE_1___default.a, {
   id: flarum_Model__WEBPACK_IMPORTED_MODULE_1___default.a.attribute('id'),
   service: flarum_Model__WEBPACK_IMPORTED_MODULE_1___default.a.attribute('service'),
-  url: flarum_Model__WEBPACK_IMPORTED_MODULE_1___default.a.attribute('url')
+  url: flarum_Model__WEBPACK_IMPORTED_MODULE_1___default.a.attribute('url'),
+  error: flarum_Model__WEBPACK_IMPORTED_MODULE_1___default.a.attribute('error')
 }));
 
 
-;
 
 /***/ }),
 

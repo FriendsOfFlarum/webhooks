@@ -33,6 +33,7 @@ class Posted extends Action
                 'id' => $event->post->discussion->id
             ])
             ->setDescription($event->post->content)
-            ->setAuthor($event->actor);
+            ->setAuthor($event->actor)
+            ->setTimestamp($event->post->time);
     }
 }

@@ -39,6 +39,11 @@ class Response
     public $color;
 
     /**
+     * @var String
+     */
+    public $timestamp;
+
+    /**
      * @var User
      */
     public $author;
@@ -54,13 +59,15 @@ class Response
      * @param String $url
      * @param String $description
      * @param User $author
+     * @param string $timestamp
      */
-    public function __construct(String $title = null, String $url = null, String $description = null, User $author = null)
+    public function __construct(String $title = null, String $url = null, String $description = null, User $author = null, string $timestamp = null)
     {
         $this->title = $title;
         $this->url = $url;
         $this->description = $description ?: "";
         $this->author = $author;
+        $this->timestamp = $timestamp;
 
         $this->urlGenerator = app(UrlGenerator::class);
     }
@@ -111,6 +118,16 @@ class Response
      */
     public function setColor(String $color) {
         $this->color = $color;
+        return $this;
+    }
+
+    /**
+     * Set color
+     * @param string $timestamp
+     * @return Response
+     */
+    public function setTimestamp(string $timestamp) {
+        $this->timestamp = $timestamp;
         return $this;
     }
 

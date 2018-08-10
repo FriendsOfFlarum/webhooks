@@ -1,5 +1,4 @@
 <?php
-
 /**
  *  This file is part of reflar/webhooks.
  *
@@ -11,12 +10,12 @@
  *  file that was distributed with this source code.
  */
 
-namespace Reflar\Webhooks\Adapters\Discord;
+namespace Reflar\Webhooks\Adapters\Slack;
 
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 
-class DiscordException extends Exception
+class SlackException extends Exception
 {
     private $http;
     private $url;
@@ -36,6 +35,6 @@ class DiscordException extends Exception
     }
 
     public function __toString() {
-        return "Discord: HTTP $this->http – $this->code $this->message ($this->url)";
+        return "Slack: HTTP $this->http – $this->code $this->message ($this->url)";
     }
 }

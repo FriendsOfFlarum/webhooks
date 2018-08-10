@@ -15,7 +15,7 @@ export default class SettingsPage extends Page {
         this.webhooks = app.forum.webhooks();
 
         this.settingsPrefix = 'reflar.webhooks';
-        
+
         this.newWebhook = {
             service: m.prop(''),
             url: m.prop(''),
@@ -33,51 +33,66 @@ export default class SettingsPage extends Page {
                         <fieldset>
                             <legend>{app.translator.trans('reflar-webhooks.admin.settings.title')}</legend>
                             <label>{app.translator.trans('reflar-webhooks.admin.settings.webhooks')}</label>
-                            <div style="margin-bottom: -10px"
-                                 className="helpText">{app.translator.trans('reflar-webhooks.admin.settings.help.general')}</div>
-                            <br/>
+                            <div style="margin-bottom: -10px" className="helpText">
+                                {app.translator.trans('reflar-webhooks.admin.settings.help.general')}
+                            </div>
+                            <br />
                             <div className="Webhooks--Container">
                                 {this.webhooks.map(webhook => {
                                     return [
                                         <div className="Webhooks--row">
-                                            {Select.component({
-                                                options: this.services,
-                                                value: webhook.service(),
-                                                onchange: () => this.updateService(webhook),
-                                            })}
-                                            <input
-                                                className="FormControl Webhook-url"
-                                                type="url"
-                                                value={webhook.url()}
-                                                placeholder={app.translator.trans('reflar-webhooks.admin.settings.help.url')}
-                                                onchange={m.withAttr('value',  () => this.updateUrl(webhook))}/>
-                                            {Button.component({
-                                                type: 'button',
-                                                className: 'Button Button--warning Webhook-button',
-                                                icon: 'fas fa-times',
-                                                onclick: () => this.deleteWebhook(webhook)
-                                            })}
-                                        </div>
-                                    ]
+                                            <div className="Webhook-input">
+                                                {Select.component({
+                                                    options: this.services,
+                                                    value: webhook.service(),
+                                                    onchange: value => this.updateWebhook(webhook, 'service', value),
+                                                })}
+                                                <input
+                                                    className="FormControl Webhook-url"
+                                                    type="url"
+                                                    value={webhook.url()}
+                                                    placeholder={app.translator.trans('reflar-webhooks.admin.settings.help.url')}
+                                                    onchange={m.withAttr('value', this.updateWebhook.bind(this, webhook, 'url'))}
+                                                />
+                                                {Button.component({
+                                                    type: 'button',
+                                                    className: 'Button Button--warning Webhook-button',
+                                                    icon: 'fas fa-times',
+                                                    onclick: () => this.deleteWebhook(webhook),
+                                                })}
+                                            </div>
+
+                                            {webhook.error() &&
+                                                Alert.component({
+                                                    children: webhook.error(),
+                                                    className: 'Webhook-error',
+                                                    type: 'error',
+                                                    dismissible: false,
+                                                })}
+                                        </div>,
+                                    ];
                                 })}
-                                <br/>
+                                <br />
                                 <div className="Webhooks--row">
-                                    {Select.component({
-                                        options: this.services,
-                                        value: this.newWebhook.service(),
-                                        onchange: this.newWebhook.service,
-                                    })}
-                                    <input
-                                        className="FormControl Webhook-url"
-                                        type="url"
-                                        placeholder={app.translator.trans('reflar-webhooks.admin.settings.help.url')}
-                                        onchange={m.withAttr('value', this.newWebhook.url)}/>
-                                    {Button.component({
-                                        type: 'button',
-                                        className: 'Button Button--warning Webhook-button',
-                                        icon: 'fas fa-plus',
-                                        onclick: () => this.addWebhook(this)
-                                    })}
+                                    <div className="Webhook-input">
+                                        {Select.component({
+                                            options: this.services,
+                                            value: this.newWebhook.service(),
+                                            onchange: this.newWebhook.service,
+                                        })}
+                                        <input
+                                            className="FormControl Webhook-url"
+                                            type="url"
+                                            placeholder={app.translator.trans('reflar-webhooks.admin.settings.help.url')}
+                                            onchange={m.withAttr('value', this.newWebhook.url)}
+                                        />
+                                        {Button.component({
+                                            type: 'button',
+                                            className: 'Button Button--warning Webhook-button',
+                                            icon: 'fas fa-plus',
+                                            onclick: () => this.addWebhook(this),
+                                        })}
+                                    </div>
                                 </div>
                             </div>
                         </fieldset>
@@ -133,22 +148,37 @@ export default class SettingsPage extends Page {
             url: `${app.forum.attribute('apiUrl')}/reflar/webhooks`,
             data: {
                 service: this.newWebhook.service(),
-                url: this.newWebhook.url()
-            }
-        }).then(
-            response => {
-                this.webhooks.push({
-                    id: m.prop(response.data.id),
-                    service: m.prop(response.data.attributes.service),
-                    url: m.prop(response.data.attributes.url),
-                });
+                url: this.newWebhook.url(),
+            },
+        }).then(response => {
+            this.webhooks.push({
+                id: m.prop(response.data.id),
+                service: m.prop(response.data.attributes.service),
+                url: m.prop(response.data.attributes.url),
+            });
 
-                this.newWebhook.service('');
-                this.newWebhook.url('');
+            this.newWebhook.service('');
+            this.newWebhook.url('');
 
-                m.lazyRedraw();
+            m.lazyRedraw();
+        });
+    }
+
+    updateWebhook(webhook, field, value) {
+        app.request({
+            method: 'PATCH',
+            url: `${app.forum.attribute('apiUrl')}/reflar/webhooks/${webhook.id()}`,
+            data: {
+                [field]: value,
+            },
+        });
+
+        this.webhooks.some(w => {
+            if (w.id() === webhook.id()) {
+                w[field] = m.prop(value);
+                return true;
             }
-        );
+        });
     }
 
     getServices() {

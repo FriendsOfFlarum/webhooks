@@ -38,7 +38,8 @@ class WebhookSerializer extends AbstractSerializer
         return [
             'id' => $webhook->id,
             'service'=> $webhook->service,
-            'url' => $webhook->url
+            'url' => $webhook->url,
+            'error' => $webhook->error,
         ];
     }
 }

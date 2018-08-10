@@ -1,20 +1,29 @@
 .Webhooks--row {
-  display: flex;
-  flex-direction: row;
-  flex-basis: fit-content;
+  margin: 10px 0;
 
-  .Select {
-    flex-shrink: 1;
-  }
+  .Webhook-input {
+    display: flex;
+    flex-direction: row;
+    flex-basis: fit-content;
 
-  .Webhook-url {
-    flex-grow: 1;
-    margin: 0 5px;
-  }
-
-  .Webhook-button {
-    .Button-icon {
-      margin-right: 0;
+    .Select {
+      flex-shrink: 1;
     }
+
+    .Webhook-url {
+      flex-grow: 1;
+      margin: 0 5px;
+    }
+
+    .Webhook-button {
+      .Button-icon {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .Webhook-error {
+    margin: 5px 0;
+    padding: 5px 10px;
   }
 }

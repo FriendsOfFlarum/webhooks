@@ -11,8 +11,7 @@
  *  file that was distributed with this source code.
  */
 
-namespace Reflar\Webhooks\Adapters\Discord;
-
+namespace Reflar\Webhooks\Adapters\Slack;
 
 use Flarum\Http\UrlGenerator;
 use Reflar\Webhooks\Response;
@@ -21,32 +20,24 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
 {
     public static $client;
 
-    protected $exception =  DiscordException::class;
+    protected $exception = SlackException::class;
 
     /**
      * Sends a message through the webhook
      * @param string $url
      * @param Response $response
-     * @return \Psr\Http\Message\ResponseInterface
      * @throws \GuzzleHttp\Exception\RequestException
      */
     public function send(string $url, Response $response) {
         if (!isset($response)) return;
 
-        return $this->request($url, [
+        $this->request($url, [
             "username" => $this->settings->get('reflar-webhooks.settings.discordName') ?: $this->settings->get('forum_title'),
             "avatar_url" => $this->getAvatarUrl(),
-            "embeds" => [
+            "attachments" => [
                 $this->toArray($response)
             ]
         ]);
-
-//        $http_status = $response ?: $response->getStatusCode();
-
-//        if ($http_status != 200 && $http_status >= 400) {
-//            app('log')->error("[reflar/webhooks] Discord: An error may have occurred:  HTTP " . $http_status);
-//            throw new DiscordException($http_status, $response->getStatusCode(), $response->getReasonPhrase());
-//        }
     }
 
     /**
@@ -65,18 +56,21 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
      */
     function toArray(Response $response)
     {
-        return [
+        $data = [
+            'fallback' => $response->description . ($response->author ? " - " . $response->author->username : ""),
+            'color' => $response->color,
             'title' => $response->title,
-            'url' => $response->url,
-            'description' => $response->description,
-            'author' => isset($response->author) ? [
-                'name' => $response->author->username,
-                'url' => $response->getAuthorUrl(),
-                'icon_url' => $response->author->avatar_url,
-            ] : null,
-            'color' => $response->getColor(),
-            'timestamp' => isset($response->timestamp) ? $response->timestamp : date("c"),
-            'type' => 'rich'
+            'title_link' => $response->url,
+            'text' => $response->description,
+            'footer' => $this->settings->get('forum_title')
         ];
+
+        if (isset($response->author)) {
+            $data["author_name"] = $response->author->username;
+            $data["author_link"] = $response->getAuthorUrl();
+            $data["author_icon"] = $response->author->avatar_url;
+        }
+
+        return $data;
     }
 }

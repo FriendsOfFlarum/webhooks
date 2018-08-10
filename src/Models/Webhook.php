@@ -18,6 +18,7 @@ use Flarum\Database\AbstractModel;
 /**
  * @property string service
  * @property string url
+ * @property string error
  */
 class Webhook extends AbstractModel
 {

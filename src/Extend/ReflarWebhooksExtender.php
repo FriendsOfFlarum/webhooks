@@ -11,7 +11,7 @@
  *  file that was distributed with this source code.
  */
 
-namespace ReFlar\Webhooks\Extend;
+namespace Reflar\Webhooks\Extend;
 
 
 use Flarum\Extend\ExtenderInterface;
@@ -19,13 +19,16 @@ use Flarum\Extension\Extension;
 use Illuminate\Contracts\Container\Container;
 use Reflar\Webhooks\Listener\TriggerListener;
 
-class Listeners implements ExtenderInterface
+class ReflarWebhooksExtender implements ExtenderInterface
 {
-    protected $listeners = [];
+    private $listeners = [];
+
+    // TODO: implement
+    private $adapters = [];
 
     public function __construct() {}
 
-    public function add($clazz, $action) {
+    public function listener($clazz, $action) {
         assert(isset($clazz) && is_string($clazz), "\$clazz must be a string");
         assert(isset($action), "\$action is required");
 

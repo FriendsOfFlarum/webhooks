@@ -20,5 +20,6 @@ return Migration::createTable(
         $table->increments('id');
         $table->string('service');
         $table->string('url');
+        $table->string('error');
     }
 );

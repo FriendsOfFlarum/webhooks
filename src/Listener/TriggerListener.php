@@ -19,6 +19,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Reflar\Webhooks\Action;
 use Reflar\Webhooks\Adapters;
 use Reflar\Webhooks\Actions;
+use Reflar\Webhooks\Models\Webhook;
 use Reflar\Webhooks\Response;
 
 class TriggerListener
@@ -95,10 +96,13 @@ class TriggerListener
     private function handle(Response $response) {
         if (!$response) return;
 
-
-        (new Adapters\Discord\Adapter())->send("https://canary.discordapp.com/api/webhooks/358753571426009088/2_ZT5qtPYv4tKdybEeF9cdd9KaN3prRuXPqVw7KoV_p181E7x4g3K-Z_EBVXegYeIS6Z", $response);
-
-//        Adapters\Discord\Adapter::send($response->toDiscord());
-//        if (isset(Slack::$webhook)) Slack::send($response->toSlack());
+        foreach(Webhook::all() as $webhook) {
+            // TODO: extendable list w/ adapters
+            if ($webhook->service == "discord") {
+                (new Adapters\Discord\Adapter())->handle($webhook, $response);
+            } else if ($webhook->service == "slack") {
+                (new Adapters\Slack\Adapter())->handle($webhook, $response);
+            }
+        }
     }
 }
