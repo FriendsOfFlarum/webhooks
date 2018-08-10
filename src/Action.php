@@ -41,6 +41,14 @@ abstract class Action
      */
     abstract function listen($event);
 
+    /**
+     * @param $event
+     * @return bool
+     */
+    function ignore($event) {
+        return false;
+    }
+
     protected function translate(string $id, $param1) {
         return $this->translator->trans("reflar-webhooks.actions." . $id, [
             '{1}' => $param1,

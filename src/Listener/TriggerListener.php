@@ -72,12 +72,12 @@ class TriggerListener
         $action = self::$listeners[$classname];
 
 
-        if ($action == null) return;
+        if ($action == null || $action->ignore($event)) return;
 
         /**
          * @type Response
          */
-        $response = $action ? $action->listen($event) : null;
+        $response = $action->listen($event);
 
         if (isset($response)) $this->handle($response);
     }

@@ -36,4 +36,9 @@ class Posted extends Action
             ->setAuthor($event->actor)
             ->setTimestamp($event->post->time);
     }
+
+    function ignore($event)
+    {
+        return !isset($event->post->discussion->start_post_id) || $event->post->id == $event->post->discussion->start_post_id;
+    }
 }

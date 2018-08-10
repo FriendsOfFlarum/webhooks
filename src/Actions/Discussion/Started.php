@@ -20,7 +20,7 @@ class Started extends Action
 {
 
     /**
-     * @param $event
+     * @param \Flarum\Discussion\Event\Started $event
      * @return Response
      */
     function listen($event)
@@ -32,6 +32,7 @@ class Started extends Action
             ->setURL('discussion', [
                 'id' => $event->discussion->id
             ])
+            ->setDescription($event->discussion->startPost->content)
             ->setAuthor($event->actor)
             ->setColor("2ecc71")
             ->setTimestamp($event->discussion->start_time);
