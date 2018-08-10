@@ -210,7 +210,8 @@ function (_Page) {
     this.settingsPrefix = 'reflar.webhooks';
     this.newWebhook = {
       service: m.prop(''),
-      url: m.prop('')
+      url: m.prop(''),
+      loading: m.prop(false)
     };
   };
   /**
@@ -277,6 +278,7 @@ function (_Page) {
       onchange: m.withAttr('value', this.newWebhook.url)
     }), flarum_components_Button__WEBPACK_IMPORTED_MODULE_2___default.a.component({
       type: 'button',
+      loading: this.newWebhook.loading(),
       className: 'Button Button--warning Webhook-button',
       icon: 'fas fa-plus',
       onclick: function onclick() {
@@ -320,6 +322,7 @@ function (_Page) {
   _proto.addWebhook = function addWebhook(webhook) {
     var _this3 = this;
 
+    this.newWebhook.loading(true);
     app.request({
       method: 'POST',
       url: app.forum.attribute('apiUrl') + "/reflar/webhooks",
@@ -337,6 +340,12 @@ function (_Page) {
       _this3.newWebhook.service('');
 
       _this3.newWebhook.url('');
+
+      _this3.newWebhook.loading(false);
+
+      m.lazyRedraw();
+    }).catch(function () {
+      _this3.newWebhook.loading(false);
 
       m.lazyRedraw();
     });

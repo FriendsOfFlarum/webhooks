@@ -19,6 +19,7 @@ export default class SettingsPage extends Page {
         this.newWebhook = {
             service: m.prop(''),
             url: m.prop(''),
+            loading: m.prop(false),
         };
     }
 
@@ -88,6 +89,7 @@ export default class SettingsPage extends Page {
                                         />
                                         {Button.component({
                                             type: 'button',
+                                            loading: this.newWebhook.loading(),
                                             className: 'Button Button--warning Webhook-button',
                                             icon: 'fas fa-plus',
                                             onclick: () => this.addWebhook(this),
@@ -143,6 +145,8 @@ export default class SettingsPage extends Page {
      * @param webhook
      */
     addWebhook(webhook) {
+        this.newWebhook.loading(true);
+
         app.request({
             method: 'POST',
             url: `${app.forum.attribute('apiUrl')}/reflar/webhooks`,
@@ -150,18 +154,25 @@ export default class SettingsPage extends Page {
                 service: this.newWebhook.service(),
                 url: this.newWebhook.url(),
             },
-        }).then(response => {
-            this.webhooks.push({
-                id: m.prop(response.data.id),
-                service: m.prop(response.data.attributes.service),
-                url: m.prop(response.data.attributes.url),
+        })
+            .then(response => {
+                this.webhooks.push({
+                    id: m.prop(response.data.id),
+                    service: m.prop(response.data.attributes.service),
+                    url: m.prop(response.data.attributes.url),
+                });
+
+                this.newWebhook.service('');
+                this.newWebhook.url('');
+                this.newWebhook.loading(false);
+
+                m.lazyRedraw();
+            })
+            .catch(() => {
+                this.newWebhook.loading(false);
+
+                m.lazyRedraw();
             });
-
-            this.newWebhook.service('');
-            this.newWebhook.url('');
-
-            m.lazyRedraw();
-        });
     }
 
     updateWebhook(webhook, field, value) {
