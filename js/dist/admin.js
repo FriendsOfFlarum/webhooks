@@ -161,6 +161,88 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/admin/components/SettingsListItem.js":
+/*!**************************************************!*\
+  !*** ./src/admin/components/SettingsListItem.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SettingsListItem; });
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var flarum_Component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/Component */ "flarum/Component");
+/* harmony import */ var flarum_Component__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_Component__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var flarum_components_Select__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! flarum/components/Select */ "flarum/components/Select");
+/* harmony import */ var flarum_components_Select__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(flarum_components_Select__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var flarum_components_Button__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/components/Button */ "flarum/components/Button");
+/* harmony import */ var flarum_components_Button__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_components_Button__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var flarum_components_Alert__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! flarum/components/Alert */ "flarum/components/Alert");
+/* harmony import */ var flarum_components_Alert__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(flarum_components_Alert__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+
+var SettingsListItem =
+/*#__PURE__*/
+function (_Component) {
+  Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(SettingsListItem, _Component);
+
+  function SettingsListItem() {
+    return _Component.apply(this, arguments) || this;
+  }
+
+  var _proto = SettingsListItem.prototype;
+
+  _proto.view = function view() {
+    var _this$props = this.props,
+        webhook = _this$props.webhook,
+        services = _this$props.services,
+        onChange = _this$props.onChange,
+        onDelete = _this$props.onDelete;
+    return m("div", {
+      className: "Webhooks--row"
+    }, m("div", {
+      className: "Webhook-input"
+    }, flarum_components_Select__WEBPACK_IMPORTED_MODULE_2___default.a.component({
+      options: services,
+      value: webhook.service(),
+      onchange: function onchange(value) {
+        return onChange(webhook, 'service', value);
+      }
+    }), m("input", {
+      className: "FormControl Webhook-url",
+      type: "url",
+      value: webhook.url(),
+      placeholder: app.translator.trans('reflar-webhooks.admin.settings.help.url'),
+      onchange: m.withAttr('value', function (value) {
+        return onChange(webhook, 'url', value);
+      })
+    }), flarum_components_Button__WEBPACK_IMPORTED_MODULE_3___default.a.component({
+      type: 'button',
+      className: 'Button Button--warning Webhook-button',
+      icon: 'fas fa-times',
+      onclick: function onclick() {
+        return onDelete(webhook);
+      }
+    })), webhook.error && webhook.error() && flarum_components_Alert__WEBPACK_IMPORTED_MODULE_4___default.a.component({
+      children: webhook.error(),
+      className: 'Webhook-error',
+      type: 'error',
+      dismissible: false
+    }));
+  };
+
+  return SettingsListItem;
+}(flarum_Component__WEBPACK_IMPORTED_MODULE_1___default.a);
+
+
+
+/***/ }),
+
 /***/ "./src/admin/components/SettingsPage.js":
 /*!**********************************************!*\
   !*** ./src/admin/components/SettingsPage.js ***!
@@ -182,6 +264,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var flarum_components_Select__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(flarum_components_Select__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var flarum_utils_saveSettings__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! flarum/utils/saveSettings */ "flarum/utils/saveSettings");
 /* harmony import */ var flarum_utils_saveSettings__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(flarum_utils_saveSettings__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _SettingsListItem__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./SettingsListItem */ "./src/admin/components/SettingsListItem.js");
+
 
 
 
@@ -226,44 +310,19 @@ function (_Page) {
       className: "WebhooksPage"
     }, m("div", {
       className: "container"
-    }, m("form", {
-      onsubmit: this.onsubmit.bind(this)
-    }, m("fieldset", null, m("legend", null, app.translator.trans('reflar-webhooks.admin.settings.title')), m("label", null, app.translator.trans('reflar-webhooks.admin.settings.webhooks')), m("div", {
+    }, m("form", null, m("fieldset", null, m("legend", null, app.translator.trans('reflar-webhooks.admin.settings.title')), m("label", null, app.translator.trans('reflar-webhooks.admin.settings.webhooks')), m("div", {
       style: "margin-bottom: -10px",
       className: "helpText"
     }, app.translator.trans('reflar-webhooks.admin.settings.help.general')), m("br", null), m("div", {
       className: "Webhooks--Container"
     }, this.webhooks.map(function (webhook) {
-      return [m("div", {
-        className: "Webhooks--row"
-      }, m("div", {
-        className: "Webhook-input"
-      }, flarum_components_Select__WEBPACK_IMPORTED_MODULE_4___default.a.component({
-        options: _this.services,
-        value: webhook.service(),
-        onchange: function onchange(value) {
-          return _this.updateWebhook(webhook, 'service', value);
-        }
-      }), m("input", {
-        className: "FormControl Webhook-url",
-        type: "url",
-        value: webhook.url(),
-        placeholder: app.translator.trans('reflar-webhooks.admin.settings.help.url'),
-        onchange: m.withAttr('value', _this.updateWebhook.bind(_this, webhook, 'url'))
-      }), flarum_components_Button__WEBPACK_IMPORTED_MODULE_2___default.a.component({
-        type: 'button',
-        className: 'Button Button--warning Webhook-button',
-        icon: 'fas fa-times',
-        onclick: function onclick() {
-          return _this.deleteWebhook(webhook);
-        }
-      })), webhook.error && webhook.error() && flarum_components_Alert__WEBPACK_IMPORTED_MODULE_1___default.a.component({
-        children: webhook.error(),
-        className: 'Webhook-error',
-        type: 'error',
-        dismissible: false
-      }))];
-    }), m("br", null), m("div", {
+      return _SettingsListItem__WEBPACK_IMPORTED_MODULE_6__["default"].component({
+        webhook: webhook,
+        services: _this.services,
+        onChange: _this.updateWebhook.bind(_this),
+        onDelete: _this.deleteWebhook.bind(_this)
+      });
+    }), this.webhooks.length !== 0 && m("br", null), m("div", {
       className: "Webhooks--row"
     }, m("div", {
       className: "Webhook-input"
@@ -287,43 +346,11 @@ function (_Page) {
     }))))))));
   };
 
-  _proto.onsubmit = function onsubmit(e) {
+  _proto.addWebhook = function addWebhook(webhook) {
     var _this2 = this;
 
-    // prevent the usual form submit behaviour
-    e.preventDefault(); // if the page is already saving, do nothing
-
-    if (this.loading) return false; // prevents multiple savings
-
-    this.loading = true; // remove previous success popup
-
-    app.alerts.dismiss(this.successAlert);
-    var settings = {}; // actually saves everything in the database
-
-    flarum_utils_saveSettings__WEBPACK_IMPORTED_MODULE_5___default()(settings).then(function () {
-      // on success, show popup
-      app.alerts.show(_this2.successAlert = new flarum_components_Alert__WEBPACK_IMPORTED_MODULE_1___default.a({
-        type: 'success',
-        children: app.translator.trans('core.admin.basics.saved_message')
-      }));
-    }).catch(function () {}).then(function () {
-      // return to the initial state and redraw the page
-      _this2.loading = false;
-      m.redraw();
-    });
-    return false;
-  };
-  /**
-   *
-   * @param webhook
-   */
-
-
-  _proto.addWebhook = function addWebhook(webhook) {
-    var _this3 = this;
-
     this.newWebhook.loading(true);
-    app.request({
+    return app.request({
       method: 'POST',
       url: app.forum.attribute('apiUrl') + "/reflar/webhooks",
       data: {
@@ -331,21 +358,21 @@ function (_Page) {
         url: this.newWebhook.url()
       }
     }).then(function (response) {
-      _this3.webhooks.push({
+      _this2.webhooks.push({
         id: m.prop(response.data.id),
         service: m.prop(response.data.attributes.service),
         url: m.prop(response.data.attributes.url)
       });
 
-      _this3.newWebhook.service('discord');
+      _this2.newWebhook.service('discord');
 
-      _this3.newWebhook.url('');
+      _this2.newWebhook.url('');
 
-      _this3.newWebhook.loading(false);
+      _this2.newWebhook.loading(false);
 
       m.lazyRedraw();
     }).catch(function () {
-      _this3.newWebhook.loading(false);
+      _this2.newWebhook.loading(false);
 
       m.lazyRedraw();
     });
@@ -354,25 +381,25 @@ function (_Page) {
   _proto.updateWebhook = function updateWebhook(webhook, field, value) {
     var _data;
 
-    app.request({
-      method: 'PATCH',
-      url: app.forum.attribute('apiUrl') + "/reflar/webhooks/" + webhook.id(),
-      data: (_data = {}, _data[field] = value, _data)
-    });
     this.webhooks.some(function (w) {
       if (w.id() === webhook.id()) {
         w[field] = m.prop(value);
         return true;
       }
     });
+    return app.request({
+      method: 'PATCH',
+      url: app.forum.attribute('apiUrl') + "/reflar/webhooks/" + webhook.id(),
+      data: (_data = {}, _data[field] = value, _data)
+    });
   };
 
   _proto.deleteWebhook = function deleteWebhook(webhook) {
-    app.request({
+    this.webhooks.splice(this.webhooks.indexOf(webhook), 1);
+    return app.request({
       method: 'DELETE',
       url: app.forum.attribute('apiUrl') + "/reflar/webhooks/" + webhook.id()
     });
-    this.webhooks.splice(this.webhooks.indexOf(webhook), 1);
   };
   /**
    * @returns boolean
@@ -380,10 +407,10 @@ function (_Page) {
 
 
   _proto.changed = function changed() {
-    var _this4 = this;
+    var _this3 = this;
 
     return this.fields.some(function (key) {
-      return _this4.values[key]() !== (app.data.settings[_this4.addPrefix(key)] || '');
+      return _this3.values[key]() !== (app.data.settings[_this3.addPrefix(key)] || '');
     });
   };
 
@@ -461,6 +488,17 @@ function (_mixin) {
 }));
 
 
+
+/***/ }),
+
+/***/ "flarum/Component":
+/*!**************************************************!*\
+  !*** external "flarum.core.compat['Component']" ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = flarum.core.compat['Component'];
 
 /***/ }),
 
