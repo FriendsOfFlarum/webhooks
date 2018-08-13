@@ -21,5 +21,6 @@ return Migration::createTable(
         $table->string('service');
         $table->string('url');
         $table->string('error');
+        $table->binary('events');
     }
 );

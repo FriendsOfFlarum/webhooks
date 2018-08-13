@@ -19,6 +19,7 @@ use Flarum\Database\AbstractModel;
  * @property string service
  * @property string url
  * @property string error
+ * @property string events
  */
 class Webhook extends AbstractModel
 {
@@ -39,4 +40,7 @@ class Webhook extends AbstractModel
         return $webhook;
     }
 
+    public function getEvents() {
+        return json_decode($this->events);
+    }
 }

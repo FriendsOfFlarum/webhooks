@@ -1,14 +1,14 @@
-import Alert from 'flarum/components/Alert';
 import Button from 'flarum/components/Button';
 import Page from 'flarum/components/Page';
 import Select from 'flarum/components/Select';
-import saveSettings from 'flarum/utils/saveSettings';
-import SettingsListItem from "./SettingsListItem";
+import SettingsListItem from './SettingsListItem';
 
 export default class SettingsPage extends Page {
     init() {
+        super.init();
+
         this.values = {};
-        this.services = app.forum.attribute('reflar-webhooks-services').reduce((o, service) => {
+        this.services = app.forum.attribute('reflar-webhooks.services').reduce((o, service) => {
             o[service] = app.translator.trans(`reflar-webhooks.admin.settings.services.${service}`);
             return o;
         }, {});
@@ -40,12 +40,14 @@ export default class SettingsPage extends Page {
                             </div>
                             <br />
                             <div className="Webhooks--Container">
-                                {this.webhooks.map(webhook => SettingsListItem.component({
-                                    webhook,
-                                    services: this.services,
-                                    onChange: this.updateWebhook.bind(this),
-                                    onDelete: this.deleteWebhook.bind(this),
-                                }))}
+                                {this.webhooks.map(webhook =>
+                                    SettingsListItem.component({
+                                        webhook,
+                                        services: this.services,
+                                        onChange: this.updateWebhook.bind(this),
+                                        onDelete: this.deleteWebhook.bind(this),
+                                    })
+                                )}
                                 {this.webhooks.length !== 0 && <br />}
                                 <div className="Webhooks--row">
                                     <div className="Webhook-input">
@@ -65,7 +67,7 @@ export default class SettingsPage extends Page {
                                             loading: this.newWebhook.loading(),
                                             className: 'Button Button--warning Webhook-button',
                                             icon: 'fas fa-plus',
-                                            onclick: () => this.addWebhook(this),
+                                            onclick: this.addWebhook.bind(this),
                                         })}
                                     </div>
                                 </div>
@@ -77,17 +79,18 @@ export default class SettingsPage extends Page {
         );
     }
 
-    addWebhook(webhook) {
+    addWebhook() {
         this.newWebhook.loading(true);
 
-        return app.request({
-            method: 'POST',
-            url: `${app.forum.attribute('apiUrl')}/reflar/webhooks`,
-            data: {
-                service: this.newWebhook.service(),
-                url: this.newWebhook.url(),
-            },
-        })
+        return app
+            .request({
+                method: 'POST',
+                url: `${app.forum.attribute('apiUrl')}/reflar/webhooks`,
+                data: {
+                    service: this.newWebhook.service(),
+                    url: this.newWebhook.url(),
+                },
+            })
             .then(response => {
                 this.webhooks.push({
                     id: m.prop(response.data.id),

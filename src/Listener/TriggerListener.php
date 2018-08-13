@@ -79,7 +79,7 @@ class TriggerListener
          */
         $response = $action->listen($event);
 
-        if (isset($response)) $this->handle($response);
+        if (isset($response)) $this->handle($classname, $response);
     }
 
     static function setupDefaultListeners() {
@@ -90,15 +90,18 @@ class TriggerListener
     }
 
     /**
+     * @param string $event_name
      * @param Response $response
-     * @throws \Exception
+     * @throws \ReflectionException
      */
-    private function handle(Response $response) {
+    private function handle(string $event_name, Response $response) {
         if (!$response) return;
 
         if (Adapters\Adapters::length() == 0) Adapters\Adapters::initialize();
 
         foreach(Webhook::all() as $webhook) {
+            if ($webhook->events != null && !in_array($event_name, $webhook->getEvents())) continue;
+
             $adapter = Adapters\Adapters::get($webhook->service);
 
             if (isset($adapter)) $adapter->handle($webhook, $response);

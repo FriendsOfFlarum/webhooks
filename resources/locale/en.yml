@@ -14,6 +14,7 @@ reflar-webhooks:
     settings:
       help:
         url: The webhook's endpoint to be executed
+        disabled: This webhook is disabled because it doesn't have any events enabled.
 
       services:
         discord: Discord

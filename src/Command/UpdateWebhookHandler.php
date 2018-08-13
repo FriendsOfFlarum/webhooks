@@ -60,6 +60,10 @@ class UpdateWebhookHandler
             $webhook->url = $data['url'];
         }
 
+        if (isset($data['events'])) {
+            $webhook->events = json_encode($data['events']);
+        }
+
         $this->validator->assertValid($webhook->getDirty());
 
         $webhook->save();

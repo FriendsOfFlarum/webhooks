@@ -14,13 +14,24 @@
     flex-direction: row;
     flex-basis: fit-content;
 
+    .Select, button, input {
+      margin: 0 5px;
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
     .Select {
       flex-shrink: 1;
     }
 
     .Webhook-url {
       flex-grow: 1;
-      margin: 0 5px;
     }
 
     .Webhook-button {
@@ -31,7 +42,21 @@
   }
 
   .Webhook-error {
-    margin: 5px 0 15px;
+    margin: 5px 0;
     padding: 5px 10px;
+
+    &:last-of-type {
+      margin-bottom: 15px;
+    }
+  }
+}
+
+.ReflarWebhooksModal {
+  .Webhook-events {
+    margin-top: 10px;
+
+    .Checkbox {
+      margin-bottom: 10px;
+    }
   }
 }
