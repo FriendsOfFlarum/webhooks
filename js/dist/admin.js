@@ -279,6 +279,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var flarum_components_Select__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flarum/components/Select */ "flarum/components/Select");
 /* harmony import */ var flarum_components_Select__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(flarum_components_Select__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _SettingsListItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SettingsListItem */ "./src/admin/components/SettingsListItem.js");
+/* harmony import */ var _models_Webhook__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../models/Webhook */ "./src/admin/models/Webhook.js");
+
 
 
 
@@ -324,10 +326,9 @@ function (_Page) {
       className: "WebhooksPage"
     }, m("div", {
       className: "container"
-    }, m("form", null, m("fieldset", null, m("legend", null, app.translator.trans('reflar-webhooks.admin.settings.title')), m("label", null, app.translator.trans('reflar-webhooks.admin.settings.webhooks')), m("div", {
-      style: "margin-bottom: -10px",
+    }, m("form", null, m("h2", null, app.translator.trans('reflar-webhooks.admin.settings.title')), m("p", {
       className: "helpText"
-    }, app.translator.trans('reflar-webhooks.admin.settings.help.general')), m("br", null), m("div", {
+    }, app.translator.trans('reflar-webhooks.admin.settings.help.general')), m("fieldset", null, m("div", {
       className: "Webhooks--Container"
     }, this.webhooks.map(function (webhook) {
       return _SettingsListItem__WEBPACK_IMPORTED_MODULE_4__["default"].component({
@@ -336,7 +337,7 @@ function (_Page) {
         onChange: _this.updateWebhook.bind(_this),
         onDelete: _this.deleteWebhook.bind(_this)
       });
-    }), this.webhooks.length !== 0 && m("br", null), m("div", {
+    }), m("div", {
       className: "Webhooks--row"
     }, m("div", {
       className: "Webhook-input"
@@ -373,7 +374,8 @@ function (_Page) {
       _this2.webhooks.push({
         id: m.prop(response.data.id),
         service: m.prop(response.data.attributes.service),
-        url: m.prop(response.data.attributes.url)
+        url: m.prop(response.data.attributes.url),
+        events: m.prop([])
       });
 
       _this2.newWebhook.service('discord');

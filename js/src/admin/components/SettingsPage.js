@@ -2,6 +2,7 @@ import Button from 'flarum/components/Button';
 import Page from 'flarum/components/Page';
 import Select from 'flarum/components/Select';
 import SettingsListItem from './SettingsListItem';
+import Webhook from "../models/Webhook";
 
 export default class SettingsPage extends Page {
     init() {
@@ -32,13 +33,9 @@ export default class SettingsPage extends Page {
             <div className="WebhooksPage">
                 <div className="container">
                     <form>
+                        <h2>{app.translator.trans('reflar-webhooks.admin.settings.title')}</h2>
+                        <p className="helpText">{app.translator.trans('reflar-webhooks.admin.settings.help.general')}</p>
                         <fieldset>
-                            <legend>{app.translator.trans('reflar-webhooks.admin.settings.title')}</legend>
-                            <label>{app.translator.trans('reflar-webhooks.admin.settings.webhooks')}</label>
-                            <div style="margin-bottom: -10px" className="helpText">
-                                {app.translator.trans('reflar-webhooks.admin.settings.help.general')}
-                            </div>
-                            <br />
                             <div className="Webhooks--Container">
                                 {this.webhooks.map(webhook =>
                                     SettingsListItem.component({
@@ -48,7 +45,6 @@ export default class SettingsPage extends Page {
                                         onDelete: this.deleteWebhook.bind(this),
                                     })
                                 )}
-                                {this.webhooks.length !== 0 && <br />}
                                 <div className="Webhooks--row">
                                     <div className="Webhook-input">
                                         {Select.component({
@@ -96,6 +92,7 @@ export default class SettingsPage extends Page {
                     id: m.prop(response.data.id),
                     service: m.prop(response.data.attributes.service),
                     url: m.prop(response.data.attributes.url),
+                    events: m.prop([]),
                 });
 
                 this.newWebhook.service('discord');
