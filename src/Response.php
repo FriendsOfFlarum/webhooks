@@ -82,12 +82,15 @@ class Response
     }
 
     /**
-     * @param string $nameOrUrl
-     * @param array|null $data [optional]
+     * @param string $name
+     * @param array|null $data
+     * @param string|null $extra
      * @return $this
      */
-    public function setURL(string $nameOrUrl, $data) {
-        $url = isset($data) ? $this->urlGenerator->to('forum')->route($nameOrUrl, $data) : $nameOrUrl;
+    public function setURL(string $name, $data = null, $extra = null) {
+        $url = $this->urlGenerator->to('forum')->route($name, $data);
+
+        if (isset($extra)) $url = $url . $extra;
 
         $this->url = $url;
         return $this;
@@ -144,8 +147,8 @@ class Response
      * @return String
      */
     public function getAuthorUrl() {
-        return $this->urlGenerator->to('forum')->route('user', [
+        return $this->author ? $this->urlGenerator->to('forum')->route('user', [
             'username' => $this->author->username,
-        ]);
+        ]) : null;
     }
 }

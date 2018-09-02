@@ -2,7 +2,7 @@ import Button from 'flarum/components/Button';
 import Page from 'flarum/components/Page';
 import Select from 'flarum/components/Select';
 import SettingsListItem from './SettingsListItem';
-import Webhook from "../models/Webhook";
+import Webhook from '../models/Webhook';
 
 export default class SettingsPage extends Page {
     init() {

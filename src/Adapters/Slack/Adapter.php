@@ -13,8 +13,6 @@
 
 namespace Reflar\Webhooks\Adapters\Slack;
 
-use Flarum\Http\UrlGenerator;
-use GuzzleHttp\Exception\RequestException;
 use Reflar\Webhooks\Response;
 
 class Adapter extends \Reflar\Webhooks\Adapters\Adapter
@@ -44,16 +42,6 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
         if ($res->getStatusCode() == 302) {
             throw new SlackException($res, $url);
         }
-    }
-
-    /**
-     * @return null|string
-     */
-    protected function getAvatarUrl() {
-        $faviconPath = $this->settings->get('favicon_path');
-        $logoPath = $this->settings->get('logo_path');
-
-        return ($faviconPath ?: $logoPath) ? app(UrlGenerator::class)->to('forum')->path('assets/' . ($faviconPath ?: $logoPath)) : null;
     }
 
     /**

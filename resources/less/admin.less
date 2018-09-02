@@ -61,10 +61,50 @@
 
 .ReflarWebhooksModal {
   .Webhook-events {
-    margin-top: 10px;
+    margin-top: 7.5px;
 
     .Checkbox {
+      &:last-of-type {
+        margin-bottom: 20px;
+      }
+      &:first-of-type {
+        margin-top: -10px;
+      }
+
       margin-bottom: 10px;
+      padding-left: 50px;
+
+      .Checkbox-display {
+        width: 40px;
+        height: 20px;
+        margin-top: -1px;
+        margin-left: -50px;
+
+        &::before {
+          width: 18px;
+          height: 18px;
+          top: 1px;
+          left: 1px;
+        }
+      }
+
+      &.on {
+        .Checkbox-display::before {
+          left: 21px;
+        }
+      }
+
+      &.off {
+        .Checkbox-display {
+          background: darken(@control-bg, 10%);
+        }
+      }
+
+      .spinner {
+        transform: scale(0.7) !important;
+        left: -0.5px !important;
+        top: 35% !important;
+      }
     }
   }
 }

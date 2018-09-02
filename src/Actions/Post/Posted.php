@@ -20,7 +20,7 @@ use Reflar\Webhooks\Response;
 class Posted extends Action
 {
     /**
-     * @param $event
+     * @param \Flarum\Post\Event\Posted $event
      * @return Response
      */
     function listen($event)
@@ -30,8 +30,9 @@ class Posted extends Action
                 $this->translate('post.posted', $event->post->discussion->title)
             )
             ->setUrl('discussion', [
-                'id' => $event->post->discussion->id
-            ])
+                    'id' => $event->post->discussion->id
+                ], '/' . $event->post->number
+            )
             ->setDescription($event->post->content)
             ->setAuthor($event->actor)
             ->setTimestamp($event->post->time);

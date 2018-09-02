@@ -14,7 +14,6 @@
 namespace Reflar\Webhooks\Adapters\Discord;
 
 
-use Flarum\Http\UrlGenerator;
 use Reflar\Webhooks\Response;
 
 class Adapter extends \Reflar\Webhooks\Adapters\Adapter
@@ -39,16 +38,6 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
                 $this->toArray($response)
             ]
         ]);
-    }
-
-    /**
-     * @return null|string
-     */
-    protected function getAvatarUrl() {
-        $faviconPath = $this->settings->get('favicon_path');
-        $logoPath = $this->settings->get('logo_path');
-
-        return ($faviconPath ?: $logoPath) ? app(UrlGenerator::class)->to('forum')->path('assets/' . ($faviconPath ?: $logoPath)) : null;
     }
 
     /**

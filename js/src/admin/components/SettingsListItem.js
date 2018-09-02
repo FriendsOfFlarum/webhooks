@@ -27,12 +27,13 @@ export default class SettingsListItem extends Component {
                         type: 'button',
                         className: 'Button Webhook-button',
                         icon: 'fas fa-edit',
-                        onclick: () => app.modal.show(
-                            new WebhookEditModal({
-                                webhook,
-                                updateWebhook: events => onChange(webhook, 'events', events),
-                            })
-                        ),
+                        onclick: () =>
+                            app.modal.show(
+                                new WebhookEditModal({
+                                    webhook,
+                                    updateWebhook: events => onChange(webhook, 'events', events),
+                                })
+                            ),
                     })}
                     {Button.component({
                         type: 'button',
@@ -42,11 +43,12 @@ export default class SettingsListItem extends Component {
                     })}
                 </div>
 
-                {!webhook.events().length && Alert.component({
-                    className: 'Webhook-error',
-                    children: app.translator.trans('reflar-webhooks.admin.settings.help.disabled'),
-                    dismissible: false,
-                })}
+                {!webhook.events().length &&
+                    Alert.component({
+                        className: 'Webhook-error',
+                        children: app.translator.trans('reflar-webhooks.admin.settings.help.disabled'),
+                        dismissible: false,
+                    })}
 
                 {webhook.error &&
                     webhook.error() &&

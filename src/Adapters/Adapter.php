@@ -13,6 +13,7 @@
 
 namespace Reflar\Webhooks\Adapters;
 
+use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
@@ -111,5 +112,16 @@ abstract class Adapter
             'json' => $json,
             'allow_redirects' => false
         ]);
+    }
+
+    /**
+     * @return null|string
+     */
+    protected function getAvatarUrl() {
+        $faviconPath = $this->settings->get('favicon_path');
+        $logoPath = $this->settings->get('logo_path');
+        $path = $faviconPath ?: $logoPath;
+
+        return isset($path) ? app(UrlGenerator::class)->to('forum')->path("assets/$path") : null;
     }
 }

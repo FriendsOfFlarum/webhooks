@@ -15,6 +15,7 @@ namespace Reflar\Webhooks\Adapters\Discord;
 
 use Exception;
 use Psr\Http\Message\ResponseInterface;
+use Reflar\Webhooks\Response;
 
 class DiscordException extends Exception
 {
@@ -30,9 +31,17 @@ class DiscordException extends Exception
         $this->http = $res->getStatusCode();
         $this->url = $url;
 
-        $body = json_decode($res->getBody()->getContents());
+        $contents = $res->getBody()->getContents();
+        $body = json_decode($contents);
 
-        parent::__construct($body->message, $body->code);
+        if (!array_get($body, 'message')) {
+            app('log')->error('Discord Webhook Error: ' . $contents);
+        }
+
+        parent::__construct(
+            array_get($body, 'message') ?: $res->getReasonPhrase(),
+            array_get($body, 'code')
+        );
     }
 
     public function __toString() {

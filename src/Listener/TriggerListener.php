@@ -85,8 +85,23 @@ class TriggerListener
     static function setupDefaultListeners() {
         self::$listeners = [
             \Flarum\Post\Event\Posted::class => new Actions\Post\Posted(),
+            \Flarum\Discussion\Event\Deleted::class => new Actions\Discussion\Deleted(),
+            \Flarum\Discussion\Event\Hidden::class => new Actions\Discussion\Hidden(),
+            \Flarum\Discussion\Event\Renamed::class => new Actions\Discussion\Renamed(),
+            \Flarum\Discussion\Event\Restored::class => new Actions\Discussion\Restored(),
             \Flarum\Discussion\Event\Started::class => new Actions\Discussion\Started(),
+            \Flarum\User\Event\Registered::class => new Actions\User\Registered(),
         ];
+    }
+
+    static function getListeners() {
+        $listeners = [];
+
+        foreach (self::$listeners as $evt => $inst) {
+            $listeners[$evt] = $inst->description();
+        }
+
+        return $listeners;
     }
 
     /**

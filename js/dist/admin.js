@@ -454,6 +454,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var sortByProp = function sortByProp(prop) {
+  return function (a, b) {
+    var propA = a[prop].toUpperCase(); // ignore upper and lowercase
+
+    var propB = b[prop].toUpperCase(); // ignore upper and lowercase
+
+    return propA < propB ? -1 : propA > propB ? 1 : 0;
+  };
+};
+
 var WebhookEditModal =
 /*#__PURE__*/
 function (_Modal) {
@@ -469,7 +479,30 @@ function (_Modal) {
     _Modal.prototype.init.call(this);
 
     this.webhook = this.props.webhook;
-    this.events = app.forum.attribute('reflar-webhooks.events');
+    var events = app.forum.attribute('reflar-webhooks.events');
+    this.events = events.reduce(function (obj, evt) {
+      var m = /((?:[a-z]+\\?)+?)\\Event\\([a-z]+)/i.exec(evt);
+
+      if (!m) {
+        obj.Other.push({
+          full: evt,
+          name: evt
+        });
+        obj.Other = obj.Other.sort();
+        return obj;
+      }
+
+      var group = m[1];
+      if (!obj[group]) obj[group] = [];
+      obj[group].push({
+        full: evt,
+        name: m[2]
+      });
+      obj[group] = obj[group].sort();
+      return obj;
+    }, {
+      Other: []
+    });
   };
 
   _proto.className = function className() {
@@ -487,12 +520,16 @@ function (_Modal) {
       className: "ReflarWebhooksModal Modal-body"
     }, app.translator.trans('reflar-webhoks.admin.settings.modal.description'), m("div", {
       className: "Webhook-events"
-    }, this.events.map(function (event) {
-      return flarum_components_Switch__WEBPACK_IMPORTED_MODULE_2___default.a.component({
-        state: _this.webhook.events().includes(event),
-        children: event,
-        onchange: _this.onchange.bind(_this, event)
-      });
+    }, Object.entries(this.events).sort(sortByProp(0)).map(function (_ref) {
+      var group = _ref[0],
+          events = _ref[1];
+      return events.length ? m("div", null, m("h3", null, group), events.map(function (event) {
+        return flarum_components_Switch__WEBPACK_IMPORTED_MODULE_2___default.a.component({
+          state: _this.webhook.events().includes(event.full),
+          children: event.name,
+          onchange: _this.onchange.bind(_this, event.full)
+        });
+      })) : null;
     })));
   };
 
