@@ -34,7 +34,7 @@ class Hidden extends Action
             ])
             ->setDescription($event->discussion->startPost->content)
             ->setAuthor($event->actor)
-            ->setColor("2ecc71")
+            ->setColor('fed330')
             ->setTimestamp($event->discussion->hide_time);
     }
 }

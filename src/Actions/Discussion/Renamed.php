@@ -34,7 +34,7 @@ class Renamed extends Action
             ])
             ->setDescription($this->translate('discussion.renamed.description', $event->discussion->title))
             ->setAuthor($event->actor)
-            ->setColor("2ecc71")
+            ->setColor('fed330')
             ->setTimestamp($event->discussion->last_time);
     }
 }

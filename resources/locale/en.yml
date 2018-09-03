@@ -1,19 +1,23 @@
 reflar-webhooks:
   actions:
     discussion:
-      deleted: "Deleted {1}"
-      hidden: "Hid {1}"
+      deleted: "Deleted discussion `{1}`"
+      hidden: "Hid discussion `{1}`"
       renamed:
-        title: "Renamed {1}"
+        title: "Renamed discussion `{1}`"
         description: "New title: {1}"
-      restored: "Restored {1}"
-      started: "Started {1}"
+      restored: "Restored discussion `{1}`"
+      started: "Started discussion `{1}`"
 
     post:
-      posted: "New post in {1}"
+      posted: "New post in `{1}`"
 
     user:
+      deleted: "Deleted user `{1}`"
       registered: New user registered
+      renamed:
+        title: "Changed username of `{1}`"
+        description: "New username: {1}"
 
   adapters:
     errors:

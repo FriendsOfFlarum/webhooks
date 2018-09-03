@@ -30,7 +30,7 @@ class Deleted extends Action
                 $this->translate('discussion.deleted', $event->discussion->title)
             )
             ->setAuthor($event->actor)
-            ->setColor("2ecc71")
+            ->setColor('fed330')
             ->setTimestamp($event->discussion->hide_time);
     }
 }

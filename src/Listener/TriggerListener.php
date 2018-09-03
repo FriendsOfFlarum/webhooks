@@ -90,7 +90,9 @@ class TriggerListener
             \Flarum\Discussion\Event\Renamed::class => new Actions\Discussion\Renamed(),
             \Flarum\Discussion\Event\Restored::class => new Actions\Discussion\Restored(),
             \Flarum\Discussion\Event\Started::class => new Actions\Discussion\Started(),
+            \Flarum\User\Event\Deleted::class => new Actions\User\Deleted(),
             \Flarum\User\Event\Registered::class => new Actions\User\Registered(),
+            \Flarum\User\Event\Renamed::class => new Actions\User\Renamed(),
         ];
     }
 

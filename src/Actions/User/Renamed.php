@@ -10,31 +10,32 @@
  *  file that was distributed with this source code.
  */
 
-namespace Reflar\Webhooks\Actions\Discussion;
+namespace Reflar\Webhooks\Actions\User;
 
 
+use Carbon\Carbon;
 use Reflar\Webhooks\Action;
 use Reflar\Webhooks\Response;
 
-class Started extends Action
+class Renamed extends Action
 {
 
     /**
-     * @param \Flarum\Discussion\Event\Started $event
+     * @param \Flarum\User\Event\Renamed $event
      * @return Response
      */
     function listen($event)
     {
         return Response::build()
             ->setTitle(
-                $this->translate('discussion.started', $event->discussion->title)
+                $this->translate('user.renamed.title', $event->oldUsername)
             )
-            ->setURL('discussion', [
-                'id' => $event->discussion->id
+            ->setURL('user', [
+                'username' => $event->user->username
             ])
-            ->setDescription($event->discussion->startPost->content)
+            ->setDescription($this->translate('user.renamed.description', $event->user->username))
             ->setAuthor($event->actor)
-            ->setColor('fed330')
-            ->setTimestamp($event->discussion->start_time);
+            ->setColor('4b7bec')
+            ->setTimestamp(Carbon::now());
     }
 }
