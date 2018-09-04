@@ -63,7 +63,6 @@ class AddRelationships {
         if ($event->isSerializer(ForumSerializer::class) && $event->actor->isAdmin()) {
             $event->attributes['reflar-webhooks.services'] = array_keys(Adapters::all());
             $event->attributes['reflar-webhooks.events'] = array_keys(TriggerListener::$listeners);
-            $event->attributes['reflar-webhooks.events2'] = TriggerListener::getListeners();
         }
     }
 

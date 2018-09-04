@@ -50,13 +50,6 @@ abstract class Action
     }
 
     /**
-     * @return string
-     */
-    function description() {
-        return "";
-    }
-
-    /**
      * @param string $id
      * @param $param1
      * @return string

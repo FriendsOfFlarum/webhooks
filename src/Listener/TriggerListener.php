@@ -96,16 +96,6 @@ class TriggerListener
         ];
     }
 
-    static function getListeners() {
-        $listeners = [];
-
-        foreach (self::$listeners as $evt => $inst) {
-            $listeners[$evt] = $inst->description();
-        }
-
-        return $listeners;
-    }
-
     /**
      * @param string $event_name
      * @param Response $response
