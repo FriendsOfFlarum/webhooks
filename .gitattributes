@@ -1,0 +1,4 @@
+js/src export-ignore
+.* export-ignore
+
+js/dist/*.js -diff
