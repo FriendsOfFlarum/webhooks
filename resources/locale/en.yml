@@ -24,10 +24,19 @@ reflar-webhooks:
       404: Webhook Not Found
 
   admin:
+    nav:
+      desc: Customizable outgoing webhooks for your forum.
     settings:
+      title: Webhooks
+
       help:
-        url: The webhook's endpoint to be executed
         disabled: This webhook is disabled because it doesn't have any events enabled.
+        general: Here you can add, edit, and remove webhooks from your forum.
+        url: The webhook's endpoint to be executed
+
+      modal:
+        title: Webhook Settings
+        description: Here you can edit various settings for the webhook, including what events the webhook is fired on.
 
       services:
         discord: Discord

@@ -56,7 +56,7 @@ export default class WebhookEditModal extends Modal {
     content() {
         return (
             <div className="ReflarWebhooksModal Modal-body">
-                {app.translator.trans('reflar-webhoks.admin.settings.modal.description')}
+                {app.translator.trans('reflar-webhooks.admin.settings.modal.description')}
                 <div className="Webhook-events">
                     {Object.entries(this.events).sort(sortByProp(0)).map(
                         ([group, events]) =>
