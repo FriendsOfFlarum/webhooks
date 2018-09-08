@@ -8,12 +8,19 @@ export default class SettingsListItem extends Component {
     view() {
         const { webhook, services, onChange, onDelete } = this.props;
 
+        const service = webhook.service();
+        let error = webhook.error && webhook.error();
+
+        if (!services[service]) {
+            error = app.translator.trans('reflar-webhooks.admin.errors.service_not_found', { service });
+        }
+
         return (
             <div className="Webhooks--row">
                 <div className="Webhook-input">
                     {Select.component({
                         options: services,
-                        value: webhook.service(),
+                        value: service,
                         onchange: value => onChange(webhook, 'service', value),
                     })}
                     <input
@@ -50,10 +57,9 @@ export default class SettingsListItem extends Component {
                         dismissible: false,
                     })}
 
-                {webhook.error &&
-                    webhook.error() &&
+                {error &&
                     Alert.component({
-                        children: webhook.error(),
+                        children: app.translator.trans(error),
                         className: 'Webhook-error',
                         type: 'error',
                         dismissible: false,

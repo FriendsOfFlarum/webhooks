@@ -5,7 +5,7 @@ const sortByProp = prop => (a, b) => {
     const propA = a[prop].toUpperCase(); // ignore upper and lowercase
     const propB = b[prop].toUpperCase(); // ignore upper and lowercase
 
-    return propA < propB ? -1 : (propA > propB ? 1 : 0);
+    return propA < propB ? -1 : propA > propB ? 1 : 0;
 };
 
 export default class WebhookEditModal extends Modal {
@@ -58,21 +58,23 @@ export default class WebhookEditModal extends Modal {
             <div className="ReflarWebhooksModal Modal-body">
                 {app.translator.trans('reflar-webhooks.admin.settings.modal.description')}
                 <div className="Webhook-events">
-                    {Object.entries(this.events).sort(sortByProp(0)).map(
-                        ([group, events]) =>
-                            events.length ? (
-                                <div>
-                                    <h3>{group}</h3>
-                                    {events.map(event =>
-                                        Switch.component({
-                                            state: this.webhook.events().includes(event.full),
-                                            children: event.name,
-                                            onchange: this.onchange.bind(this, event.full),
-                                        })
-                                    )}
-                                </div>
-                            ) : null
-                    )}
+                    {Object.entries(this.events)
+                        .sort(sortByProp(0))
+                        .map(
+                            ([group, events]) =>
+                                events.length ? (
+                                    <div>
+                                        <h3>{group}</h3>
+                                        {events.map(event =>
+                                            Switch.component({
+                                                state: this.webhook.events().includes(event.full),
+                                                children: event.name,
+                                                onchange: this.onchange.bind(this, event.full),
+                                            })
+                                        )}
+                                    </div>
+                                ) : null
+                        )}
                 </div>
             </div>
         );

@@ -37,7 +37,7 @@ class Adapters
      */
     public static function get(string $name)
     {
-        return self::$adapters[$name];
+        return @self::$adapters[$name];
     }
 
     public static function length()

@@ -24,6 +24,9 @@ reflar-webhooks:
       404: Webhook Not Found
 
   admin:
+    errors:
+      service_not_found: The service '{service}' cannot be found.
+
     nav:
       desc: Customizable outgoing webhooks for your forum.
     settings:
