@@ -25,7 +25,7 @@ class Registered extends Action
      */
     function listen($event)
     {
-        return Response::build()
+        return Response::build($event)
             ->setTitle(
                 $this->translate('user.registered')
             )

@@ -26,7 +26,7 @@ class Deleted extends Action
      */
     function listen($event)
     {
-        return Response::build()
+        return Response::build($event)
             ->setTitle(
                 $this->translate('user.deleted', $event->user->username)
             )

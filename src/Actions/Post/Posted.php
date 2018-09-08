@@ -25,7 +25,7 @@ class Posted extends Action
      */
     function listen($event)
     {
-        return Response::build()
+        return Response::build($event)
             ->setTitle(
                 $this->translate('post.posted', $event->post->discussion->title)
             )

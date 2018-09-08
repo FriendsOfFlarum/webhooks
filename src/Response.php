@@ -48,6 +48,8 @@ class Response
      */
     public $author;
 
+    public $event;
+
     /**
      * @var UrlGenerator
      */
@@ -55,20 +57,11 @@ class Response
 
     /**
      * Response constructor.
-     * @param String $title
-     * @param String $url
-     * @param String $description
-     * @param User $author
-     * @param string $timestamp
+     * @param $event
      */
-    public function __construct(String $title = null, String $url = null, String $description = null, User $author = null, string $timestamp = null)
+    public function __construct($event)
     {
-        $this->title = $title;
-        $this->url = $url;
-        $this->description = $description ?: "";
-        $this->author = $author;
-        $this->timestamp = $timestamp;
-
+        $this->event = $event;
         $this->urlGenerator = app(UrlGenerator::class);
     }
 
@@ -139,8 +132,12 @@ class Response
     }
 
 
-    public static function build() {
-        return new Response();
+    /**
+     * @param $event
+     * @return Response
+     */
+    public static function build($event) {
+        return new Response($event);
     }
 
     /**

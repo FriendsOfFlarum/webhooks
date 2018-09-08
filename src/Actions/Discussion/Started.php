@@ -25,7 +25,7 @@ class Started extends Action
      */
     function listen($event)
     {
-        return Response::build()
+        return Response::build($event)
             ->setTitle(
                 $this->translate('discussion.started', $event->discussion->title)
             )

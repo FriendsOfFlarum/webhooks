@@ -26,7 +26,7 @@ class Restored extends Action
      */
     function listen($event)
     {
-        return Response::build()
+        return Response::build($event)
             ->setTitle(
                 $this->translate('discussion.restored', $event->discussion->title)
             )

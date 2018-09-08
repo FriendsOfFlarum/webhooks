@@ -25,7 +25,7 @@ class Renamed extends Action
      */
     function listen($event)
     {
-        return Response::build()
+        return Response::build($event)
             ->setTitle(
                 $this->translate('discussion.renamed.title', $event->oldTitle)
             )

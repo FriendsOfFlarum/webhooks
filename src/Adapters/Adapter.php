@@ -70,7 +70,7 @@ abstract class Adapter
                     $e->getMessage()
                 );
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $webhook->setAttribute(
                 'error',
                 $clazz->isInstance($e) ? $e : $e->getMessage()
