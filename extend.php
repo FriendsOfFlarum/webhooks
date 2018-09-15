@@ -26,7 +26,7 @@ return [
         ->get('/reflar/webhooks', 'reflar.webhooks.index', Api\Controller\ListWebhooksController::class)
         ->post('/reflar/webhooks', 'reflar.webhooks.create', Api\Controller\CreateWebhookController::class)
         ->patch('/reflar/webhooks/{id}', 'reflar.webhooks.update', Api\Controller\UpdateWebhookController::class)
-        ->delete('/reflar/webhooks/{id}', 'reflar.webhooks.DELETE', Api\Controller\DeleteWebhookController::class),
+        ->delete('/reflar/webhooks/{id}', 'reflar.webhooks.delete', Api\Controller\DeleteWebhookController::class),
     function (Dispatcher $dispatcher) {
         $dispatcher->subscribe(Listener\TriggerListener::class);
         $dispatcher->subscribe(Listener\AddRelationships::class);
