@@ -33,7 +33,7 @@ class Restored extends Action
             ->setURL('discussion', [
                 'id' => $event->discussion->id
             ])
-            ->setDescription($event->discussion->startPost->content)
+            ->setDescription($event->discussion->firstPost->content)
             ->setAuthor($event->actor)
             ->setColor('fed330')
             ->setTimestamp(Carbon::now());

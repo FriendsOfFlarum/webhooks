@@ -13,6 +13,7 @@
 namespace Reflar\Webhooks\Actions\Discussion;
 
 
+use Carbon\Carbon;
 use Reflar\Webhooks\Action;
 use Reflar\Webhooks\Response;
 
@@ -31,6 +32,6 @@ class Deleted extends Action
             )
             ->setAuthor($event->actor)
             ->setColor('fed330')
-            ->setTimestamp($event->discussion->hide_time);
+            ->setTimestamp(Carbon::now());
     }
 }

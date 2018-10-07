@@ -34,6 +34,6 @@ class Registered extends Action
             ])
             ->setAuthor($event->user)
             ->setColor('4b7bec')
-            ->setTimestamp($event->user->join_time);
+            ->setTimestamp($event->user->joined_at);
     }
 }

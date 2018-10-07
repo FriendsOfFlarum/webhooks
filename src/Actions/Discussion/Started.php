@@ -32,9 +32,9 @@ class Started extends Action
             ->setURL('discussion', [
                 'id' => $event->discussion->id
             ])
-            ->setDescription($event->discussion->startPost->content)
+            ->setDescription($event->discussion->firstPost->content)
             ->setAuthor($event->actor)
             ->setColor('fed330')
-            ->setTimestamp($event->discussion->start_time);
+            ->setTimestamp($event->discussion->created_at);
     }
 }

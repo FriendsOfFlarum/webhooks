@@ -36,7 +36,7 @@ class Posted extends Action
             ->setDescription($event->post->content)
             ->setAuthor($event->actor)
             ->setColor('26de81')
-            ->setTimestamp($event->post->time);
+            ->setTimestamp($event->post->created_at);
     }
 
     function ignore($event)
