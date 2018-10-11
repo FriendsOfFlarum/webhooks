@@ -20,7 +20,15 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
 {
     public static $client;
 
+    /**
+     * {@inheritdoc}
+     */
     protected $exception = DiscordException::class;
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $name = 'discord';
 
     /**
      * Sends a message through the webhook
@@ -32,9 +40,9 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
         if (!isset($response)) return;
 
         $this->request($url, [
-            "username" => $this->settings->get('forum_title'),
-            "avatar_url" => $this->getAvatarUrl(),
-            "embeds" => [
+            'username' => $this->settings->get('forum_title'),
+            'avatar_url' => $this->getAvatarUrl(),
+            'embeds' => [
                 $this->toArray($response)
             ]
         ]);
@@ -56,7 +64,7 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
                 'icon_url' => $response->author->avatar_url,
             ] : null,
             'color' => $response->getColor(),
-            'timestamp' => isset($response->timestamp) ? $response->timestamp : date("c"),
+            'timestamp' => isset($response->timestamp) ? $response->timestamp : date('c'),
             'type' => 'rich'
         ];
     }

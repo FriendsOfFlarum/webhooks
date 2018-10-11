@@ -55,7 +55,7 @@ abstract class Action
      * @return string
      */
     protected function translate(string $id, $param1 = null) {
-        return $this->translator->trans("reflar-webhooks.actions." . $id, [
+        return $this->translator->trans('reflar-webhooks.actions.' . $id, [
             '{1}' => $param1,
         ]);
     }

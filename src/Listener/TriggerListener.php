@@ -109,9 +109,9 @@ class TriggerListener
         foreach (Webhook::all() as $webhook) {
             if ($webhook->events != null && !in_array($event_name, $webhook->getEvents())) continue;
 
-            $adapter = Adapters\Adapters::get($webhook->service);
-
-            if ($webhook->isValid()) $adapter->handle($webhook, $response);
+            if ($webhook->isValid()) {
+                Adapters\Adapters::get($webhook->service)->handle($webhook, $response);
+            }
         }
     }
 }

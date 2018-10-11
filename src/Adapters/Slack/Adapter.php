@@ -19,7 +19,15 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
 {
     public static $client;
 
+    /**
+     * {@inheritdoc}
+     */
     protected $exception = SlackException::class;
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $name = 'slack';
 
     /**
      * Sends a message through the webhook
@@ -32,9 +40,9 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
         if (!isset($response)) return;
 
         $res = $this->request($url, [
-            "username" => $this->settings->get('reflar-webhooks.settings.discordName') ?: $this->settings->get('forum_title'),
-            "avatar_url" => $this->getAvatarUrl(),
-            "attachments" => [
+            'username' => $this->settings->get('forum_title'),
+            'avatar_url' => $this->getAvatarUrl(),
+            'attachments' => [
                 $this->toArray($response)
             ]
         ]);
@@ -51,7 +59,7 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
     function toArray(Response $response)
     {
         $data = [
-            'fallback' => $response->description . ($response->author ? " - " . $response->author->username : ""),
+            'fallback' => $response->description . ($response->author ? ' - ' . $response->author->username : ''),
             'color' => $response->color,
             'title' => $response->title,
             'title_link' => $response->url,
@@ -60,9 +68,9 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
         ];
 
         if (isset($response->author)) {
-            $data["author_name"] = $response->author->username;
-            $data["author_link"] = $response->getAuthorUrl();
-            $data["author_icon"] = $response->author->avatar_url;
+            $data['author_name'] = $response->author->username;
+            $data['author_link'] = $response->getAuthorUrl();
+            $data['author_icon'] = $response->author->avatar_url;
         }
 
         return $data;

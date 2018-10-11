@@ -23,32 +23,31 @@ class Adapters
     private static $adapters = null;
 
     /**
-     * @param string $name
      * @param Adapter $adapter
      */
-    public static function add(string $name, Adapter $adapter)
+    public static function add(Adapter $adapter)
     {
-        self::$adapters[$name] = $adapter;
+        self::$adapters[$adapter->getName()] = $adapter;
     }
 
     /**
      * @param string $name
-     * @return Adapter
+     * @return null|Adapter
      */
-    public static function get(string $name) : Adapter
+    public static function get(string $name) : ?Adapter
     {
         return @self::$adapters[$name];
     }
 
-    public static function length()
+    public static function length() : int
     {
          return isset($adapters) ? count(self::$adapters) : 0;
     }
 
     static function initialize()
     {
-        self::add("discord", new Discord\Adapter());
-        self::add("slack", new Slack\Adapter());
+        self::add(new Discord\Adapter());
+        self::add(new Slack\Adapter());
     }
 
     static function all()

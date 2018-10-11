@@ -38,7 +38,7 @@ class Webhook extends AbstractModel
         $webhook = new static;
         $webhook->service = $service;
         $webhook->url = $url;
-        $webhook->events = "[]";
+        $webhook->events = '[]';
         return $webhook;
     }
 

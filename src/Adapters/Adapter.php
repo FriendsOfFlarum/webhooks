@@ -31,12 +31,19 @@ abstract class Adapter
     /**
      * @var \GuzzleHttp\Client
      */
-    static $client;
+    private static $client;
 
     /**
+     * Exception to use on request errors
      * @var \Exception
      */
     protected $exception;
+
+    /**
+     * Adapter name
+     * @var string
+     */
+    protected $name;
 
     /**
      * Set up the class
@@ -53,12 +60,12 @@ abstract class Adapter
      * @throws \ReflectionException
      */
     function handle(Webhook $webhook, Response $response) {
-        $clazz = new \ReflectionClass($this->exception);
-
         try {
             $this->send($webhook->url, $response);
             if (isset($webhook->error)) $webhook->setAttribute('error', null);
         } catch (RequestException $e) {
+            $clazz = new \ReflectionClass($this->exception);
+
             if ($e->hasResponse()) {
                 $webhook->setAttribute(
                     'error',
@@ -71,6 +78,8 @@ abstract class Adapter
                 );
             }
         } catch (\Throwable $e) {
+            $clazz = new \ReflectionClass($this->exception);
+
             $webhook->setAttribute(
                 'error',
                 $clazz->isInstance($e) ? $e : $e->getMessage()
@@ -100,6 +109,12 @@ abstract class Adapter
      */
     abstract function isValidURL(string $url) : bool;
 
+    public function getName() {
+        assert(isset($this->name), '$name is required');
+
+        return $this->name;
+    }
+
     /**
      * @param string $url
      * @param array $json
@@ -121,6 +136,6 @@ abstract class Adapter
         $logoPath = $this->settings->get('logo_path');
         $path = $faviconPath ?: $logoPath;
 
-        return isset($path) ? app(UrlGenerator::class)->to('forum')->path("assets/$path") : null;
+        return isset($path) ? app(UrlGenerator::class)->to('forum')->path('assets/$path') : null;
     }
 }
