@@ -45,7 +45,7 @@ abstract class Action
      * @param $event
      * @return bool
      */
-    function ignore($event) {
+    function ignore($event) : bool {
         return false;
     }
 

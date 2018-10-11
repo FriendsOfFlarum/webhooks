@@ -39,8 +39,12 @@ class Posted extends Action
             ->setTimestamp($event->post->created_at);
     }
 
-    function ignore($event)
+    /**
+     * @param \Flarum\Post\Event\Posted $event
+     * @return bool
+     */
+    function ignore($event) : bool
     {
-        return !isset($event->post->discussion->start_post_id) || $event->post->id == $event->post->discussion->start_post_id;
+        return !isset($event->post->discussion->first_post_id) || $event->post->id == $event->post->discussion->first_post_id;
     }
 }

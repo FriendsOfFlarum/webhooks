@@ -67,7 +67,7 @@ class TriggerListener
         if (!array_key_exists($classname, self::$listeners)) return;
 
         /**
-         * @type Action
+         * @var $action Action
          */
         $action = self::$listeners[$classname];
 
@@ -106,7 +106,7 @@ class TriggerListener
 
         if (Adapters\Adapters::length() == 0) Adapters\Adapters::initialize();
 
-        foreach(Webhook::all() as $webhook) {
+        foreach (Webhook::all() as $webhook) {
             if ($webhook->events != null && !in_array($event_name, $webhook->getEvents())) continue;
 
             $adapter = Adapters\Adapters::get($webhook->service);

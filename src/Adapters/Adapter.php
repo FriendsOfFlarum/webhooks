@@ -101,13 +101,6 @@ abstract class Adapter
     abstract function isValidURL(string $url) : bool;
 
     /**
-     * @return bool
-     */
-    public function matchesFilters() {
-        return true;
-    }
-
-    /**
      * @param string $url
      * @param array $json
      * @return \Psr\Http\Message\ResponseInterface

@@ -35,7 +35,7 @@ class Adapters
      * @param string $name
      * @return Adapter
      */
-    public static function get(string $name)
+    public static function get(string $name) : Adapter
     {
         return @self::$adapters[$name];
     }

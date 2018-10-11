@@ -48,6 +48,6 @@ class Webhook extends AbstractModel
 
     public function isValid() : bool {
         $adapter = Adapters::get($this->service);
-        return $adapter != null && $adapter->isValidURL($this->url);
+        return isset($adapter) && $adapter->isValidURL($this->url);
     }
 }
