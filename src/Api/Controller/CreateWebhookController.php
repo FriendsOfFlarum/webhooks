@@ -48,7 +48,7 @@ class CreateWebhookController extends AbstractCreateController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         return $this->bus->dispatch(
-            new CreateWebhook($request->getAttribute('actor'), $request->getParsedBody())
+            new CreateWebhook($request->getAttribute('actor'), array_get($request->getParsedBody(), 'data', []))
         );
     }
 }

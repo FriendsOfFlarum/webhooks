@@ -52,7 +52,7 @@ abstract class Adapter
      * @param Response $response
      * @throws \ReflectionException
      */
-    public function handle(Webhook $webhook, Response $response) {
+    function handle(Webhook $webhook, Response $response) {
         $clazz = new \ReflectionClass($this->exception);
 
         try {
@@ -93,6 +93,12 @@ abstract class Adapter
      * @return array
      */
     abstract function toArray(Response $response);
+
+    /**
+     * @param string $url
+     * @return boolean
+     */
+    abstract function isValidURL(string $url) : bool;
 
     /**
      * @return bool

@@ -32,7 +32,7 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
         if (!isset($response)) return;
 
         $this->request($url, [
-            "username" => $this->settings->get('reflar-webhooks.settings.discordName') ?: $this->settings->get('forum_title'),
+            "username" => $this->settings->get('forum_title'),
             "avatar_url" => $this->getAvatarUrl(),
             "embeds" => [
                 $this->toArray($response)
@@ -59,5 +59,14 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
             'timestamp' => isset($response->timestamp) ? $response->timestamp : date("c"),
             'type' => 'rich'
         ];
+    }
+
+    /**
+     * @param string $url
+     * @return boolean
+     */
+    function isValidURL(string $url): bool
+    {
+        return preg_match('/^https?:\/\/(?:\w+)?\.discordapp\.com\/api\/webhooks\/\d+?\/.+$/', $url);
     }
 }

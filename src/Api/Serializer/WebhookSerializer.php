@@ -41,6 +41,8 @@ class WebhookSerializer extends AbstractSerializer
             'url' => $webhook->url,
             'error' => $webhook->error,
             'events' => $webhook->events,
+
+            'is_valid' => $webhook->isValid()
         ];
     }
 }

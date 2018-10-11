@@ -5,14 +5,27 @@ import Alert from 'flarum/components/Alert';
 import WebhookEditModal from './WebhookEditModal';
 
 export default class SettingsListItem extends Component {
+    init() {
+        this.webhook = this.props.webhook;
+        this.services = this.props.services;
+
+        this.url = m.prop(this.webhook.url());
+        this.service = m.prop(this.webhook.service());
+        this.events = m.prop(this.webhook.events());
+        this.error = m.prop(this.webhook.error());
+    }
+
     view() {
-        const { webhook, services, onChange, onDelete } = this.props;
+        const { webhook, services } = this;
 
         const service = webhook.service();
-        let error = webhook.error && webhook.error();
+        const errors = [webhook.error && webhook.error()];
 
         if (!services[service]) {
-            error = app.translator.trans('reflar-webhooks.admin.errors.service_not_found', { service });
+            errors.push(app.translator.trans('reflar-webhooks.admin.errors.service_not_found', { service }));
+        }
+        if (!webhook.isValid()) {
+            errors.push(app.translator.trans('reflar-webhooks.admin.errors.url_invalid'));
         }
 
         return (
@@ -21,14 +34,14 @@ export default class SettingsListItem extends Component {
                     {Select.component({
                         options: services,
                         value: service,
-                        onchange: value => onChange(webhook, 'service', value),
+                        onchange: this.update('service'),
                     })}
                     <input
                         className="FormControl Webhook-url"
                         type="url"
-                        value={webhook.url()}
+                        value={this.url()}
+                        onchange={m.withAttr('value', this.update('url'))}
                         placeholder={app.translator.trans('reflar-webhooks.admin.settings.help.url')}
-                        onchange={m.withAttr('value', value => onChange(webhook, 'url', value))}
                     />
                     {Button.component({
                         type: 'button',
@@ -38,7 +51,7 @@ export default class SettingsListItem extends Component {
                             app.modal.show(
                                 new WebhookEditModal({
                                     webhook,
-                                    updateWebhook: events => onChange(webhook, 'events', events),
+                                    updateWebhook: this.update('events'),
                                 })
                             ),
                     })}
@@ -46,25 +59,42 @@ export default class SettingsListItem extends Component {
                         type: 'button',
                         className: 'Button Button--warning Webhook-button',
                         icon: 'fas fa-times',
-                        onclick: () => onDelete(webhook),
+                        onclick: this.delete.bind(this),
                     })}
                 </div>
 
-                {!webhook.events().length &&
+                {!this.events().length &&
                     Alert.component({
                         className: 'Webhook-error',
                         children: app.translator.trans('reflar-webhooks.admin.settings.help.disabled'),
                         dismissible: false,
                     })}
 
-                {error &&
+                {errors.filter(Boolean).map(error =>
                     Alert.component({
                         children: app.translator.trans(error),
                         className: 'Webhook-error',
                         type: 'error',
                         dismissible: false,
-                    })}
+                    })
+                )}
             </div>
         );
+    }
+
+    update(field) {
+        return value => {
+            this[field](value);
+
+            return this.webhook
+                .save({
+                    [field]: value,
+                })
+                .then(() => m.lazyRedraw());
+        };
+    }
+
+    delete() {
+        return this.webhook.delete().then(() => m.lazyRedraw());
     }
 }

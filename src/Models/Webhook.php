@@ -14,6 +14,7 @@
 namespace Reflar\Webhooks\Models;
 
 use Flarum\Database\AbstractModel;
+use Reflar\Webhooks\Adapters\Adapters;
 
 /**
  * @property string service
@@ -43,5 +44,10 @@ class Webhook extends AbstractModel
 
     public function getEvents() {
         return json_decode($this->events);
+    }
+
+    public function isValid() : bool {
+        $adapter = Adapters::get($this->service);
+        return $adapter != null && $adapter->isValidURL($this->url);
     }
 }

@@ -26,6 +26,7 @@ reflar-webhooks:
   admin:
     errors:
       service_not_found: The service '{service}' cannot be found.
+      url_invalid: URL is not valid for selected service.
 
     nav:
       desc: Customizable outgoing webhooks for your forum.

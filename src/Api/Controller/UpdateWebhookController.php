@@ -49,7 +49,7 @@ class UpdateWebhookController extends AbstractCreateController
     {
         $id = array_get($request->getQueryParams(), 'id');
         $actor = $request->getAttribute('actor');
-        $data = $request->getParsedBody();
+        $data = array_get($request->getParsedBody(), 'data', []);
 
         return $this->bus->dispatch(
             new UpdateWebhook($id, $actor, $data)

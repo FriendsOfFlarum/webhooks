@@ -14,8 +14,6 @@ export default class SettingsPage extends Page {
             return o;
         }, {});
 
-        this.webhooks = app.forum.webhooks();
-
         this.settingsPrefix = 'reflar.webhooks';
 
         this.newWebhook = {
@@ -29,6 +27,8 @@ export default class SettingsPage extends Page {
      * @returns {*}
      */
     view() {
+        const webhooks = app.store.all('webhooks');
+
         return (
             <div className="WebhooksPage">
                 <div className="container">
@@ -37,12 +37,10 @@ export default class SettingsPage extends Page {
                         <p className="helpText">{app.translator.trans('reflar-webhooks.admin.settings.help.general')}</p>
                         <fieldset>
                             <div className="Webhooks--Container">
-                                {this.webhooks.map(webhook =>
+                                {webhooks.map(webhook =>
                                     SettingsListItem.component({
                                         webhook,
                                         services: this.services,
-                                        onChange: this.updateWebhook.bind(this),
-                                        onDelete: this.deleteWebhook.bind(this),
                                     })
                                 )}
                                 <div className="Webhooks--row">
@@ -78,60 +76,24 @@ export default class SettingsPage extends Page {
     addWebhook() {
         this.newWebhook.loading(true);
 
-        return app
-            .request({
-                method: 'POST',
-                url: `${app.forum.attribute('apiUrl')}/reflar/webhooks`,
-                data: {
-                    service: this.newWebhook.service(),
-                    url: this.newWebhook.url(),
-                },
+        return app.store
+            .createRecord('webhooks')
+            .save({
+                service: this.newWebhook.service(),
+                url: this.newWebhook.url(),
             })
-            .then(response => {
-                this.webhooks.push({
-                    id: m.prop(response.data.id),
-                    service: m.prop(response.data.attributes.service),
-                    url: m.prop(response.data.attributes.url),
-                    events: m.prop([]),
-                });
-
+            .then(() => {
                 this.newWebhook.service('discord');
                 this.newWebhook.url('');
                 this.newWebhook.loading(false);
 
-                m.lazyRedraw();
+                m.redraw();
             })
             .catch(() => {
                 this.newWebhook.loading(false);
 
-                m.lazyRedraw();
+                m.redraw();
             });
-    }
-
-    updateWebhook(webhook, field, value) {
-        this.webhooks.some(w => {
-            if (w.id() === webhook.id()) {
-                w[field] = m.prop(value);
-                return true;
-            }
-        });
-
-        return app.request({
-            method: 'PATCH',
-            url: `${app.forum.attribute('apiUrl')}/reflar/webhooks/${webhook.id()}`,
-            data: {
-                [field]: value,
-            },
-        });
-    }
-
-    deleteWebhook(webhook) {
-        this.webhooks.splice(this.webhooks.indexOf(webhook), 1);
-
-        return app.request({
-            method: 'DELETE',
-            url: `${app.forum.attribute('apiUrl')}/reflar/webhooks/${webhook.id()}`,
-        });
     }
 
     /**

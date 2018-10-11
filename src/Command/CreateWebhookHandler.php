@@ -15,7 +15,8 @@ namespace Reflar\Webhooks\Command;
 
 use Flarum\User\AssertPermissionTrait;
 use Flarum\User\Exception\PermissionDeniedException;
-use Reflar\Webhooks\Command\CreateWebhook;
+use Illuminate\Validation\ValidationException;
+use Reflar\Webhooks\Api\Exceptions\InvalidWebhookURL;
 use Reflar\Webhooks\Models\Webhook;
 use Reflar\Webhooks\Validator\WebhookValidator;
 
@@ -44,7 +45,7 @@ class CreateWebhookHandler
      *
      * @return Webhook
      */
-    public function handle(CreateWebhook $command)
+    public function handle(CreateWebhook $command) : Webhook
     {
         $actor = $command->actor;
         $data = $command->data;
@@ -52,8 +53,8 @@ class CreateWebhookHandler
         $this->assertAdmin($actor);
 
         $webhook = Webhook::build(
-            array_get($data, 'service'),
-            array_get($data, 'url')
+            array_get($data, 'attributes.service'),
+            array_get($data, 'attributes.url')
         );
 
         $this->validator->assertValid($webhook->getAttributes());

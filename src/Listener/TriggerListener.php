@@ -111,7 +111,7 @@ class TriggerListener
 
             $adapter = Adapters\Adapters::get($webhook->service);
 
-            if (isset($adapter)) $adapter->handle($webhook, $response);
+            if ($webhook->isValid()) $adapter->handle($webhook, $response);
         }
     }
 }
