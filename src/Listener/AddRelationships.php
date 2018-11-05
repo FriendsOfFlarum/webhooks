@@ -35,7 +35,6 @@ class AddRelationships {
         $events->listen(GetApiRelationship::class, [$this, 'getApiAttributes']);
         $events->listen(WillSerializeData::class, [$this, 'loadWebhooksRelationship']);
         $events->listen(WillGetData::class, [$this, 'includeWebhooks']);
-        $events->listen(Serializing::class, [$this, 'includeAdapters']);
     }
 
     /**
@@ -56,13 +55,6 @@ class AddRelationships {
     {
         if ($event->isController(ShowForumController::class)) {
             $event->data['webhooks'] = $event->actor->isAdmin() ? Webhook::all() : [];
-        }
-    }
-
-    public function includeAdapters(Serializing $event) {
-        if ($event->isSerializer(ForumSerializer::class) && $event->actor->isAdmin()) {
-            $event->attributes['reflar-webhooks.services'] = array_keys(Adapters::all());
-            $event->attributes['reflar-webhooks.events'] = array_keys(TriggerListener::$listeners);
         }
     }
 

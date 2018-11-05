@@ -14,11 +14,11 @@ export default class WebhookEditModal extends Modal {
 
         this.webhook = this.props.webhook;
 
-        const events = app.forum.attribute('reflar-webhooks.events');
+        const events = app.data['reflar-webhooks.events'];
 
         this.events = events.reduce(
             (obj, evt) => {
-                const m = /((?:[a-z]+\\?)+?)\\Event\\([a-z]+)/i.exec(evt);
+                const m = /((?:[a-z]+\\?)+?)\\Events?\\([a-z]+)/i.exec(evt);
 
                 if (!m) {
                     obj.Other.push({

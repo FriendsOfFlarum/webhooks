@@ -9,7 +9,7 @@ export default class SettingsPage extends Page {
         super.init();
 
         this.values = {};
-        this.services = app.forum.attribute('reflar-webhooks.services').reduce((o, service) => {
+        this.services = app.data['reflar-webhooks.services'].reduce((o, service) => {
             o[service] = app.translator.trans(`reflar-webhooks.admin.settings.services.${service}`);
             return o;
         }, {});

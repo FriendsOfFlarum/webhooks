@@ -14,13 +14,20 @@
 namespace Reflar\Webhooks;
 
 use Flarum\Extend;
+use Flarum\Frontend\HtmlDocument;
 use Illuminate\Contracts\Events\Dispatcher;
+use Reflar\Webhooks\Adapters\Adapters;
 use Reflar\Webhooks\Api;
+use Reflar\Webhooks\Listener\TriggerListener;
 
 return [
     (new Extend\Frontend('admin'))
         ->js(__DIR__.'/js/dist/admin.js')
-        ->css(__DIR__.'/resources/less/admin.less'),
+        ->css(__DIR__.'/resources/less/admin.less')
+        ->content(function (HtmlDocument $document) {
+            $document->payload['reflar-webhooks.services'] = array_keys(Adapters::all());
+            $document->payload['reflar-webhooks.events'] = array_keys(TriggerListener::$listeners);
+        }),
     new Extend\Locales(__DIR__ . '/resources/locale'),
     (new Extend\Routes('api'))
         ->get('/reflar/webhooks', 'reflar.webhooks.index', Api\Controller\ListWebhooksController::class)
