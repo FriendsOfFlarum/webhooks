@@ -50,36 +50,32 @@ class TriggerListener
      * @param Dispatcher $events
      */
     public function subscribe(Dispatcher $events) {
-        foreach(self::$listeners as $key => $value) {
-            $events->listen($key, [$this, 'run']);
-        }
+        $events->listen('*', [$this, 'run']);
     }
 
     /**
      * @param $event
      * @throws \Exception
      */
-    public function run($event) {
-        if (is_string($event)) return;
+    public function run($name, $data) {
+        $event = array_get($data, 0);
 
-        $classname = get_class($event);
-
-        if (!array_key_exists($classname, self::$listeners)) return;
+        if (!isset($event)) return;
+        if (!array_key_exists($name, self::$listeners)) return;
 
         /**
          * @var $action Action
          */
-        $action = self::$listeners[$classname];
+        $action = self::$listeners[$name];
 
-
-        if ($action == null || $action->ignore($event)) return;
+        if ($action->ignore($event)) return;
 
         /**
          * @type Response
          */
         $response = $action->listen($event);
 
-        if (isset($response)) $this->handle($classname, $response);
+        if (isset($response)) $this->handle($name, $response);
     }
 
     static function setupDefaultListeners() {
