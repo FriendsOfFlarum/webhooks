@@ -18,30 +18,29 @@ export default class WebhookEditModal extends Modal {
 
         this.events = events.reduce(
             (obj, evt) => {
-                const m = /((?:[a-z]+\\?)+?)\\Events?\\([a-z]+)/i.exec(evt);
+                const m = /(?<group>(?:[a-z]+\\?)+?)\\Events?\\(?<event>[a-z]+)/i.exec(evt);
 
                 if (!m) {
-                    obj.Other.push({
+                    obj.other.push({
                         full: evt,
                         name: evt,
                     });
-                    obj.Other = obj.Other.sort();
+                    obj.other = obj.other.sort();
                     return obj;
                 }
 
-                const group = m[1];
+                const group = m.groups.group.toLowerCase().replace('\\', '.');
 
                 if (!obj[group]) obj[group] = [];
 
-                obj[group].push({
+                obj[group] = obj[group].concat({
                     full: evt,
-                    name: m[2],
-                });
-                obj[group] = obj[group].sort();
+                    name: m.groups.event,
+                }).sort();
 
                 return obj;
             },
-            { Other: [] }
+            { other: [] }
         );
     }
 
@@ -64,11 +63,11 @@ export default class WebhookEditModal extends Modal {
                             ([group, events]) =>
                                 events.length ? (
                                     <div>
-                                        <h3>{group}</h3>
+                                        <h3>{this.translate(group)}</h3>
                                         {events.map(event =>
                                             Switch.component({
                                                 state: this.webhook.events().includes(event.full),
-                                                children: event.name,
+                                                children: this.translate(group, event.name.toLowerCase()),
                                                 onchange: this.onchange.bind(this, event.full),
                                             })
                                         )}
@@ -78,6 +77,10 @@ export default class WebhookEditModal extends Modal {
                 </div>
             </div>
         );
+    }
+
+    translate(group, key = 'title') {
+        return app.translator.trans(`reflar-webhooks.admin.settings.actions.${group}.${key}`);
     }
 
     onchange(event, checked, component) {

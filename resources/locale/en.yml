@@ -45,3 +45,24 @@ reflar-webhooks:
       services:
         discord: Discord
         slack: Slack
+
+      actions:
+        flarum:
+          discussion:
+            title: Flarum Discussion
+
+            deleted: Deleted
+            hidden: Hidden
+            renamed: Renamed
+            restored: Restored
+            started: Started
+          post:
+            title: Flarum Post
+
+            posted: Posted
+          user:
+            title: Flarum User
+
+            deleted: Deleted
+            registered: Registered
+            renamed: Renamed
