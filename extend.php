@@ -14,7 +14,7 @@
 namespace Reflar\Webhooks;
 
 use Flarum\Extend;
-use Flarum\Frontend\HtmlDocument;
+use Flarum\Frontend\Document;
 use Illuminate\Contracts\Events\Dispatcher;
 use Reflar\Webhooks\Adapters\Adapters;
 use Reflar\Webhooks\Api;
@@ -24,7 +24,7 @@ return [
     (new Extend\Frontend('admin'))
         ->js(__DIR__.'/js/dist/admin.js')
         ->css(__DIR__.'/resources/less/admin.less')
-        ->content(function (HtmlDocument $document) {
+        ->content(function (Document $document) {
             $document->payload['reflar-webhooks.services'] = array_keys(Adapters::all());
             $document->payload['reflar-webhooks.events'] = array_keys(TriggerListener::$listeners);
         }),
