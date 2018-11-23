@@ -37,4 +37,12 @@ class Hidden extends Action
             ->setColor('fed330')
             ->setTimestamp($event->discussion->hidden_at);
     }
+
+    /**
+     * @return string
+     */
+    function getEvent()
+    {
+        return \Flarum\Discussion\Event\Hidden::class;
+    }
 }

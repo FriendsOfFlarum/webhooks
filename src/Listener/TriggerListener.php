@@ -41,7 +41,7 @@ class TriggerListener
     public function __construct(SettingsRepositoryInterface $settings) {
         $this->settings = $settings;
 
-        if (self::$listeners == null) $this::setupDefaultListeners();
+        if (self::$listeners == null) self::setupDefaultListeners();
     }
 
     /**
@@ -79,17 +79,22 @@ class TriggerListener
     }
 
     static function setupDefaultListeners() {
-        self::$listeners = [
-            \Flarum\Post\Event\Posted::class => new Actions\Post\Posted(),
-            \Flarum\Discussion\Event\Deleted::class => new Actions\Discussion\Deleted(),
-            \Flarum\Discussion\Event\Hidden::class => new Actions\Discussion\Hidden(),
-            \Flarum\Discussion\Event\Renamed::class => new Actions\Discussion\Renamed(),
-            \Flarum\Discussion\Event\Restored::class => new Actions\Discussion\Restored(),
-            \Flarum\Discussion\Event\Started::class => new Actions\Discussion\Started(),
-            \Flarum\User\Event\Deleted::class => new Actions\User\Deleted(),
-            \Flarum\User\Event\Registered::class => new Actions\User\Registered(),
-            \Flarum\User\Event\Renamed::class => new Actions\User\Renamed(),
-        ];
+        self::addListener(new Actions\Discussion\Deleted());
+        self::addListener(new Actions\Discussion\Hidden());
+        self::addListener(new Actions\Discussion\Renamed());
+        self::addListener(new Actions\Discussion\Restored());
+        self::addListener(new Actions\Discussion\Started());
+        self::addListener(new Actions\Group\Created());
+        self::addListener(new Actions\Group\Renamed());
+        self::addListener(new Actions\Group\Deleted());
+        self::addListener(new Actions\Post\Posted());
+        self::addListener(new Actions\User\Deleted());
+        self::addListener(new Actions\User\Registered());
+        self::addListener(new Actions\User\Renamed());
+    }
+
+    static function addListener(Action $action) {
+        self::$listeners[$action->getEvent()] = $action;
     }
 
     /**

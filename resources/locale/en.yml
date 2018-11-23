@@ -9,6 +9,11 @@ reflar-webhooks:
       restored: "Restored discussion `{1}`"
       started: "Started discussion `{1}`"
 
+    group:
+      created: "Created `{1}` group"
+      deleted: "Deleted `{1}` group"
+      renamed: "Renamed a group to `{1}`"
+
     post:
       posted: "New post in `{1}`"
 
@@ -51,18 +56,32 @@ reflar-webhooks:
           discussion:
             title: Flarum Discussion
 
-            deleted: Deleted
+            deleted: => reflar-webhooks.ref.deleted
             hidden: Hidden
-            renamed: Renamed
+            renamed: => reflar-webhooks.ref.renamed
             restored: Restored
             started: Started
+
+          group:
+            title: Flarum Group
+
+            created: Created
+            deleted: => reflar-webhooks.ref.deleted
+            renamed: => reflar-webhooks.ref.renamed
+
           post:
             title: Flarum Post
 
             posted: Posted
+
           user:
             title: Flarum User
 
-            deleted: Deleted
+            deleted: => reflar-webhooks.ref.deleted
             registered: Registered
-            renamed: Renamed
+            renamed: => reflar-webhooks.ref.renamed
+
+  ref:
+    deleted: Deleted
+    hidden: Hidden
+    renamed: Renamed

@@ -37,4 +37,12 @@ class Started extends Action
             ->setColor('fed330')
             ->setTimestamp($event->discussion->created_at);
     }
+
+    /**
+     * @return string
+     */
+    function getEvent()
+    {
+        return \Flarum\Discussion\Event\Started::class;
+    }
 }

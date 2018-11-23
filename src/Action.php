@@ -36,6 +36,11 @@ abstract class Action
     }
 
     /**
+     * @return string
+     */
+    abstract function getEvent();
+
+    /**
      * @param $event
      * @return Response
      */

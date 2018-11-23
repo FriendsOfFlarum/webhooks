@@ -37,4 +37,12 @@ class Renamed extends Action
             ->setColor('fed330')
             ->setTimestamp($event->discussion->last_posted_at);
     }
+
+    /**
+     * @return string
+     */
+    function getEvent()
+    {
+        return \Flarum\Discussion\Event\Renamed::class;
+    }
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  *  This file is part of reflar/webhooks.
  *
@@ -11,30 +10,29 @@
  *  file that was distributed with this source code.
  */
 
-namespace Reflar\Webhooks\Actions\User;
+namespace Reflar\Webhooks\Actions\Group;
 
 
+use Carbon\Carbon;
 use Reflar\Webhooks\Action;
 use Reflar\Webhooks\Response;
 
-class Registered extends Action
+class Created extends Action
 {
+
     /**
-     * @param \Flarum\User\Event\Registered $event
+     * @param \Flarum\Group\Event\Created $event
      * @return Response
      */
     function listen($event)
     {
         return Response::build($event)
             ->setTitle(
-                $this->translate('user.registered')
+                $this->translate('group.created', $event->group->name_plural)
             )
-            ->setUrl('user', [
-                'username' => $event->user->username
-            ])
-            ->setAuthor($event->user)
-            ->setColor('4b7bec')
-            ->setTimestamp($event->user->joined_at);
+            ->setAuthor($event->actor)
+            ->setColor('34495e')
+            ->setTimestamp(Carbon::now());
     }
 
     /**
@@ -42,6 +40,6 @@ class Registered extends Action
      */
     function getEvent()
     {
-        return \Flarum\User\Event\Registered::class;
+        return \Flarum\Group\Event\Created::class;
     }
 }

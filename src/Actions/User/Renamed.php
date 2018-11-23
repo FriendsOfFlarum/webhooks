@@ -38,4 +38,12 @@ class Renamed extends Action
             ->setColor('4b7bec')
             ->setTimestamp(Carbon::now());
     }
+
+    /**
+     * @return string
+     */
+    function getEvent()
+    {
+        return \Flarum\User\Event\Renamed::class;
+    }
 }

@@ -34,4 +34,12 @@ class Deleted extends Action
             ->setColor('fed330')
             ->setTimestamp(Carbon::now());
     }
+
+    /**
+     * @return string
+     */
+    function getEvent()
+    {
+        return \Flarum\Discussion\Event\Deleted::class;
+    }
 }

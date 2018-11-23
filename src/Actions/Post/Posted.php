@@ -47,4 +47,12 @@ class Posted extends Action
     {
         return !isset($event->post->discussion->first_post_id) || $event->post->id == $event->post->discussion->first_post_id;
     }
+
+    /**
+     * @return string
+     */
+    function getEvent()
+    {
+        return \Flarum\Post\Event\Posted::class;
+    }
 }

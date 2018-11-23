@@ -38,4 +38,12 @@ class Restored extends Action
             ->setColor('fed330')
             ->setTimestamp(Carbon::now());
     }
+
+    /**
+     * @return string
+     */
+    function getEvent()
+    {
+        return \Flarum\Discussion\Event\Restored::class;
+    }
 }
