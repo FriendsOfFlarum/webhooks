@@ -37,6 +37,8 @@ class Adapters
      */
     public static function get(string $name) : ?Adapter
     {
+        if (@self::$adapters == null) self::initialize();
+
         return @self::$adapters[$name];
     }
 

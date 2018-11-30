@@ -33,10 +33,12 @@ export default class WebhookEditModal extends Modal {
 
                 if (!obj[group]) obj[group] = [];
 
-                obj[group] = obj[group].concat({
-                    full: evt,
-                    name: m.groups.event,
-                }).sort();
+                obj[group] = obj[group]
+                    .concat({
+                        full: evt,
+                        name: m.groups.event,
+                    })
+                    .sort();
 
                 return obj;
             },
@@ -59,20 +61,19 @@ export default class WebhookEditModal extends Modal {
                 <div className="Webhook-events">
                     {Object.entries(this.events)
                         .sort(sortByProp(0))
-                        .map(
-                            ([group, events]) =>
-                                events.length ? (
-                                    <div>
-                                        <h3>{this.translate(group)}</h3>
-                                        {events.map(event =>
-                                            Switch.component({
-                                                state: this.webhook.events().includes(event.full),
-                                                children: this.translate(group, event.name.toLowerCase()),
-                                                onchange: this.onchange.bind(this, event.full),
-                                            })
-                                        )}
-                                    </div>
-                                ) : null
+                        .map(([group, events]) =>
+                            events.length ? (
+                                <div>
+                                    <h3>{this.translate(group)}</h3>
+                                    {events.map(event =>
+                                        Switch.component({
+                                            state: this.webhook.events().includes(event.full),
+                                            children: this.translate(group, event.name.toLowerCase()),
+                                            onchange: this.onchange.bind(this, event.full),
+                                        })
+                                    )}
+                                </div>
+                            ) : null
                         )}
                 </div>
             </div>

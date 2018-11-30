@@ -23,8 +23,7 @@ export default class SettingsListItem extends Component {
 
         if (!services[service]) {
             errors.push(app.translator.trans('reflar-webhooks.admin.errors.service_not_found', { service }));
-        }
-        if (!webhook.isValid()) {
+        } else if (!webhook.isValid()) {
             errors.push(app.translator.trans('reflar-webhooks.admin.errors.url_invalid'));
         }
 

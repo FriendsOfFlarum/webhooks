@@ -100,18 +100,28 @@ class TriggerListener
         self::addListener(new Actions\Discussion\Renamed());
         self::addListener(new Actions\Discussion\Restored());
         self::addListener(new Actions\Discussion\Started());
+
         self::addListener(new Actions\Group\Created());
         self::addListener(new Actions\Group\Renamed());
         self::addListener(new Actions\Group\Deleted());
+
         self::addListener(new Actions\Post\Posted());
-        self::addListener(new Actions\User\Deleted());
-        self::addListener(new Actions\User\Registered());
+        self::addListener(new Actions\Post\Revised());
+        self::addListener(new Actions\Post\Hidden());
+        self::addListener(new Actions\Post\Restored());
+        self::addListener(new Actions\Post\Deleted());
+
         self::addListener(new Actions\User\Renamed());
+        self::addListener(new Actions\User\Registered());
+        self::addListener(new Actions\User\Deleted());
     }
 
-    public static function addListener(Action $action)
-    {
-        self::$listeners[$action->getEvent()] = $action;
+    static function addListener(Action $action) {
+        $clazz = $action->getEvent();
+
+        if (class_exists($clazz)) {
+            self::$listeners[$clazz] = $action;
+        }
     }
 
     /**

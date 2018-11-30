@@ -1,28 +1,32 @@
 reflar-webhooks:
   actions:
     discussion:
-      deleted: "Deleted discussion `{1}`"
-      hidden: "Hid discussion `{1}`"
+      started: "Started discussion `{1}`"
       renamed:
         title: "Renamed discussion `{1}`"
         description: "New title: {1}"
+      hidden: "Hid discussion `{1}`"
       restored: "Restored discussion `{1}`"
-      started: "Started discussion `{1}`"
+      deleted: "Deleted discussion `{1}`"
 
     group:
       created: "Created `{1}` group"
-      deleted: "Deleted `{1}` group"
       renamed: "Renamed a group to `{1}`"
+      deleted: "Deleted `{1}` group"
 
     post:
       posted: "New post in `{1}`"
+      revised: "Edited post in `{1}`"
+      hidden: "Hid post in `{1}`"
+      restored: "Restored post in `{1}`"
+      deleted: "Deleted post in `{1}`"
 
     user:
-      deleted: "Deleted user `{1}`"
       registered: New user registered
       renamed:
         title: "Changed username of `{1}`"
         description: "New username: {1}"
+      deleted: "Deleted user `{1}`"
 
   adapters:
     errors:
@@ -45,7 +49,7 @@ reflar-webhooks:
 
       modal:
         title: Webhook Settings
-        description: Here you can edit various settings for the webhook, including what events the webhook is fired on.
+        description: Here you modify what events the webhook is fired on.
 
       services:
         discord: Discord
@@ -56,32 +60,37 @@ reflar-webhooks:
           discussion:
             title: Flarum Discussion
 
-            deleted: => reflar-webhooks.ref.deleted
-            hidden: Hidden
-            renamed: => reflar-webhooks.ref.renamed
-            restored: Restored
             started: Started
+            renamed: => reflar-webhooks.ref.renamed
+            hidden: => reflar-webhooks.ref.hidden
+            restored: => reflar-webhooks.ref.restored
+            deleted: => reflar-webhooks.ref.deleted
 
           group:
             title: Flarum Group
 
             created: Created
-            deleted: => reflar-webhooks.ref.deleted
             renamed: => reflar-webhooks.ref.renamed
+            deleted: => reflar-webhooks.ref.deleted
 
           post:
             title: Flarum Post
 
             posted: Posted
+            revised: Edited
+            hidden: => reflar-webhooks.ref.hidden
+            restored: => reflar-webhooks.ref.restored
+            deleted: => reflar-webhooks.ref.deleted
 
           user:
             title: Flarum User
 
-            deleted: => reflar-webhooks.ref.deleted
             registered: Registered
             renamed: => reflar-webhooks.ref.renamed
+            deleted: => reflar-webhooks.ref.deleted
 
   ref:
     deleted: Deleted
     hidden: Hidden
     renamed: Renamed
+    restored: Restored

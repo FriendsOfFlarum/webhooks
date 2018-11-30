@@ -1,10 +1,8 @@
 # ReFlar Webhooks
 
----
-
 ![License](https://img.shields.io/badge/license-MIT-blue.svg) [![Latest Stable Version](https://img.shields.io/packagist/v/reflar/webhooks.svg)](https://packagist.org/packages/reflar/webhooks)
 
-A [Flarum](http://flarum.org) extension. Flarum with webhooks
+A [Flarum](http://flarum.org) extension. Flarum with webhooks.
 
 ### Installation
 
@@ -18,9 +16,9 @@ composer require reflar/webhooks
 
 ```sh
 composer update reflar/webhooks
-php flarum cache:clear
 ```
 
 ### Links
 
 - [Packagist](https://packagist.org/packages/reflar/webhooks)
+- [GitHub](https://github.com/ReFlar/webhooks)
