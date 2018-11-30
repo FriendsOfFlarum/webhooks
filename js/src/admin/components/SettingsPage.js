@@ -13,9 +13,7 @@ export default class SettingsPage extends Page {
             o[service] = app.translator.trans(`reflar-webhooks.admin.settings.services.${service}`);
             return o;
         }, {});
-
-        this.settingsPrefix = 'reflar.webhooks';
-
+        
         this.newWebhook = {
             service: m.prop('discord'),
             url: m.prop(''),
@@ -33,7 +31,7 @@ export default class SettingsPage extends Page {
             <div className="WebhooksPage">
                 <div className="container">
                     <form>
-                        <h2>{app.translator.trans('reflar-webhooks.admin.settings.title')}</h2>
+                        <h1>{app.translator.trans('reflar-webhooks.admin.settings.title')}</h1>
                         <p className="helpText">{app.translator.trans('reflar-webhooks.admin.settings.help.general')}</p>
                         <fieldset>
                             <div className="Webhooks--Container">
