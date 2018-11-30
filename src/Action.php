@@ -1,18 +1,17 @@
 <?php
 
-/**
- *  This file is part of reflar/webhooks.
+/*
+ * This file is part of reflar/webhooks.
  *
- *  Copyright (c) ReFlar.
+ * Copyright (c) ReFlar.
  *
  * https://reflar.redevs.org
  *
- *  For the full copyright and license information, please view the LICENSE.md
- *  file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
  */
 
 namespace Reflar\Webhooks;
-
 
 use Flarum\Http\UrlGenerator;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -38,29 +37,34 @@ abstract class Action
     /**
      * @return string
      */
-    abstract function getEvent();
+    abstract public function getEvent();
 
     /**
      * @param $event
+     *
      * @return Response
      */
-    abstract function listen($event);
+    abstract public function listen($event);
 
     /**
      * @param $event
+     *
      * @return bool
      */
-    function ignore($event) : bool {
+    public function ignore($event) : bool
+    {
         return false;
     }
 
     /**
      * @param string $id
      * @param $param1
+     *
      * @return string
      */
-    protected function translate(string $id, $param1 = null) {
-        return $this->translator->trans('reflar-webhooks.actions.' . $id, [
+    protected function translate(string $id, $param1 = null)
+    {
+        return $this->translator->trans('reflar-webhooks.actions.'.$id, [
             '{1}' => $param1,
         ]);
     }

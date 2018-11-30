@@ -1,14 +1,14 @@
 <?php
 
-/**
- *  This file is part of reflar/webhooks.
+/*
+ * This file is part of reflar/webhooks.
  *
- *  Copyright (c) ReFlar.
+ * Copyright (c) ReFlar.
  *
- *  https://reflar.redevs.org
+ * https://reflar.redevs.org
  *
- *  For the full copyright and license information, please view the LICENSE.md
- *  file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
  */
 
 namespace Reflar\Webhooks\Adapters;
@@ -32,6 +32,7 @@ class Adapters
 
     /**
      * @param string $name
+     *
      * @return null|Adapter
      */
     public static function get(string $name) : ?Adapter
@@ -41,18 +42,20 @@ class Adapters
 
     public static function length() : int
     {
-         return isset($adapters) ? count(self::$adapters) : 0;
+        return isset($adapters) ? count(self::$adapters) : 0;
     }
 
-    static function initialize()
+    public static function initialize()
     {
         self::add(new Discord\Adapter());
         self::add(new Slack\Adapter());
     }
 
-    static function all()
+    public static function all()
     {
-        if (self::$adapters == null) self::initialize();
+        if (self::$adapters == null) {
+            self::initialize();
+        }
 
         return self::$adapters;
     }

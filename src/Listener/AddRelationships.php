@@ -1,30 +1,29 @@
 <?php
 
-/**
- *  This file is part of reflar/webhooks.
+/*
+ * This file is part of reflar/webhooks.
  *
- *  Copyright (c) ReFlar.
+ * Copyright (c) ReFlar.
  *
- *  https://reflar.redevs.org
+ * https://reflar.redevs.org
  *
- *  For the full copyright and license information, please view the LICENSE.md
- *  file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
  */
 
 namespace Reflar\Webhooks\Listener;
 
 use Flarum\Api\Controller\ShowForumController;
-use Flarum\Api\Event\Serializing;
 use Flarum\Api\Event\WillGetData;
 use Flarum\Api\Event\WillSerializeData;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Event\GetApiRelationship;
 use Illuminate\Contracts\Events\Dispatcher;
-use Reflar\Webhooks\Adapters\Adapters;
 use Reflar\Webhooks\Api\Serializer\WebhookSerializer;
 use Reflar\Webhooks\Models\Webhook;
 
-class AddRelationships {
+class AddRelationships
+{
     /**
      * Subscribes to the Flarum events.
      *
@@ -39,6 +38,7 @@ class AddRelationships {
 
     /**
      * @param GetApiRelationship $event
+     *
      * @return \Tobscure\JsonApi\Relationship
      */
     public function getApiAttributes(GetApiRelationship $event)

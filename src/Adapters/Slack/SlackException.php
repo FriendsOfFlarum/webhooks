@@ -1,13 +1,14 @@
 <?php
-/**
- *  This file is part of reflar/webhooks.
+
+/*
+ * This file is part of reflar/webhooks.
  *
- *  Copyright (c) ReFlar.
+ * Copyright (c) ReFlar.
  *
- *  https://reflar.redevs.org
+ * https://reflar.redevs.org
  *
- *  For the full copyright and license information, please view the LICENSE.md
- *  file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
  */
 
 namespace Reflar\Webhooks\Adapters\Slack;
@@ -22,14 +23,18 @@ class SlackException extends Exception
 
     /**
      * Exception constructor.
+     *
      * @param ResponseInterface $res
-     * @param string $url
+     * @param string            $url
      */
-    public function __construct(ResponseInterface $res, string $url) {
+    public function __construct(ResponseInterface $res, string $url)
+    {
         $this->http = $res->getStatusCode();
         $this->url = $url;
 
-        if ($this->http == 302) $this->http = 404;
+        if ($this->http == 302) {
+            $this->http = 404;
+        }
 
         $contents = $res->getBody()->getContents();
         $body = json_decode($contents);
@@ -41,7 +46,8 @@ class SlackException extends Exception
         }
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         $code = $this->code;
         $message = $code ? "$code $this->message" : $this->message;
 

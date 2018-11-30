@@ -1,14 +1,14 @@
 <?php
 
-/**
- *  This file is part of reflar/webhooks.
+/*
+ * This file is part of reflar/webhooks.
  *
- *  Copyright (c) ReFlar.
+ * Copyright (c) ReFlar.
  *
- *  https://reflar.redevs.org
+ * https://reflar.redevs.org
  *
- *  For the full copyright and license information, please view the LICENSE.md
- *  file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
  */
 
 namespace Reflar\Webhooks\Adapters;
@@ -27,42 +27,48 @@ abstract class Adapter
      */
     protected $settings;
 
-
     /**
      * @var \GuzzleHttp\Client
      */
     private static $client;
 
     /**
-     * Exception to use on request errors
+     * Exception to use on request errors.
+     *
      * @var \Exception
      */
     protected $exception;
 
     /**
-     * Adapter name
+     * Adapter name.
+     *
      * @var string
      */
     protected $name;
 
     /**
-     * Set up the class
+     * Set up the class.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->settings = app('flarum.settings');
 
         self::$client = new \GuzzleHttp\Client();
     }
 
     /**
-     * @param Webhook $webhook
+     * @param Webhook  $webhook
      * @param Response $response
+     *
      * @throws \ReflectionException
      */
-    function handle(Webhook $webhook, Response $response) {
+    public function handle(Webhook $webhook, Response $response)
+    {
         try {
             $this->send($webhook->url, $response);
-            if (isset($webhook->error)) $webhook->setAttribute('error', null);
+            if (isset($webhook->error)) {
+                $webhook->setAttribute('error', null);
+            }
         } catch (RequestException $e) {
             $clazz = new \ReflectionClass($this->exception);
 
@@ -90,26 +96,31 @@ abstract class Adapter
     }
 
     /**
-     * Sends a message through the webhook
-     * @param string $url
+     * Sends a message through the webhook.
+     *
+     * @param string   $url
      * @param Response $response
+     *
      * @throws RequestException
      */
-    abstract function send(string $url, Response $response);
+    abstract public function send(string $url, Response $response);
 
     /**
      * @param Response $response
+     *
      * @return array
      */
-    abstract function toArray(Response $response);
+    abstract public function toArray(Response $response);
 
     /**
      * @param string $url
-     * @return boolean
+     *
+     * @return bool
      */
-    abstract function isValidURL(string $url) : bool;
+    abstract public function isValidURL(string $url) : bool;
 
-    public function getName() {
+    public function getName()
+    {
         assert(isset($this->name), '$name is required');
 
         return $this->name;
@@ -117,21 +128,25 @@ abstract class Adapter
 
     /**
      * @param string $url
-     * @param array $json
-     * @return \Psr\Http\Message\ResponseInterface
+     * @param array  $json
+     *
      * @throws GuzzleException
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    protected function request(string $url, array $json) {
+    protected function request(string $url, array $json)
+    {
         return self::$client->request('POST', $url, [
-            'json' => $json,
-            'allow_redirects' => false
+            'json'            => $json,
+            'allow_redirects' => false,
         ]);
     }
 
     /**
      * @return null|string
      */
-    protected function getAvatarUrl() {
+    protected function getAvatarUrl()
+    {
         $faviconPath = $this->settings->get('favicon_path');
         $logoPath = $this->settings->get('logo_path');
         $path = $faviconPath ?: $logoPath;

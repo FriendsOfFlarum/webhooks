@@ -1,22 +1,20 @@
 <?php
 
-/**
- *  This file is part of reflar/webhooks
+/*
+ * This file is part of reflar/webhooks.
  *
- *  Copyright (c) ReFlar.
+ * Copyright (c) ReFlar.
  *
- *  https://reflar.redevs.org
+ * https://reflar.redevs.org
  *
- *  For the full copyright and license information, please view the license.md
- *  file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
  */
 
 namespace Reflar\Webhooks\Command;
 
 use Flarum\User\AssertPermissionTrait;
 use Flarum\User\Exception\PermissionDeniedException;
-use Illuminate\Validation\ValidationException;
-use Reflar\Webhooks\Api\Exceptions\InvalidWebhookURL;
 use Reflar\Webhooks\Models\Webhook;
 use Reflar\Webhooks\Validator\WebhookValidator;
 
@@ -63,6 +61,4 @@ class CreateWebhookHandler
 
         return $webhook;
     }
-
-
 }

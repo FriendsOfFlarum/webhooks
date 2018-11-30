@@ -1,14 +1,14 @@
 <?php
 
-/**
- *  This file is part of reflar/webhooks
+/*
+ * This file is part of reflar/webhooks.
  *
- *  Copyright (c) ReFlar.
+ * Copyright (c) ReFlar.
  *
- *  https://reflar.redevs.org
+ * https://reflar.redevs.org
  *
- *  For the full copyright and license information, please view the license.md
- *  file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
  */
 
 namespace Reflar\Webhooks\Command;
@@ -56,12 +56,16 @@ class UpdateWebhookHandler
         $url = array_get($data, 'attributes.url');
         $events = array_get($data, 'attributes.events');
 
-        if (isset($service)) $webhook->service = $service;
+        if (isset($service)) {
+            $webhook->service = $service;
+        }
         if (isset($url)) {
             $webhook->url = $url;
             $webhook->error = null;
         }
-        if (isset($events)) $webhook->events = json_encode($events);
+        if (isset($events)) {
+            $webhook->events = json_encode($events);
+        }
 
         $this->validator->assertValid($webhook->getDirty());
 
