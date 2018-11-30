@@ -116,7 +116,8 @@ class TriggerListener
         self::addListener(new Actions\User\Deleted());
     }
 
-    static function addListener(Action $action) {
+    public static function addListener(Action $action)
+    {
         $clazz = $action->getEvent();
 
         if (class_exists($clazz)) {
