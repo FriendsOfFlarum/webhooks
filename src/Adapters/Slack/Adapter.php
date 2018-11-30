@@ -1,14 +1,14 @@
 <?php
 
-/**
- *  This file is part of reflar/webhooks.
+/*
+ * This file is part of reflar/webhooks.
  *
- *  Copyright (c) ReFlar.
+ * Copyright (c) ReFlar.
  *
- *  https://reflar.redevs.org
+ * https://reflar.redevs.org
  *
- *  For the full copyright and license information, please view the LICENSE.md
- *  file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
  */
 
 namespace Reflar\Webhooks\Adapters\Slack;
@@ -30,21 +30,26 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
     protected $name = 'slack';
 
     /**
-     * Sends a message through the webhook
-     * @param string $url
+     * Sends a message through the webhook.
+     *
+     * @param string   $url
      * @param Response $response
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws SlackException
      */
-    public function send(string $url, Response $response) {
-        if (!isset($response)) return;
+    public function send(string $url, Response $response)
+    {
+        if (!isset($response)) {
+            return;
+        }
 
         $res = $this->request($url, [
-            'username' => $this->settings->get('forum_title'),
-            'avatar_url' => $this->getAvatarUrl(),
+            'username'    => $this->settings->get('forum_title'),
+            'avatar_url'  => $this->getAvatarUrl(),
             'attachments' => [
-                $this->toArray($response)
-            ]
+                $this->toArray($response),
+            ],
         ]);
 
         if ($res->getStatusCode() == 302) {
@@ -54,17 +59,18 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
 
     /**
      * @param Response $response
+     *
      * @return array
      */
-    function toArray(Response $response)
+    public function toArray(Response $response)
     {
         $data = [
-            'fallback' => $response->description . ($response->author ? ' - ' . $response->author->username : ''),
-            'color' => $response->color,
-            'title' => $response->title,
+            'fallback'   => $response->description.($response->author ? ' - '.$response->author->username : ''),
+            'color'      => $response->color,
+            'title'      => $response->title,
             'title_link' => $response->url,
-            'text' => $response->description,
-            'footer' => $this->settings->get('forum_title')
+            'text'       => $response->description,
+            'footer'     => $this->settings->get('forum_title'),
         ];
 
         if (isset($response->author)) {
@@ -78,9 +84,10 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
 
     /**
      * @param string $url
-     * @return boolean
+     *
+     * @return bool
      */
-    function isValidURL(string $url): bool
+    public function isValidURL(string $url): bool
     {
         return preg_match('/^https?:\/\/hooks\.slack\.com\/services\/.{9}\/.{9}\/.{24}$/', $url);
     }

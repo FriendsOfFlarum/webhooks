@@ -1,14 +1,14 @@
 <?php
 
-/**
- *  This file is part of reflar/webhooks
+/*
+ * This file is part of reflar/webhooks.
  *
- *  Copyright (c) ReFlar.
+ * Copyright (c) ReFlar.
  *
- *  https://reflar.redevs.org
+ * https://reflar.redevs.org
  *
- *  For the full copyright and license information, please view the license.md
- *  file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
  */
 
 namespace Reflar\Webhooks\Api\Controller;
@@ -16,9 +16,9 @@ namespace Reflar\Webhooks\Api\Controller;
 use Flarum\Api\Controller\AbstractCreateController;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Psr\Http\Message\ServerRequestInterface;
+use Reflar\Webhooks\Api\Serializer\WebhookSerializer;
 use Reflar\Webhooks\Command\CreateWebhook;
 use Tobscure\JsonApi\Document;
-use Reflar\Webhooks\Api\Serializer\WebhookSerializer;
 
 class CreateWebhookController extends AbstractCreateController
 {
@@ -42,7 +42,8 @@ class CreateWebhookController extends AbstractCreateController
 
     /**
      * @param ServerRequestInterface $request
-     * @param Document $document
+     * @param Document               $document
+     *
      * @return mixed
      */
     protected function data(ServerRequestInterface $request, Document $document)

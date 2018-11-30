@@ -1,13 +1,14 @@
 <?php
-/**
- *  This file is part of reflar/webhooks.
+
+/*
+ * This file is part of reflar/webhooks.
  *
- *  Copyright (c) ReFlar.
+ * Copyright (c) ReFlar.
  *
- *  https://reflar.redevs.org
+ * https://reflar.redevs.org
  *
- *  For the full copyright and license information, please view the LICENSE.md
- *  file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
  */
 
 namespace Reflar\Webhooks;
@@ -17,29 +18,28 @@ use Flarum\User\User;
 
 class Response
 {
-
     /**
-     * @var String
+     * @var string
      */
     public $title;
 
     /**
-     * @var String
+     * @var string
      */
     public $url;
 
     /**
-     * @var String
+     * @var string
      */
     public $description;
 
     /**
-     * @var String
+     * @var string
      */
     public $color;
 
     /**
-     * @var String
+     * @var string
      */
     public $timestamp;
 
@@ -57,6 +57,7 @@ class Response
 
     /**
      * Response constructor.
+     *
      * @param $event
      */
     public function __construct($event)
@@ -66,84 +67,109 @@ class Response
     }
 
     /**
-     * @param String $title
+     * @param string $title
+     *
      * @return $this
      */
-    public function setTitle(String $title) {
+    public function setTitle(String $title)
+    {
         $this->title = $title;
+
         return $this;
     }
 
     /**
-     * @param string $name
-     * @param array|null $data
+     * @param string      $name
+     * @param array|null  $data
      * @param string|null $extra
+     *
      * @return $this
      */
-    public function setURL(string $name, $data = null, $extra = null) {
+    public function setURL(string $name, $data = null, $extra = null)
+    {
         $url = $this->urlGenerator->to('forum')->route($name, $data);
 
-        if (isset($extra)) $url = $url . $extra;
+        if (isset($extra)) {
+            $url = $url.$extra;
+        }
 
         $this->url = $url;
+
         return $this;
     }
 
     /**
-     * @param String $description
+     * @param string $description
+     *
      * @return $this
      */
-    public function setDescription(String $description) {
+    public function setDescription(String $description)
+    {
         $this->description = $description;
+
         return $this;
     }
 
     /**
      * @param User $author
+     *
      * @return $this
      */
-    public function setAuthor(User $author) {
+    public function setAuthor(User $author)
+    {
         $this->author = $author;
+
         return $this;
     }
 
     /**
-     * Set color
-     * @param String $color
+     * Set color.
+     *
+     * @param string $color
+     *
      * @return Response
      */
-    public function setColor(String $color) {
+    public function setColor(String $color)
+    {
         $this->color = $color;
+
         return $this;
     }
 
     /**
-     * Set color
+     * Set color.
+     *
      * @param string $timestamp
+     *
      * @return Response
      */
-    public function setTimestamp(string $timestamp) {
+    public function setTimestamp(string $timestamp)
+    {
         $this->timestamp = $timestamp;
+
         return $this;
     }
 
-    public function getColor() {
+    public function getColor()
+    {
         return $this->color ? hexdec(substr($this->color, 1)) : null;
     }
 
-
     /**
      * @param $event
+     *
      * @return Response
      */
-    public static function build($event) {
-        return new Response($event);
+    public static function build($event)
+    {
+        return new self($event);
     }
 
     /**
-     * @return String
+     * @return string
      */
-    public function getAuthorUrl() {
+    public function getAuthorUrl()
+    {
         return $this->author ? $this->urlGenerator->to('forum')->route('user', [
             'username' => $this->author->username,
         ]) : null;

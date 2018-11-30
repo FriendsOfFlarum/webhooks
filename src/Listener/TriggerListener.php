@@ -1,14 +1,14 @@
 <?php
 
-/**
- *  This file is part of reflar/webhooks.
+/*
+ * This file is part of reflar/webhooks.
  *
- *  Copyright (c) ReFlar.
+ * Copyright (c) ReFlar.
  *
- *  https://reflar.redevs.org
+ * https://reflar.redevs.org
  *
- *  For the full copyright and license information, please view the LICENSE.md
- *  file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
  */
 
 namespace Reflar\Webhooks\Listener;
@@ -17,8 +17,8 @@ use ArrayObject;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Events\Dispatcher;
 use Reflar\Webhooks\Action;
-use Reflar\Webhooks\Adapters;
 use Reflar\Webhooks\Actions;
+use Reflar\Webhooks\Adapters;
 use Reflar\Webhooks\Models\Webhook;
 use Reflar\Webhooks\Response;
 
@@ -36,12 +36,16 @@ class TriggerListener
 
     /**
      * EventListener constructor.
+     *
      * @param SettingsRepositoryInterface $settings
      */
-    public function __construct(SettingsRepositoryInterface $settings) {
+    public function __construct(SettingsRepositoryInterface $settings)
+    {
         $this->settings = $settings;
 
-        if (self::$listeners == null) self::setupDefaultListeners();
+        if (self::$listeners == null) {
+            self::setupDefaultListeners();
+        }
     }
 
     /**
@@ -49,36 +53,48 @@ class TriggerListener
      *
      * @param Dispatcher $events
      */
-    public function subscribe(Dispatcher $events) {
+    public function subscribe(Dispatcher $events)
+    {
         $events->listen('*', [$this, 'run']);
     }
 
     /**
      * @param $event
+     *
      * @throws \Exception
      */
-    public function run($name, $data) {
+    public function run($name, $data)
+    {
         $event = array_get($data, 0);
 
-        if (!isset($event)) return;
-        if (!array_key_exists($name, self::$listeners)) return;
+        if (!isset($event)) {
+            return;
+        }
+        if (!array_key_exists($name, self::$listeners)) {
+            return;
+        }
 
         /**
-         * @var $action Action
+         * @var Action
          */
         $action = self::$listeners[$name];
 
-        if ($action->ignore($event)) return;
+        if ($action->ignore($event)) {
+            return;
+        }
 
         /**
-         * @type Response
+         * @var Response
          */
         $response = $action->listen($event);
 
-        if (isset($response)) $this->handle($name, $response);
+        if (isset($response)) {
+            $this->handle($name, $response);
+        }
     }
 
-    static function setupDefaultListeners() {
+    public static function setupDefaultListeners()
+    {
         self::addListener(new Actions\Discussion\Deleted());
         self::addListener(new Actions\Discussion\Hidden());
         self::addListener(new Actions\Discussion\Renamed());
@@ -93,22 +109,31 @@ class TriggerListener
         self::addListener(new Actions\User\Renamed());
     }
 
-    static function addListener(Action $action) {
+    public static function addListener(Action $action)
+    {
         self::$listeners[$action->getEvent()] = $action;
     }
 
     /**
-     * @param string $event_name
+     * @param string   $event_name
      * @param Response $response
+     *
      * @throws \ReflectionException
      */
-    private function handle(string $event_name, Response $response) {
-        if (!$response) return;
+    private function handle(string $event_name, Response $response)
+    {
+        if (!$response) {
+            return;
+        }
 
-        if (Adapters\Adapters::length() == 0) Adapters\Adapters::initialize();
+        if (Adapters\Adapters::length() == 0) {
+            Adapters\Adapters::initialize();
+        }
 
         foreach (Webhook::all() as $webhook) {
-            if ($webhook->events != null && !in_array($event_name, $webhook->getEvents())) continue;
+            if ($webhook->events != null && !in_array($event_name, $webhook->getEvents())) {
+                continue;
+            }
 
             if ($webhook->isValid()) {
                 Adapters\Adapters::get($webhook->service)->handle($webhook, $response);

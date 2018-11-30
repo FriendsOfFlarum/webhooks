@@ -1,14 +1,14 @@
 <?php
 
-/**
- *  This file is part of reflar/webhooks
+/*
+ * This file is part of reflar/webhooks.
  *
- *  Copyright (c) ReFlar.
+ * Copyright (c) ReFlar.
  *
- *  https://reflar.redevs.org
+ * https://reflar.redevs.org
  *
- *  For the full copyright and license information, please view the license.md
- *  file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
  */
 
 namespace Reflar\Webhooks\Models;
@@ -25,29 +25,35 @@ use Reflar\Webhooks\Adapters\Adapters;
 class Webhook extends AbstractModel
 {
     /**
-     * { @inheritdoc }
+     * {@inheritdoc}
      */
     protected $table = 'webhooks';
 
     /**
      * @param string $service
      * @param string $url
+     *
      * @return static
      */
-    public static function build(string $service, string $url) {
-        $webhook = new static;
+    public static function build(string $service, string $url)
+    {
+        $webhook = new static();
         $webhook->service = $service;
         $webhook->url = $url;
         $webhook->events = '[]';
+
         return $webhook;
     }
 
-    public function getEvents() {
+    public function getEvents()
+    {
         return json_decode($this->events);
     }
 
-    public function isValid() : bool {
+    public function isValid() : bool
+    {
         $adapter = Adapters::get($this->service);
+
         return isset($adapter) && $adapter->isValidURL($this->url);
     }
 }

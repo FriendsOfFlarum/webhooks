@@ -1,21 +1,20 @@
 <?php
 
-/**
- *  This file is part of reflar/webhooks.
+/*
+ * This file is part of reflar/webhooks.
  *
- *  Copyright (c) ReFlar.
+ * Copyright (c) ReFlar.
  *
- *  https://reflar.redevs.org
+ * https://reflar.redevs.org
  *
- *  For the full copyright and license information, please view the LICENSE.md
- *  file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
  */
 
 namespace Reflar\Webhooks\Adapters\Discord;
 
 use Exception;
 use Psr\Http\Message\ResponseInterface;
-use Reflar\Webhooks\Response;
 
 class DiscordException extends Exception
 {
@@ -24,10 +23,12 @@ class DiscordException extends Exception
 
     /**
      * Exception constructor.
+     *
      * @param ResponseInterface $res
-     * @param string $url
+     * @param string            $url
      */
-    public function __construct(ResponseInterface $res, string $url) {
+    public function __construct(ResponseInterface $res, string $url)
+    {
         $this->http = $res->getStatusCode();
         $this->url = $url;
 
@@ -35,7 +36,7 @@ class DiscordException extends Exception
         $body = json_decode($contents);
 
         if (!array_get($body, 'message')) {
-            app('log')->error('Discord Webhook Error: ' . $contents);
+            app('log')->error('Discord Webhook Error: '.$contents);
         }
 
         parent::__construct(
@@ -44,7 +45,8 @@ class DiscordException extends Exception
         );
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return "HTTP $this->http – $this->code $this->message ($this->url)";
     }
 }

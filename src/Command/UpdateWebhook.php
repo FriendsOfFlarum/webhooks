@@ -1,14 +1,14 @@
 <?php
 
-/**
- *  This file is part of reflar/webhooks
+/*
+ * This file is part of reflar/webhooks.
  *
- *  Copyright (c) ReFlar.
+ * Copyright (c) ReFlar.
  *
- *  https://reflar.redevs.org
+ * https://reflar.redevs.org
  *
- *  For the full copyright and license information, please view the license.md
- *  file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
  */
 
 namespace Reflar\Webhooks\Command;
@@ -41,9 +41,9 @@ class UpdateWebhook
 
     /**
      * @param int   $webhookId The ID of the webhook to edit.
-     * @param User  $actor      The user performing the action.
-     * @param array $data       Any other reaction input associated with the action. This
-     *                          is unused by default, but may be used by extensions.
+     * @param User  $actor     The user performing the action.
+     * @param array $data      Any other reaction input associated with the action. This
+     *                         is unused by default, but may be used by extensions.
      */
     public function __construct($webhookId, User $actor, array $data = [])
     {
