@@ -81,6 +81,6 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
      */
     public function isValidURL(string $url): bool
     {
-        return preg_match('/^https?:\/\/(?:\w+)?\.discordapp\.com\/api\/webhooks\/\d+?\/.+$/', $url);
+        return preg_match('/^https?:\/\/(?:\w+\.)?discordapp\.com\/api\/webhooks\/\d+?\/.+$/', $url);
     }
 }
