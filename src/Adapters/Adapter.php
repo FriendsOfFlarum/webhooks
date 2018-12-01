@@ -151,6 +151,6 @@ abstract class Adapter
         $logoPath = $this->settings->get('logo_path');
         $path = $faviconPath ?: $logoPath;
 
-        return isset($path) ? app(UrlGenerator::class)->to('forum')->path('assets/$path') : null;
+        return isset($path) ? app(UrlGenerator::class)->to('forum')->path("assets/$path") : null;
     }
 }
