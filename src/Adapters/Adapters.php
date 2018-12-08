@@ -22,7 +22,7 @@ class Adapters
      */
     private static $adapters = [
         Discord\Adapter::NAME => Discord\Adapter::class,
-        Slack\Adapter::NAME => Slack\Adapter::class,
+        Slack\Adapter::NAME   => Slack\Adapter::class,
     ];
 
     /**

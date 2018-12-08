@@ -23,7 +23,7 @@ use Reflar\Webhooks\Response;
 abstract class Adapter
 {
     /**
-     * Adapter name
+     * Adapter name.
      *
      * @var string
      */
@@ -48,6 +48,7 @@ abstract class Adapter
 
     /**
      * Set up the class.
+     *
      * @param SettingsRepositoryInterface $settings
      */
     public function __construct(SettingsRepositoryInterface $settings)

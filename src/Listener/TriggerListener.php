@@ -61,6 +61,7 @@ class TriggerListener
     /**
      * @param $name
      * @param $data
+     *
      * @throws \ReflectionException
      */
     public function run($name, $data)
@@ -72,7 +73,7 @@ class TriggerListener
         }
 
         /**
-         * @var $action Action
+         * @var Action
          */
         $clazz = self::$listeners[$name];
         $action = (new \ReflectionClass($clazz))->newInstance();
@@ -120,7 +121,7 @@ class TriggerListener
 
         if (isset($clazz) && class_exists($clazz)) {
             self::$listeners[$clazz] = $action;
-        } else if (!isset($clazz)) {
+        } elseif (!isset($clazz)) {
             echo "$action::EVENT does not exist";
         }
     }
