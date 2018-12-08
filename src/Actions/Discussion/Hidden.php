@@ -18,6 +18,8 @@ use Reflar\Webhooks\Response;
 
 class Hidden extends Action
 {
+    const EVENT = \Flarum\Discussion\Event\Hidden::class;
+
     /**
      * @param \Flarum\Discussion\Event\Hidden $event
      *
@@ -36,13 +38,5 @@ class Hidden extends Action
             ->setAuthor($event->actor)
             ->setColor('fed330')
             ->setTimestamp($event->discussion->hidden_at);
-    }
-
-    /**
-     * @return string
-     */
-    public function getEvent()
-    {
-        return \Flarum\Discussion\Event\Hidden::class;
     }
 }

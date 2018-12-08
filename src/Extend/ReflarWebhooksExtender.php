@@ -39,17 +39,16 @@ class ReflarWebhooksExtender implements ExtenderInterface
     {
         assert(isset($action), '$action is required');
 
-        if (is_string($action)) {
-            $action = (new \ReflectionClass($action))->newInstance();
-        }
+        $clazz = @constant("$action::EVENT");
 
-        $this->listeners[] = $action;
+        if (isset($clazz)) {
+            $this->listeners[$clazz] = $action;
+        }
 
         return $this;
     }
 
     /**
-     * @param string         $name
      * @param Adapter|string $adapter
      *
      * @return $this
@@ -58,11 +57,11 @@ class ReflarWebhooksExtender implements ExtenderInterface
     {
         assert(isset($adapter), '$adapter is required');
 
-        if (is_string($adapter)) {
-            $adapter = (new \ReflectionClass($adapter))->newInstance();
-        }
+        $name = @constant("$adapter::NAME");
 
-        $this->adapters[$adapter->getName()] = $adapter;
+        if (isset($name)) {
+            $this->adapters[$name] = $adapter;
+        }
 
         return $this;
     }
@@ -77,12 +76,8 @@ class ReflarWebhooksExtender implements ExtenderInterface
             TriggerListener::addListener($action);
         }
 
-        if (Adapters::length() == 0) {
-            Adapters::initialize();
-        }
-
         foreach ($this->adapters as $name => $adapter) {
-            Adapters::add($adapter);
+            Adapters::add($name, $adapter);
         }
     }
 }

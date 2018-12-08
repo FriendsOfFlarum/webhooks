@@ -30,7 +30,7 @@ class TriggerListener
     protected $settings;
 
     /**
-     * @var ArrayObject<String, Action>
+     * @var ArrayObject<String, String>
      */
     public static $listeners = null;
 
@@ -59,25 +59,23 @@ class TriggerListener
     }
 
     /**
-     * @param $event
-     *
-     * @throws \Exception
+     * @param $name
+     * @param $data
+     * @throws \ReflectionException
      */
     public function run($name, $data)
     {
         $event = array_get($data, 0);
 
-        if (!isset($event)) {
-            return;
-        }
-        if (!array_key_exists($name, self::$listeners)) {
+        if (!isset($event) || !array_key_exists($name, self::$listeners)) {
             return;
         }
 
         /**
-         * @var Action
+         * @var $action Action
          */
-        $action = self::$listeners[$name];
+        $clazz = self::$listeners[$name];
+        $action = (new \ReflectionClass($clazz))->newInstance();
 
         if ($action->ignore($event)) {
             return;
@@ -95,33 +93,35 @@ class TriggerListener
 
     public static function setupDefaultListeners()
     {
-        self::addListener(new Actions\Discussion\Deleted());
-        self::addListener(new Actions\Discussion\Hidden());
-        self::addListener(new Actions\Discussion\Renamed());
-        self::addListener(new Actions\Discussion\Restored());
-        self::addListener(new Actions\Discussion\Started());
+        self::addListener(Actions\Discussion\Deleted::class);
+        self::addListener(Actions\Discussion\Hidden::class);
+        self::addListener(Actions\Discussion\Renamed::class);
+        self::addListener(Actions\Discussion\Restored::class);
+        self::addListener(Actions\Discussion\Started::class);
 
-        self::addListener(new Actions\Group\Created());
-        self::addListener(new Actions\Group\Renamed());
-        self::addListener(new Actions\Group\Deleted());
+        self::addListener(Actions\Group\Created::class);
+        self::addListener(Actions\Group\Renamed::class);
+        self::addListener(Actions\Group\Deleted::class);
 
-        self::addListener(new Actions\Post\Posted());
-        self::addListener(new Actions\Post\Revised());
-        self::addListener(new Actions\Post\Hidden());
-        self::addListener(new Actions\Post\Restored());
-        self::addListener(new Actions\Post\Deleted());
+        self::addListener(Actions\Post\Posted::class);
+        self::addListener(Actions\Post\Revised::class);
+        self::addListener(Actions\Post\Hidden::class);
+        self::addListener(Actions\Post\Restored::class);
+        self::addListener(Actions\Post\Deleted::class);
 
-        self::addListener(new Actions\User\Renamed());
-        self::addListener(new Actions\User\Registered());
-        self::addListener(new Actions\User\Deleted());
+        self::addListener(Actions\User\Renamed::class);
+        self::addListener(Actions\User\Registered::class);
+        self::addListener(Actions\User\Deleted::class);
     }
 
-    public static function addListener(Action $action)
+    public static function addListener(string $action)
     {
-        $clazz = $action->getEvent();
+        $clazz = @constant("$action::EVENT");
 
-        if (class_exists($clazz)) {
+        if (isset($clazz) && class_exists($clazz)) {
             self::$listeners[$clazz] = $action;
+        } else if (!isset($clazz)) {
+            echo "$action::EVENT does not exist";
         }
     }
 
@@ -135,10 +135,6 @@ class TriggerListener
     {
         if (!$response) {
             return;
-        }
-
-        if (Adapters\Adapters::length() == 0) {
-            Adapters\Adapters::initialize();
         }
 
         foreach (Webhook::all() as $webhook) {

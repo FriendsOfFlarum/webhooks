@@ -18,6 +18,8 @@ use Reflar\Webhooks\Response;
 
 class Registered extends Action
 {
+    const EVENT = \Flarum\User\Event\Registered::class;
+
     /**
      * @param \Flarum\User\Event\Registered $event
      *
@@ -35,13 +37,5 @@ class Registered extends Action
             ->setAuthor($event->user)
             ->setColor('4b7bec')
             ->setTimestamp($event->user->joined_at);
-    }
-
-    /**
-     * @return string
-     */
-    public function getEvent()
-    {
-        return \Flarum\User\Event\Registered::class;
     }
 }

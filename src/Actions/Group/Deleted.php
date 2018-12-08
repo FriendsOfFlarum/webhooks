@@ -19,6 +19,8 @@ use Reflar\Webhooks\Response;
 
 class Deleted extends Action
 {
+    const EVENT = \Flarum\Group\Event\Deleted::class;
+
     /**
      * @param \Flarum\Group\Event\Deleted $event
      *
@@ -33,13 +35,5 @@ class Deleted extends Action
             ->setAuthor($event->actor)
             ->setColor('34495e')
             ->setTimestamp(Carbon::now());
-    }
-
-    /**
-     * @return string
-     */
-    public function getEvent()
-    {
-        return \Flarum\Group\Event\Deleted::class;
     }
 }

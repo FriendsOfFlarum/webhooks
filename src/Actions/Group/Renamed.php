@@ -19,6 +19,8 @@ use Reflar\Webhooks\Response;
 
 class Renamed extends Action
 {
+    const EVENT = \Flarum\Group\Event\Renamed::class;
+
     /**
      * @param \Flarum\Group\Event\Renamed $event
      *
@@ -33,13 +35,5 @@ class Renamed extends Action
             ->setAuthor($event->actor)
             ->setColor('34495e')
             ->setTimestamp(Carbon::now());
-    }
-
-    /**
-     * @return string
-     */
-    public function getEvent()
-    {
-        return \Flarum\Group\Event\Renamed::class;
     }
 }

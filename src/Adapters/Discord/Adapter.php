@@ -17,17 +17,15 @@ use Reflar\Webhooks\Response;
 
 class Adapter extends \Reflar\Webhooks\Adapters\Adapter
 {
-    public static $client;
+    /**
+     * {@inheritdoc}
+     */
+    const NAME = 'discord';
 
     /**
      * {@inheritdoc}
      */
     protected $exception = DiscordException::class;
-
-    /**
-     * {@inheritdoc}
-     */
-    protected $name = 'discord';
 
     /**
      * Sends a message through the webhook.
@@ -79,7 +77,7 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
      *
      * @return bool
      */
-    public function isValidURL(string $url): bool
+    public static function isValidURL(string $url): bool
     {
         return preg_match('/^https?:\/\/(?:\w+\.)?discordapp\.com\/api\/webhooks\/\d+?\/.+$/', $url);
     }

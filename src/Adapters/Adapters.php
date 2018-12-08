@@ -18,16 +18,20 @@ use ArrayObject;
 class Adapters
 {
     /**
-     * @var ArrayObject<String, Adapter>
+     * @var ArrayObject<String, String>
      */
-    private static $adapters = null;
+    private static $adapters = [
+        Discord\Adapter::NAME => Discord\Adapter::class,
+        Slack\Adapter::NAME => Slack\Adapter::class,
+    ];
 
     /**
-     * @param Adapter $adapter
+     * @param string $name
+     * @param string $adapter
      */
-    public static function add(Adapter $adapter)
+    public static function add(string $name, string $adapter)
     {
-        self::$adapters[$adapter->getName()] = $adapter;
+        self::$adapters[$name] = $adapter;
     }
 
     /**
@@ -37,11 +41,11 @@ class Adapters
      */
     public static function get(string $name) : ?Adapter
     {
-        if (@self::$adapters == null) {
-            self::initialize();
-        }
+        $adapter = array_get(self::$adapters, $name);
 
-        return @self::$adapters[$name];
+        if (isset($adapter)) {
+            return app()->make($adapter);
+        }
     }
 
     public static function length() : int
@@ -49,18 +53,8 @@ class Adapters
         return isset($adapters) ? count(self::$adapters) : 0;
     }
 
-    public static function initialize()
-    {
-        self::add(new Discord\Adapter());
-        self::add(new Slack\Adapter());
-    }
-
     public static function all()
     {
-        if (self::$adapters == null) {
-            self::initialize();
-        }
-
         return self::$adapters;
     }
 }

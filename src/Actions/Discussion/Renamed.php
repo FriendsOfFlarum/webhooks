@@ -18,6 +18,8 @@ use Reflar\Webhooks\Response;
 
 class Renamed extends Action
 {
+    const EVENT = \Flarum\Discussion\Event\Renamed::class;
+
     /**
      * @param \Flarum\Discussion\Event\Renamed $event
      *
@@ -36,13 +38,5 @@ class Renamed extends Action
             ->setAuthor($event->actor)
             ->setColor('fed330')
             ->setTimestamp($event->discussion->last_posted_at);
-    }
-
-    /**
-     * @return string
-     */
-    public function getEvent()
-    {
-        return \Flarum\Discussion\Event\Renamed::class;
     }
 }

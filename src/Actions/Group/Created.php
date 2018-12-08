@@ -19,6 +19,8 @@ use Reflar\Webhooks\Response;
 
 class Created extends Action
 {
+    const EVENT = \Flarum\Group\Event\Created::class;
+
     /**
      * @param \Flarum\Group\Event\Created $event
      *
@@ -33,13 +35,5 @@ class Created extends Action
             ->setAuthor($event->actor)
             ->setColor('34495e')
             ->setTimestamp(Carbon::now());
-    }
-
-    /**
-     * @return string
-     */
-    public function getEvent()
-    {
-        return \Flarum\Group\Event\Created::class;
     }
 }

@@ -23,6 +23,13 @@ use Reflar\Webhooks\Response;
 abstract class Adapter
 {
     /**
+     * Adapter name
+     *
+     * @var string
+     */
+    const NAME = null;
+
+    /**
      * @var SettingsRepositoryInterface
      */
     protected $settings;
@@ -30,7 +37,7 @@ abstract class Adapter
     /**
      * @var \GuzzleHttp\Client
      */
-    private static $client;
+    protected $client;
 
     /**
      * Exception to use on request errors.
@@ -40,20 +47,14 @@ abstract class Adapter
     protected $exception;
 
     /**
-     * Adapter name.
-     *
-     * @var string
-     */
-    protected $name;
-
-    /**
      * Set up the class.
+     * @param SettingsRepositoryInterface $settings
      */
-    public function __construct()
+    public function __construct(SettingsRepositoryInterface $settings)
     {
-        $this->settings = app('flarum.settings');
+        $this->settings = $settings;
 
-        self::$client = new \GuzzleHttp\Client();
+        $this->client = new \GuzzleHttp\Client();
     }
 
     /**
@@ -117,14 +118,7 @@ abstract class Adapter
      *
      * @return bool
      */
-    abstract public function isValidURL(string $url) : bool;
-
-    public function getName()
-    {
-        assert(isset($this->name), '$name is required');
-
-        return $this->name;
-    }
+    abstract public static function isValidURL(string $url) : bool;
 
     /**
      * @param string $url
@@ -136,7 +130,7 @@ abstract class Adapter
      */
     protected function request(string $url, array $json)
     {
-        return self::$client->request('POST', $url, [
+        return $this->client->request('POST', $url, [
             'json'            => $json,
             'allow_redirects' => false,
         ]);

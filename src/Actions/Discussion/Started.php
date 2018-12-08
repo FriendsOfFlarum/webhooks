@@ -18,6 +18,8 @@ use Reflar\Webhooks\Response;
 
 class Started extends Action
 {
+    const EVENT = \Flarum\Discussion\Event\Started::class;
+
     /**
      * @param \Flarum\Discussion\Event\Started $event
      *
@@ -36,13 +38,5 @@ class Started extends Action
             ->setAuthor($event->actor)
             ->setColor('fed330')
             ->setTimestamp($event->discussion->created_at);
-    }
-
-    /**
-     * @return string
-     */
-    public function getEvent()
-    {
-        return \Flarum\Discussion\Event\Started::class;
     }
 }

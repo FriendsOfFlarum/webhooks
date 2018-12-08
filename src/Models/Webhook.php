@@ -54,6 +54,6 @@ class Webhook extends AbstractModel
     {
         $adapter = Adapters::get($this->service);
 
-        return isset($adapter) && $adapter->isValidURL($this->url);
+        return isset($adapter) && $adapter::isValidURL($this->url);
     }
 }

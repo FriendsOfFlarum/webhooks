@@ -18,6 +18,8 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 abstract class Action
 {
+    public const EVENT = '';
+
     /**
      * @var UrlGenerator
      */
@@ -33,11 +35,6 @@ abstract class Action
         $this->url = app(UrlGenerator::class);
         $this->translator = app('translator');
     }
-
-    /**
-     * @return string
-     */
-    abstract public function getEvent();
 
     /**
      * @param $event

@@ -18,6 +18,8 @@ use Reflar\Webhooks\Response;
 
 class Posted extends Action
 {
+    const EVENT = \Flarum\Post\Event\Posted::class;
+
     /**
      * @param \Flarum\Post\Event\Posted $event
      *
@@ -47,13 +49,5 @@ class Posted extends Action
     public function ignore($event) : bool
     {
         return !isset($event->post->discussion->first_post_id) || $event->post->id == $event->post->discussion->first_post_id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEvent()
-    {
-        return \Flarum\Post\Event\Posted::class;
     }
 }

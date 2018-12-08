@@ -17,17 +17,15 @@ use Reflar\Webhooks\Response;
 
 class Adapter extends \Reflar\Webhooks\Adapters\Adapter
 {
-    public static $client;
+    /**
+     * {@inheritdoc}
+     */
+    const NAME = 'slack';
 
     /**
      * {@inheritdoc}
      */
     protected $exception = SlackException::class;
-
-    /**
-     * {@inheritdoc}
-     */
-    protected $name = 'slack';
 
     /**
      * Sends a message through the webhook.
@@ -87,7 +85,7 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
      *
      * @return bool
      */
-    public function isValidURL(string $url): bool
+    public static function isValidURL(string $url): bool
     {
         return preg_match('/^https?:\/\/hooks\.slack\.com\/services\/.{9}\/.{9}\/.{24}$/', $url);
     }
