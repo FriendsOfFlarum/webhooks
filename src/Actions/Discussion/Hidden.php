@@ -13,7 +13,6 @@
 
 namespace Reflar\Webhooks\Actions\Discussion;
 
-use Reflar\Webhooks\Action;
 use Reflar\Webhooks\Response;
 
 class Hidden extends Action

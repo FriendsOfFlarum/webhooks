@@ -13,7 +13,6 @@
 
 namespace Reflar\Webhooks\Actions\Post;
 
-use Reflar\Webhooks\Action;
 use Reflar\Webhooks\Response;
 
 class Revised extends Action

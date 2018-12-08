@@ -14,7 +14,6 @@
 namespace Reflar\Webhooks\Actions\Discussion;
 
 use Carbon\Carbon;
-use Reflar\Webhooks\Action;
 use Reflar\Webhooks\Response;
 
 class Restored extends Action
