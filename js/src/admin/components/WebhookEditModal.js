@@ -18,7 +18,7 @@ export default class WebhookEditModal extends Modal {
 
         this.events = events.reduce(
             (obj, evt) => {
-                const m = /(?<group>(?:[a-z]+\\?)+?)\\Events?\\(?<event>[a-z]+)/i.exec(evt);
+                const m = /((?:[a-z]+\\?)+?)\\Events?\\([a-z]+)/i.exec(evt);
 
                 if (!m) {
                     obj.other.push({
@@ -29,14 +29,14 @@ export default class WebhookEditModal extends Modal {
                     return obj;
                 }
 
-                const group = m.groups.group.toLowerCase().replace('\\', '.');
+                const group = m[1].toLowerCase().replace('\\', '.');
 
                 if (!obj[group]) obj[group] = [];
 
                 obj[group] = obj[group]
                     .concat({
                         full: evt,
-                        name: m.groups.event,
+                        name: m[2],
                     })
                     .sort();
 
