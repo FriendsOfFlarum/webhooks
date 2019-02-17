@@ -1,0 +1,96 @@
+reflar-webhooks:
+  actions:
+    discussion:
+      started: "`{1}` başlığı oluşturuldu"
+      renamed:
+        title: "`{1}` başlığı düzenlendi"
+        description: "Yeni başlık: {1}"
+      hidden: "`{1}` tartışması saklandı"
+      restored: "`{1}` tartışması kurtarıldı"
+      deleted: "`{1}` tartışması silindi"
+
+    group:
+      created: "`{1}` grubu oluşturuldu"
+      renamed: "Bir grubun adı `{1}` oldu"
+      deleted: "`{1}` grubu silindi"
+
+    post:
+      posted: "`{1}` içinde yeni bir gönderi oluşturuldu"
+      revised: "`{1}` içinde bir gönderi düzenlendi"
+      hidden: "`{1}` içinde bir gönderi saklandı"
+      restored: "`{1}` içinde bir gönderi geri alındı"
+      deleted: "`{1}` içinde bir gönderi silindi"
+
+    user:
+      registered: Yeni kullanıcı kaydoldu
+      renamed:
+        title: "`{1}` kullanıcı adı değiştirdi"
+        description: "Yeni kullanıcı adı: {1}"
+      deleted: "`{1}` kullanıcısı silindi"
+
+  adapters:
+    errors:
+      404: Webhook Bulunamadı
+
+  admin:
+    errors:
+      service_not_found: '{service}' servisi bulunamadı.
+      url_invalid: Bu URL seçilen adres için geçersiz.
+
+    nav:
+      desc: Özelleştirilebilir forum webhookları.
+    settings:
+      title: Webhook ayarları
+
+      help:
+        disabled: Bu webhook devre dışı çünkü hiç bir olaya atanmamış.
+        general: Buradan forumunuza Webhook ekleyebilir, düzenleyebilir ya da silebilirsiniz.
+        url: Tetiklenecek Webhook'un gideceği adres
+
+      modal:
+        title: Webhook Ayarları
+        description: Burada hangi olaylarda bildirim tetikleneceğini düzenleyin
+
+      services:
+        discord: Discord
+        slack: Slack
+
+      actions:
+        flarum:
+          discussion:
+            title: Flarum Tartışması
+
+            started: Başlatıldı
+            renamed: => reflar-webhooks.ref.renamed
+            hidden: => reflar-webhooks.ref.hidden
+            restored: => reflar-webhooks.ref.restored
+            deleted: => reflar-webhooks.ref.deleted
+
+          group:
+            title: Flarum Grubu
+
+            created: Oluşturuldu
+            renamed: => reflar-webhooks.ref.renamed
+            deleted: => reflar-webhooks.ref.deleted
+
+          post:
+            title: Flarum Gönderisi
+            
+            posted: Gönderildi
+            revised: Düzenlendi
+            hidden: => reflar-webhooks.ref.hidden
+            restored: => reflar-webhooks.ref.restored
+            deleted: => reflar-webhooks.ref.deleted
+
+          user:
+            title: Flarum Kullanıcısı
+
+            registered: Registered
+            renamed: => reflar-webhooks.ref.renamed
+            deleted: => reflar-webhooks.ref.deleted
+
+  ref:
+    deleted: Silinmiş
+    hidden: Gizli
+    renamed: Yeniden adlandırıldı
+    restored: Kurtarıldı
