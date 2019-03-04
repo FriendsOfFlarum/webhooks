@@ -44,7 +44,7 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
         $title = $this->settings->get('forum_title');
 
         if (strlen($title) > 32) {
-            $title = substr($title,0,29) . '...';
+            $title = substr($title, 0, 29).'...';
         }
 
         $this->request($url, [
