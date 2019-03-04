@@ -174,4 +174,9 @@ class Response
             'username' => $this->author->username,
         ]) : null;
     }
+
+    public function __toString()
+    {
+        return "Response{title=$this->title,url=$this->url,author={$this->author->username}}";
+    }
 }

@@ -36,7 +36,7 @@ class DiscordException extends Exception
         $body = json_decode($contents);
 
         if (!array_get($body, 'message')) {
-            app('log')->error('Discord Webhook Error: '.$contents);
+            app('log')->error("\t— $contents");
         }
 
         parent::__construct(

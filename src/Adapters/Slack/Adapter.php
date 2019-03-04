@@ -42,8 +42,10 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
             return;
         }
 
+        $title = $this->settings->get('forum_title');
+
         $res = $this->request($url, [
-            'username'    => $this->settings->get('forum_title'),
+            'username'    => $title,
             'avatar_url'  => $this->getAvatarUrl(),
             'attachments' => [
                 $this->toArray($response),

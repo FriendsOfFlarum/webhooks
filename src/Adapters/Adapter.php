@@ -15,10 +15,14 @@ namespace Reflar\Webhooks\Adapters;
 
 use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use Reflar\Webhooks\Models\Webhook;
 use Reflar\Webhooks\Response;
+use ReflectionClass;
+use ReflectionException;
+use Throwable;
 
 abstract class Adapter
 {
@@ -35,7 +39,7 @@ abstract class Adapter
     protected $settings;
 
     /**
-     * @var \GuzzleHttp\Client
+     * @var Client
      */
     protected $client;
 
@@ -55,24 +59,28 @@ abstract class Adapter
     {
         $this->settings = $settings;
 
-        $this->client = new \GuzzleHttp\Client();
+        $this->client = new Client();
     }
 
     /**
      * @param Webhook  $webhook
      * @param Response $response
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function handle(Webhook $webhook, Response $response)
     {
         try {
             $this->send($webhook->url, $response);
+
             if (isset($webhook->error)) {
                 $webhook->setAttribute('error', null);
             }
         } catch (RequestException $e) {
-            $clazz = new \ReflectionClass($this->exception);
+            $clazz = new ReflectionClass($this->exception);
+
+            app('log')->error(self::NAME.' Webhook Error:');
+            app('log')->error("\t— $response");
 
             if ($e->hasResponse()) {
                 $webhook->setAttribute(
@@ -85,8 +93,8 @@ abstract class Adapter
                     $e->getMessage()
                 );
             }
-        } catch (\Throwable $e) {
-            $clazz = new \ReflectionClass($this->exception);
+        } catch (Throwable $e) {
+            $clazz = new ReflectionClass($this->exception);
 
             $webhook->setAttribute(
                 'error',

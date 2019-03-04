@@ -41,8 +41,14 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
             return;
         }
 
+        $title = $this->settings->get('forum_title');
+
+        if (strlen($title) > 32) {
+            $title = substr($title,0,29) . '...';
+        }
+
         $this->request($url, [
-            'username'   => $this->settings->get('forum_title'),
+            'username'   => $title,
             'avatar_url' => $this->getAvatarUrl(),
             'embeds'     => [
                 $this->toArray($response),
