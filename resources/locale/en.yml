@@ -1,94 +1,76 @@
 reflar-webhooks:
   actions:
     discussion:
-      started: "Started discussion `{1}`"
+      deleted: 'Deleted discussion `{1}`'
+      hidden: 'Hid discussion `{1}`'
       renamed:
-        title: "Renamed discussion `{1}`"
-        description: "New title: {1}"
-      hidden: "Hid discussion `{1}`"
-      restored: "Restored discussion `{1}`"
-      deleted: "Deleted discussion `{1}`"
-
+        description: 'New title: {1}'
+        title: 'Renamed discussion `{1}`'
+      restored: 'Restored discussion `{1}`'
+      started: 'Started discussion `{1}`'
     group:
-      created: "Created `{1}` group"
-      renamed: "Renamed a group to `{1}`"
-      deleted: "Deleted `{1}` group"
-
+      created: 'Created `{1}` group'
+      deleted: 'Deleted `{1}` group'
+      renamed: 'Renamed a group to `{1}`'
     post:
-      posted: "New post in `{1}`"
-      revised: "Edited post in `{1}`"
-      hidden: "Hid post in `{1}`"
-      restored: "Restored post in `{1}`"
-      deleted: "Deleted post in `{1}`"
-
+      deleted: 'Deleted post in `{1}`'
+      hidden: 'Hid post in `{1}`'
+      posted: 'New post in `{1}`'
+      restored: 'Restored post in `{1}`'
+      revised: 'Edited post in `{1}`'
     user:
+      deleted: 'Deleted user `{1}`'
       registered: New user registered
       renamed:
-        title: "Changed username of `{1}`"
-        description: "New username: {1}"
-      deleted: "Deleted user `{1}`"
-
+        description: 'New username: {1}'
+        title: 'Changed username of `{1}`'
   adapters:
     errors:
-      404: Webhook Not Found
-
+      '404': Webhook Not Found
   admin:
     errors:
-      service_not_found: The service '{service}' cannot be found.
+      service_not_found: 'The service ''{service}'' cannot be found.'
       url_invalid: URL is not valid for selected service.
-
     nav:
       desc: Customizable outgoing webhooks for your forum.
     settings:
-      title: Webhooks
-
-      help:
-        disabled: This webhook is disabled because it doesn't have any events enabled.
-        general: Here you can add, edit, and remove webhooks from your forum.
-        url: The webhook's endpoint to be executed
-
-      modal:
-        title: Webhook Settings
-        description: Here you modify what events the webhook is fired on.
-
-      services:
-        discord: Discord
-        slack: Slack
-
       actions:
         flarum:
           discussion:
-            title: Flarum Discussion
-
+            deleted: => reflar-webhooks.ref.deleted
+            hidden: => reflar-webhooks.ref.hidden
+            renamed: => reflar-webhooks.ref.renamed
+            restored: => reflar-webhooks.ref.restored
             started: Started
-            renamed: => reflar-webhooks.ref.renamed
-            hidden: => reflar-webhooks.ref.hidden
-            restored: => reflar-webhooks.ref.restored
-            deleted: => reflar-webhooks.ref.deleted
-
+            title: Flarum Discussion
           group:
-            title: Flarum Group
-
             created: Created
+            deleted: => reflar-webhooks.ref.deleted
             renamed: => reflar-webhooks.ref.renamed
-            deleted: => reflar-webhooks.ref.deleted
-
+            title: Flarum Group
           post:
-            title: Flarum Post
-
-            posted: Posted
-            revised: Edited
-            hidden: => reflar-webhooks.ref.hidden
-            restored: => reflar-webhooks.ref.restored
             deleted: => reflar-webhooks.ref.deleted
-
+            hidden: => reflar-webhooks.ref.hidden
+            posted: Posted
+            restored: => reflar-webhooks.ref.restored
+            revised: Edited
+            title: Flarum Post
           user:
-            title: Flarum User
-
+            deleted: => reflar-webhooks.ref.deleted
             registered: Registered
             renamed: => reflar-webhooks.ref.renamed
-            deleted: => reflar-webhooks.ref.deleted
-
+            title: Flarum User
+      help:
+        disabled: This webhook is disabled because it doesn't have any events enabled.
+        general: 'Here you can add, edit, and remove webhooks from your forum.'
+        url: The webhook's endpoint to be executed
+      modal:
+        description: Here you modify what events the webhook is fired on.
+        title: Webhook Settings
+      services:
+        discord: Discord
+        slack: Slack
+      title: Webhooks
   ref:
     deleted: Deleted
     hidden: Hidden
