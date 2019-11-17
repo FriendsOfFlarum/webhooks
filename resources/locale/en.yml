@@ -5,7 +5,7 @@ reflar-webhooks:
       renamed:
         title: "Renamed discussion `{1}`"
         description: "New title: {1}"
-      hidden: "Hid discussion `{1}`"
+      hidden: "Hidden discussion `{1}`"
       restored: "Restored discussion `{1}`"
       deleted: "Deleted discussion `{1}`"
 
@@ -17,7 +17,7 @@ reflar-webhooks:
     post:
       posted: "New post in `{1}`"
       revised: "Edited post in `{1}`"
-      hidden: "Hid post in `{1}`"
+      hidden: "Hidden post in `{1}`"
       restored: "Restored post in `{1}`"
       deleted: "Deleted post in `{1}`"
 
