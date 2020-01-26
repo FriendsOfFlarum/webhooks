@@ -13,7 +13,7 @@ export default class SettingsPage extends Page {
             o[service] = app.translator.trans(`reflar-webhooks.admin.settings.services.${service}`);
             return o;
         }, {});
-        
+
         this.newWebhook = {
             service: m.prop('discord'),
             url: m.prop(''),

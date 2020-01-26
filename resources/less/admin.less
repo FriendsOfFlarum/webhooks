@@ -62,12 +62,21 @@
 .ReflarWebhooksModal {
   .Webhook-events {
     margin-top: 7.5px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
 
     > div {
-      flex: 50%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      h2 {
+        flex-basis: 100%;
+        text-transform: uppercase;
+        margin-bottom: 0;
+      }
+
+      > div {
+        flex: 50%;
+      }
     }
 
     .Checkbox {

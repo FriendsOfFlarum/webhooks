@@ -8,6 +8,19 @@ const sortByProp = prop => (a, b) => {
     return propA < propB ? -1 : propA > propB ? 1 : 0;
 };
 
+const groupBy = (obj, fn) => {
+    const keys = Object.keys(obj);
+    const vals = Object.values(obj);
+
+    return keys.map(typeof fn === 'function' ? fn : val => val[fn]).reduce((acc, val, i) => {
+        if (!acc[val]) acc[val] = {};
+
+        acc[val][keys[i]] = vals[i];
+
+        return acc;
+    }, {});
+};
+
 export default class WebhookEditModal extends Modal {
     init() {
         super.init();
@@ -16,33 +29,36 @@ export default class WebhookEditModal extends Modal {
 
         const events = app.data['reflar-webhooks.events'];
 
-        this.events = events.reduce(
-            (obj, evt) => {
-                const m = /((?:[a-z]+\\?)+?)\\Events?\\([a-z]+)/i.exec(evt);
+        this.events = groupBy(
+            events.reduce(
+                (obj, evt) => {
+                    const m = /((?:[a-z]+\\?)+?)\\Events?\\([a-z]+)/i.exec(evt);
 
-                if (!m) {
-                    obj.other.push({
-                        full: evt,
-                        name: evt,
-                    });
-                    obj.other = obj.other.sort();
+                    if (!m) {
+                        obj.other.push({
+                            full: evt,
+                            name: evt,
+                        });
+                        obj.other = obj.other.sort();
+                        return obj;
+                    }
+
+                    const group = m[1].toLowerCase().replace('\\', '.');
+
+                    if (!obj[group]) obj[group] = [];
+
+                    obj[group] = obj[group]
+                        .concat({
+                            full: evt,
+                            name: m[2],
+                        })
+                        .sort();
+
                     return obj;
-                }
-
-                const group = m[1].toLowerCase().replace('\\', '.');
-
-                if (!obj[group]) obj[group] = [];
-
-                obj[group] = obj[group]
-                    .concat({
-                        full: evt,
-                        name: m[2],
-                    })
-                    .sort();
-
-                return obj;
-            },
-            { other: [] }
+                },
+                { other: [] }
+            ),
+            key => key.split('.')[0]
         );
     }
 
@@ -59,22 +75,26 @@ export default class WebhookEditModal extends Modal {
             <div className="ReflarWebhooksModal Modal-body">
                 {app.translator.trans('reflar-webhooks.admin.settings.modal.description')}
                 <div className="Webhook-events">
-                    {Object.entries(this.events)
-                        .sort(sortByProp(0))
-                        .map(([group, events]) =>
-                            events.length ? (
-                                <div>
-                                    <h3>{this.translate(group)}</h3>
-                                    {events.map(event =>
-                                        Switch.component({
-                                            state: this.webhook.events().includes(event.full),
-                                            children: this.translate(group, event.name.toLowerCase()),
-                                            onchange: this.onchange.bind(this, event.full),
-                                        })
-                                    )}
-                                </div>
-                            ) : null
-                        )}
+                    {Object.entries(this.events).map(([vendor, events]) => (
+                        <div>
+                            {Object.entries(events)
+                                .sort(sortByProp(0))
+                                .map(([group, events]) =>
+                                    events.length ? (
+                                        <div>
+                                            <h3>{this.translate(group)}</h3>
+                                            {events.map(event =>
+                                                Switch.component({
+                                                    state: this.webhook.events().includes(event.full),
+                                                    children: this.translate(group, event.name.toLowerCase()),
+                                                    onchange: this.onchange.bind(this, event.full),
+                                                })
+                                            )}
+                                        </div>
+                                    ) : null
+                                )}
+                        </div>
+                    ))}
                 </div>
             </div>
         );
