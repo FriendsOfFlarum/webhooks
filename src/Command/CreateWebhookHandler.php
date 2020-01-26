@@ -43,7 +43,7 @@ class CreateWebhookHandler
      *
      * @return Webhook
      */
-    public function handle(CreateWebhook $command) : Webhook
+    public function handle(CreateWebhook $command): Webhook
     {
         $actor = $command->actor;
         $data = $command->data;

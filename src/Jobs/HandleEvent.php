@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of reflar/webhooks.
+ *
+ * Copyright (c) ReFlar.
+ *
+ * https://reflar.redevs.org
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Reflar\Webhooks\Jobs;
 
 use Illuminate\Bus\Queueable;
@@ -14,8 +25,8 @@ use ReflectionClass;
 
 class HandleEvent implements ShouldQueue
 {
-    use Queueable, SerializesModels;
-
+    use Queueable;
+    use SerializesModels;
     protected $name;
     protected $event;
 
@@ -25,7 +36,8 @@ class HandleEvent implements ShouldQueue
         $this->event = $event;
     }
 
-    public function handle() {
+    public function handle()
+    {
         $clazz = TriggerListener::$listeners[$this->name];
         $action = (new ReflectionClass($clazz))->newInstance();
 
@@ -40,8 +52,8 @@ class HandleEvent implements ShouldQueue
     }
 
     /**
-     * @param string $event_name
-     * @param Action $action
+     * @param string   $event_name
+     * @param Action   $action
      * @param Response $response
      *
      * @throws \ReflectionException

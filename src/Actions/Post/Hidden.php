@@ -31,8 +31,8 @@ class Hidden extends Action
                 $this->translate('post.hidden', $event->post->discussion->title)
             )
             ->setUrl('discussion', [
-                    'id' => $event->post->discussion->id,
-                ], '/'.$event->post->number
+                'id' => $event->post->discussion->id,
+            ], '/'.$event->post->number
             )
             ->setDescription($event->post->content)
             ->setAuthor($event->actor)

@@ -13,7 +13,6 @@
 
 namespace Reflar\Webhooks;
 
-use Flarum\Group\Group;
 use Flarum\Http\UrlGenerator;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -47,9 +46,10 @@ abstract class Action
     /**
      * @param $event
      * @param bool $asGuest
+     *
      * @return bool
      */
-    public function ignore($event, bool $asGuest) : bool
+    public function ignore($event, bool $asGuest): bool
     {
         return false;
     }

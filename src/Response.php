@@ -71,7 +71,7 @@ class Response
      *
      * @return $this
      */
-    public function setTitle(String $title)
+    public function setTitle(string $title)
     {
         $this->title = $title;
 
@@ -103,7 +103,7 @@ class Response
      *
      * @return $this
      */
-    public function setDescription(String $description)
+    public function setDescription(string $description)
     {
         $this->description = $description;
 
@@ -129,7 +129,7 @@ class Response
      *
      * @return Response
      */
-    public function setColor(String $color)
+    public function setColor(string $color)
     {
         $this->color = $color;
 

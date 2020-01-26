@@ -127,7 +127,7 @@ abstract class Adapter
      *
      * @return bool
      */
-    abstract public static function isValidURL(string $url) : bool;
+    abstract public static function isValidURL(string $url): bool;
 
     /**
      * @param string $url

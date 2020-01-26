@@ -15,5 +15,5 @@ use Flarum\Database\Migration;
 use Flarum\Group\Group;
 
 return Migration::addColumns('webhooks', [
-    'group_id' => ['integer', 'unsigned' => true, 'default' => Group::GUEST_ID]
+    'group_id' => ['integer', 'unsigned' => true, 'default' => Group::GUEST_ID],
 ]);

@@ -42,7 +42,7 @@ class TriggerListener
      * EventListener constructor.
      *
      * @param SettingsRepositoryInterface $settings
-     * @param Queue $queue
+     * @param Queue                       $queue
      */
     public function __construct(SettingsRepositoryInterface $settings, Queue $queue)
     {

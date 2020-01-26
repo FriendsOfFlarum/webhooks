@@ -53,18 +53,20 @@ class Webhook extends AbstractModel
         return json_decode($this->events);
     }
 
-    public function isValid() : bool
+    public function isValid(): bool
     {
         $adapter = Adapters::get($this->service);
 
         return isset($adapter) && $adapter::isValidURL($this->url);
     }
 
-    public function group() {
+    public function group()
+    {
         return $this->belongsTo(Group::class);
     }
 
-    public function asGuest() {
+    public function asGuest()
+    {
         $group = $this->group;
 
         return !$group || $group->id == Group::GUEST_ID;
