@@ -5,6 +5,7 @@ namespace Reflar\Webhooks\Jobs;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\SerializesModels;
+use Reflar\Webhooks\Action;
 use Reflar\Webhooks\Adapters;
 use Reflar\Webhooks\Listener\TriggerListener;
 use Reflar\Webhooks\Models\Webhook;
@@ -28,27 +29,24 @@ class HandleEvent implements ShouldQueue
         $clazz = TriggerListener::$listeners[$this->name];
         $action = (new ReflectionClass($clazz))->newInstance();
 
-        if ($action->ignore($this->event)) {
-            return;
-        }
-
         /**
          * @var Response
          */
         $response = $action->listen($this->event);
 
         if (isset($response)) {
-            $this->send($this->name, $response);
+            $this->send($this->name, $action, $response);
         }
     }
 
     /**
-     * @param string   $event_name
+     * @param string $event_name
+     * @param Action $action
      * @param Response $response
      *
      * @throws \ReflectionException
      */
-    private function send(string $event_name, Response $response)
+    private function send(string $event_name, Action $action, Response $response)
     {
         if (!$response) {
             return;
@@ -59,7 +57,7 @@ class HandleEvent implements ShouldQueue
                 continue;
             }
 
-            if ($webhook->isValid()) {
+            if (!$action->ignore($response->event, $webhook->asGuest()) && $webhook->isValid()) {
                 Adapters\Adapters::get($webhook->service)->handle($webhook, $response);
             }
         }

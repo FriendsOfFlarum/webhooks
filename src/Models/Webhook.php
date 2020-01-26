@@ -14,6 +14,7 @@
 namespace Reflar\Webhooks\Models;
 
 use Flarum\Database\AbstractModel;
+use Flarum\Group\Group;
 use Reflar\Webhooks\Adapters\Adapters;
 
 /**
@@ -21,6 +22,8 @@ use Reflar\Webhooks\Adapters\Adapters;
  * @property string url
  * @property string error
  * @property string events
+ * @property number group_id
+ * @property Group|null group
  */
 class Webhook extends AbstractModel
 {
@@ -55,5 +58,15 @@ class Webhook extends AbstractModel
         $adapter = Adapters::get($this->service);
 
         return isset($adapter) && $adapter::isValidURL($this->url);
+    }
+
+    public function group() {
+        return $this->belongsTo(Group::class);
+    }
+
+    public function asGuest() {
+        $group = $this->group;
+
+        return !$group || $group->id == Group::GUEST_ID;
     }
 }

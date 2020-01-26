@@ -1,5 +1,9 @@
 import Modal from 'flarum/components/Modal';
 import Switch from 'flarum/components/Switch';
+import Button from 'flarum/components/Button';
+import Dropdown from 'flarum/components/Dropdown';
+import icon from 'flarum/helpers/icon';
+import Group from 'flarum/models/Group';
 
 const sortByProp = prop => (a, b) => {
     const propA = a[prop].toUpperCase(); // ignore upper and lowercase
@@ -28,6 +32,8 @@ export default class WebhookEditModal extends Modal {
         this.webhook = this.props.webhook;
 
         const events = app.data['reflar-webhooks.events'];
+
+        this.loadingGroup = m.prop(false);
 
         this.events = groupBy(
             events.reduce(
@@ -71,30 +77,59 @@ export default class WebhookEditModal extends Modal {
     }
 
     content() {
+        const icons = {
+            2: 'fas fa-globe',
+            3: 'fas fa-user',
+        };
+
+        const group = app.store.getById('groups', this.webhook.groupId()) || app.store.getById('groups', Group.MEMBER_ID);
+
         return (
             <div className="ReflarWebhooksModal Modal-body">
                 {app.translator.trans('reflar-webhooks.admin.settings.modal.description')}
-                <div className="Webhook-events">
-                    {Object.entries(this.events).map(([vendor, events]) => (
-                        <div>
-                            {Object.entries(events)
-                                .sort(sortByProp(0))
-                                .map(([group, events]) =>
-                                    events.length ? (
-                                        <div>
-                                            <h3>{this.translate(group)}</h3>
-                                            {events.map(event =>
-                                                Switch.component({
-                                                    state: this.webhook.events().includes(event.full),
-                                                    children: this.translate(group, event.name.toLowerCase()),
-                                                    onchange: this.onchange.bind(this, event.full),
-                                                })
-                                            )}
-                                        </div>
-                                    ) : null
-                                )}
-                        </div>
-                    ))}
+
+                <div className="Form">
+                    <div className="Form-group">
+                        {Dropdown.component({
+                            label: [icon(this.loadingGroup() ? 'fas fa-spinner fa-spin' : group.icon() || icons[group.id()]), group.namePlural()],
+                            buttonClassName: 'Button Button--danger',
+                            children: app.store
+                                .all('groups')
+                                .filter(g => ['1', '2'].includes(g.id()))
+                                .map(g =>
+                                    Button.component({
+                                        active: group.id() === g.id(),
+                                        disabled: group && group.id() === g.id(),
+                                        children: g.namePlural(),
+                                        icon: g.icon() || icons[g.id()],
+                                        onclick: this.changeGroup.bind(this, g),
+                                    })
+                                ),
+                        })}
+                    </div>
+
+                    <div className="Webhook-events">
+                        {Object.entries(this.events).map(([vendor, events]) => (
+                            <div>
+                                {Object.entries(events)
+                                    .sort(sortByProp(0))
+                                    .map(([group, events]) =>
+                                        events.length ? (
+                                            <div>
+                                                <h3>{this.translate(group)}</h3>
+                                                {events.map(event =>
+                                                    Switch.component({
+                                                        state: this.webhook.events().includes(event.full),
+                                                        children: this.translate(group, event.name.toLowerCase()),
+                                                        onchange: this.onchange.bind(this, event.full),
+                                                    })
+                                                )}
+                                            </div>
+                                        ) : null
+                                    )}
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         );
@@ -119,5 +154,18 @@ export default class WebhookEditModal extends Modal {
             component.loading = false;
             m.lazyRedraw();
         });
+    }
+
+    changeGroup(group) {
+        this.loadingGroup(true);
+
+        return this.webhook
+            .save({
+                group_id: group.id(),
+            })
+            .then(() => {
+                this.loadingGroup(false);
+                m.lazyRedraw();
+            });
     }
 }

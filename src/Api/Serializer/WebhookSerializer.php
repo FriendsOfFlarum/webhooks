@@ -36,11 +36,12 @@ class WebhookSerializer extends AbstractSerializer
         }
 
         return [
-            'id'     => $webhook->id,
-            'service'=> $webhook->service,
-            'url'    => $webhook->url,
-            'error'  => $webhook->error,
-            'events' => $webhook->events,
+            'id'       => $webhook->id,
+            'service'  => $webhook->service,
+            'url'      => $webhook->url,
+            'error'    => $webhook->error,
+            'events'   => $webhook->events,
+            'group_id' => $webhook->group_id,
 
             'is_valid' => $webhook->isValid(),
         ];

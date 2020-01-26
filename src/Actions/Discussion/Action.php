@@ -13,10 +13,12 @@
 
 namespace ReFlar\Webhooks\Actions\Discussion;
 
+use Flarum\User\Guest;
+
 abstract class Action extends \Reflar\Webhooks\Action
 {
-    public function ignore($event) : bool
+    public function ignore($event, bool $asGuest) : bool
     {
-        return $event->discussion->is_private;
+        return $asGuest && $event->discussion->firstPost->isVisibleTo(new Guest);
     }
 }

@@ -9,6 +9,7 @@ export default class Webhook extends mixin(Model, {
     url: Model.attribute('url'),
     error: Model.attribute('error'),
     events: Model.attribute('events', transformJSON([])),
+    groupId: Model.attribute('group_id'),
 
     isValid: Model.attribute('is_valid', Boolean),
 }) {

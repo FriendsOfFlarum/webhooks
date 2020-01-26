@@ -13,6 +13,7 @@
 
 namespace Reflar\Webhooks\Actions\Post;
 
+use Flarum\Group\Group;
 use Reflar\Webhooks\Response;
 
 class Posted extends Action
@@ -42,11 +43,11 @@ class Posted extends Action
 
     /**
      * @param \Flarum\Post\Event\Posted $event
-     *
+     * @param bool $asGuest
      * @return bool
      */
-    public function ignore($event) : bool
+    public function ignore($event, bool $asGuest) : bool
     {
-        return parent::ignore($event) || !isset($event->post->discussion->first_post_id) || $event->post->id == $event->post->discussion->first_post_id;
+        return parent::ignore($event, $asGuest) || !isset($event->post->discussion->first_post_id) || $event->post->id == $event->post->discussion->first_post_id;
     }
 }

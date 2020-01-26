@@ -55,6 +55,7 @@ class UpdateWebhookHandler
         $service = array_get($data, 'attributes.service');
         $url = array_get($data, 'attributes.url');
         $events = array_get($data, 'attributes.events');
+        $groupId = array_get($data, 'attributes.group_id');
 
         if (isset($service)) {
             $webhook->service = $service;
@@ -65,6 +66,9 @@ class UpdateWebhookHandler
         }
         if (isset($events)) {
             $webhook->events = json_encode($events);
+        }
+        if (isset($groupId)) {
+            $webhook->group_id = $groupId;
         }
 
         $this->validator->assertValid($webhook->getDirty());

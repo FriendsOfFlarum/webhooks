@@ -28,5 +28,10 @@ class WebhookValidator extends AbstractValidator
             'url',
             'unique:webhooks',
         ],
+        'group_id' => [
+            'nullable',
+            'int',
+            'in:1,2'
+        ]
     ];
 }
