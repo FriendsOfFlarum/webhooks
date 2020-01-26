@@ -16,11 +16,10 @@ namespace Reflar\Webhooks\Listener;
 use ArrayObject;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Queue\Queue;
 use Reflar\Webhooks\Action;
 use Reflar\Webhooks\Actions;
-use Reflar\Webhooks\Adapters;
-use Reflar\Webhooks\Models\Webhook;
-use Reflar\Webhooks\Response;
+use Reflar\Webhooks\Jobs\HandleEvent;
 
 class TriggerListener
 {
@@ -28,6 +27,11 @@ class TriggerListener
      * @var SettingsRepositoryInterface
      */
     protected $settings;
+
+    /**
+     * @var Queue
+     */
+    protected $queue;
 
     /**
      * @var ArrayObject<String, String>
@@ -38,10 +42,12 @@ class TriggerListener
      * EventListener constructor.
      *
      * @param SettingsRepositoryInterface $settings
+     * @param Queue $queue
      */
-    public function __construct(SettingsRepositoryInterface $settings)
+    public function __construct(SettingsRepositoryInterface $settings, Queue $queue)
     {
         $this->settings = $settings;
+        $this->queue = $queue;
 
         if (self::$listeners == null) {
             self::setupDefaultListeners();
@@ -75,21 +81,9 @@ class TriggerListener
         /**
          * @var Action
          */
-        $clazz = self::$listeners[$name];
-        $action = (new \ReflectionClass($clazz))->newInstance();
-
-        if ($action->ignore($event)) {
-            return;
-        }
-
-        /**
-         * @var Response
-         */
-        $response = $action->listen($event);
-
-        if (isset($response)) {
-            $this->handle($name, $response);
-        }
+        $this->queue->push(
+            new HandleEvent($name, $event)
+        );
     }
 
     public static function setupDefaultListeners()
@@ -123,29 +117,6 @@ class TriggerListener
             self::$listeners[$clazz] = $action;
         } elseif (!isset($clazz)) {
             echo "$action::EVENT does not exist";
-        }
-    }
-
-    /**
-     * @param string   $event_name
-     * @param Response $response
-     *
-     * @throws \ReflectionException
-     */
-    private function handle(string $event_name, Response $response)
-    {
-        if (!$response) {
-            return;
-        }
-
-        foreach (Webhook::all() as $webhook) {
-            if ($webhook->events != null && !in_array($event_name, $webhook->getEvents())) {
-                continue;
-            }
-
-            if ($webhook->isValid()) {
-                Adapters\Adapters::get($webhook->service)->handle($webhook, $response);
-            }
         }
     }
 }

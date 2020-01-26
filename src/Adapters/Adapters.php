@@ -46,6 +46,8 @@ class Adapters
         if (isset($adapter)) {
             return app()->make($adapter);
         }
+
+        return null;
     }
 
     public static function length() : int
