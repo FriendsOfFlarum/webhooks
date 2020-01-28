@@ -19,6 +19,6 @@ abstract class Action extends \Reflar\Webhooks\Action
 {
     public function ignore($event, bool $asGuest): bool
     {
-        return $asGuest && $event->discussion->firstPost->isVisibleTo(new Guest());
+        return $asGuest && !$event->discussion->firstPost->isVisibleTo(new Guest());
     }
 }
