@@ -30,9 +30,12 @@ class Posted extends Action
             ->setTitle(
                 $this->translate('post.posted', $event->post->discussion->title)
             )
-            ->setUrl('discussion', [
-                'id' => $event->post->discussion->id,
-            ], '/'.$event->post->number
+            ->setUrl(
+                'discussion',
+                [
+                    'id' => $event->post->discussion->id,
+                ],
+                '/'.$event->post->number
             )
             ->setDescription($event->post->content)
             ->setAuthor($event->actor)
