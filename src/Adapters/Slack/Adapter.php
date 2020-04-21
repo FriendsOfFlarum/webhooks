@@ -89,6 +89,6 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
      */
     public static function isValidURL(string $url): bool
     {
-        return preg_match('/^https?:\/\/hooks\.slack\.com\/services\/.{9}\/.{9}\/.{24}$/', $url);
+        return preg_match('/^https?:\/\/hooks\.slack\.com\/services\/T.{8,}\/B.{8,}\/.{24}$/', $url);
     }
 }
