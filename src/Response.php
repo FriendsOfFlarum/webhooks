@@ -13,6 +13,7 @@
 
 namespace Reflar\Webhooks;
 
+use Carbon\Carbon;
 use Flarum\Http\UrlGenerator;
 use Flarum\User\User;
 
@@ -143,9 +144,9 @@ class Response
      *
      * @return Response
      */
-    public function setTimestamp(string $timestamp)
+    public function setTimestamp(?string $timestamp)
     {
-        $this->timestamp = $timestamp;
+        $this->timestamp = $timestamp ?: Carbon::now();
 
         return $this;
     }
