@@ -11,7 +11,7 @@
  * file that was distributed with this source code.
  */
 
-namespace ReFlar\Webhooks\Actions\Discussion;
+namespace Reflar\Webhooks\Actions\Discussion;
 
 use Flarum\User\Guest;
 

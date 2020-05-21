@@ -11,7 +11,7 @@
  * file that was distributed with this source code.
  */
 
-namespace ReFlar\Webhooks\Actions\Post;
+namespace Reflar\Webhooks\Actions\Post;
 
 use Flarum\User\Guest;
 
