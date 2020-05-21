@@ -104,7 +104,7 @@ class Response
      *
      * @return $this
      */
-    public function setDescription(string $description)
+    public function setDescription(?string $description)
     {
         $this->description = $description;
 
@@ -130,7 +130,7 @@ class Response
      *
      * @return Response
      */
-    public function setColor(string $color)
+    public function setColor(?string $color)
     {
         $this->color = $color;
 
