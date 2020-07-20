@@ -12,7 +12,6 @@
  */
 
 use Flarum\Database\Migration;
-use Flarum\Group\Group;
 
 return Migration::addColumns('webhooks', [
     'extra_text' => ['string', 'length' => 256, 'nullable'],

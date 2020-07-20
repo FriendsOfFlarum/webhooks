@@ -143,7 +143,7 @@ class Response
         return $this->webhook->extra_text;
     }
 
-    public function withWebhook(Webhook $webhook): Response
+    public function withWebhook(Webhook $webhook): self
     {
         $clone = clone $this;
 
