@@ -53,6 +53,12 @@ reflar-webhooks:
 
         extra_text_label: Extra Text
         extra_text_help: Extra text to include in the sent webhook.
+
+        group_label: Group
+        group_help: Send resources that can be seen by this group
+
+        events_label: Events
+
       services:
         discord: Discord
         slack: Slack

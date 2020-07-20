@@ -2,6 +2,7 @@ import Modal from 'flarum/components/Modal';
 import Switch from 'flarum/components/Switch';
 import Button from 'flarum/components/Button';
 import Dropdown from 'flarum/components/Dropdown';
+import LoadingIndicator from 'flarum/components/LoadingIndicator';
 import icon from 'flarum/helpers/icon';
 import Group from 'flarum/models/Group';
 
@@ -34,6 +35,9 @@ export default class WebhookEditModal extends Modal {
         const events = app.data['reflar-webhooks.events'];
 
         this.loadingGroup = m.prop(false);
+
+        this.extraText = m.prop(this.webhook.extraText() || '');
+        this.extraTextLoading = false;
 
         this.events = groupBy(
             events.reduce(
@@ -101,6 +105,9 @@ export default class WebhookEditModal extends Modal {
                     </div>
 
                     <div className="Form-group">
+                      <label className="label">{app.translator.trans('reflar-webhooks.admin.settings.modal.group_label')}</label>
+                      <p className="helpText">{app.translator.trans('reflar-webhooks.admin.settings.modal.group_help')}</p>
+
                         {Dropdown.component({
                             label: [icon(this.loadingGroup() ? 'fas fa-spinner fa-spin' : group.icon() || icons[group.id()]), group.namePlural()],
                             buttonClassName: 'Button Button--danger',
@@ -119,8 +126,10 @@ export default class WebhookEditModal extends Modal {
                         })}
                     </div>
 
-                    <div className="Webhook-events">
-                        {Object.entries(this.events).map(([vendor, events]) => (
+                    <div className="Form-group Webhook-events">
+                      <label className="label">{app.translator.trans('reflar-webhooks.admin.settings.modal.events_label')}</label>
+
+                        {Object.entries(this.events).map(([, events]) => (
                             <div>
                                 {Object.entries(events)
                                     .sort(sortByProp(0))
