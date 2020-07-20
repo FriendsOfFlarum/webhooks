@@ -82,7 +82,7 @@ export default class WebhookEditModal extends Modal {
             3: 'fas fa-user',
         };
 
-        const group = app.store.getById('groups', this.webhook.groupId()) || app.store.getById('groups', Group.MEMBER_ID);
+        const group = app.store.getById('groups', this.webhook.groupId()) || app.store.getById('groups', Group.GUEST_ID);
 
         return (
             <div className="ReflarWebhooksModal Modal-body">
