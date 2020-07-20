@@ -36,8 +36,8 @@ export default class WebhookEditModal extends Modal {
 
         this.loadingGroup = m.prop(false);
 
+        this.groupId = m.prop(this.webhook.groupId() || Group.GUEST_ID);
         this.extraText = m.prop(this.webhook.extraText() || '');
-        this.extraTextLoading = false;
 
         this.events = groupBy(
             events.reduce(
@@ -86,48 +86,45 @@ export default class WebhookEditModal extends Modal {
             3: 'fas fa-user',
         };
 
-        const group = app.store.getById('groups', this.webhook.groupId()) || app.store.getById('groups', Group.GUEST_ID);
+        const group = app.store.getById('groups', this.groupId());
 
         return (
             <div className="ReflarWebhooksModal Modal-body">
                 {app.translator.trans('reflar-webhooks.admin.settings.modal.description')}
 
-                <div className="Form">
+                <form className="Form" onsubmit={this.onsubmit.bind(this)}>
                     <div className="Form-group hasLoading">
-                      <label className="label">{app.translator.trans('reflar-webhooks.admin.settings.modal.extra_text_label')}</label>
+                        <label className="label">{app.translator.trans('reflar-webhooks.admin.settings.modal.extra_text_label')}</label>
 
-                      <p className="helpText">{app.translator.trans('reflar-webhooks.admin.settings.modal.extra_text_help')}</p>
+                        <p className="helpText">{app.translator.trans('reflar-webhooks.admin.settings.modal.extra_text_help')}</p>
 
-                      <div>
-                        <input type="text" className="FormControl" value={this.extraText()} oninput={m.withAttr('value', this.updateExtraText.bind(this))} />
-                        {this.extraTextLoading && LoadingIndicator.component()}
-                      </div>
+                        <input type="text" className="FormControl" bidi={this.extraText} onkeypress={this.onkeypress.bind(this)} />
                     </div>
 
                     <div className="Form-group">
-                      <label className="label">{app.translator.trans('reflar-webhooks.admin.settings.modal.group_label')}</label>
-                      <p className="helpText">{app.translator.trans('reflar-webhooks.admin.settings.modal.group_help')}</p>
+                        <label className="label">{app.translator.trans('reflar-webhooks.admin.settings.modal.group_label')}</label>
+                        <p className="helpText">{app.translator.trans('reflar-webhooks.admin.settings.modal.group_help')}</p>
 
                         {Dropdown.component({
-                            label: [icon(this.loadingGroup() ? 'fas fa-spinner fa-spin' : group.icon() || icons[group.id()]), group.namePlural()],
+                            label: [icon(group.icon() || icons[group.id()]), group.namePlural()],
                             buttonClassName: 'Button Button--danger',
                             children: app.store
                                 .all('groups')
                                 .filter((g) => ['1', '2'].includes(g.id()))
                                 .map((g) =>
                                     Button.component({
-                                        active: group.id() === g.id(),
+                                        active: group && group.id() === g.id(),
                                         disabled: group && group.id() === g.id(),
                                         children: g.namePlural(),
                                         icon: g.icon() || icons[g.id()],
-                                        onclick: this.changeGroup.bind(this, g),
+                                        onclick: () => this.groupId(g.id()),
                                     })
                                 ),
                         })}
                     </div>
 
                     <div className="Form-group Webhook-events">
-                      <label className="label">{app.translator.trans('reflar-webhooks.admin.settings.modal.events_label')}</label>
+                        <label className="label">{app.translator.trans('reflar-webhooks.admin.settings.modal.events_label')}</label>
 
                         {Object.entries(this.events).map(([, events]) => (
                             <div>
@@ -150,7 +147,13 @@ export default class WebhookEditModal extends Modal {
                             </div>
                         ))}
                     </div>
-                </div>
+
+                    <div className="Form-group">
+                        <Button type="submit" className="Button Button--primary" loading={this.loading}>
+                            {app.translator.trans('core.admin.settings.submit_button')}
+                        </Button>
+                    </div>
+                </form>
             </div>
         );
     }
@@ -159,24 +162,27 @@ export default class WebhookEditModal extends Modal {
         return app.translator.trans(`reflar-webhooks.admin.settings.actions.${group}.${key}`);
     }
 
-    updateExtraText(val) {
-      this.extraText(val);
+    onsubmit(e) {
+        e.preventDefault();
 
-      clearTimeout(this.extraTextTimeout);
+        this.loading = true;
 
-      this.extraTextTimeout = setTimeout(() => {
-        this.extraTextLoading = true;
+        return this.webhook
+            .save({
+                extraText: this.extraText(),
+                group_id: this.groupId(),
+            })
+            .then(() => {
+                this.loading = false;
 
-        m.redraw();
+                m.redraw();
+            });
+    }
 
-        this.webhook.save({
-          extraText: this.extraText(),
-        }).then(() => {
-          this.extraTextLoading = false;
-
-          m.redraw();
-        });
-      }, 1000);
+    onkeypress(e) {
+        if (e.key === 'Enter') {
+            this.onsubmit(e);
+        }
     }
 
     onchange(event, checked, component) {
@@ -194,18 +200,5 @@ export default class WebhookEditModal extends Modal {
             component.loading = false;
             m.lazyRedraw();
         });
-    }
-
-    changeGroup(group) {
-        this.loadingGroup(true);
-
-        return this.webhook
-            .save({
-                group_id: group.id(),
-            })
-            .then(() => {
-                this.loadingGroup(false);
-                m.lazyRedraw();
-            });
     }
 }
