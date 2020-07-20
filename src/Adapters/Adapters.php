@@ -21,8 +21,8 @@ class Adapters
      * @var ArrayObject<String, String>
      */
     private static $adapters = [
-        Discord\Adapter::NAME => Discord\Adapter::class,
-        Slack\Adapter::NAME   => Slack\Adapter::class,
+        Discord\Adapter::NAME          => Discord\Adapter::class,
+        Slack\Adapter::NAME            => Slack\Adapter::class,
         MicrosoftTeams\Adapter::NAME   => MicrosoftTeams\Adapter::class,
     ];
 

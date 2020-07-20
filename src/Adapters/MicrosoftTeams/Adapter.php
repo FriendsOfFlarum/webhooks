@@ -13,7 +13,6 @@
 
 namespace Reflar\Webhooks\Adapters\MicrosoftTeams;
 
-use Carbon\Carbon;
 use Flarum\Http\UrlGenerator;
 use Reflar\Webhooks\Response;
 use function SSNepenthe\ColorUtils\color;
@@ -60,7 +59,7 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
 
                 'sections' => [
                     $this->toArray($response),
-                ]
+                ],
             ]
         );
     }
@@ -77,18 +76,18 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
         return [
             'title' => $response->title,
 
-            'activityImage' => $response->author->avatar_url,
-            'activityTitle' => $response->author->display_name,
+            'activityImage'    => $response->author->avatar_url,
+            'activityTitle'    => $response->author->display_name,
             'activitySubtitle' => "[$user]($user)",
-            'activityText' => $response->description,
+            'activityText'     => $response->description,
 
             'potentialAction' => [[
-                '@type' => 'OpenUri',
-                'name' => 'View',
+                '@type'   => 'OpenUri',
+                'name'    => 'View',
                 'targets' => [[
-                    'os' => 'default',
+                    'os'  => 'default',
                     'uri' => $response->url,
-                ]]
+                ]],
             ]],
         ];
     }
