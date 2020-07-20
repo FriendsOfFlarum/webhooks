@@ -35,7 +35,7 @@ export default class SettingsPage extends Page {
                         <p className="helpText">{app.translator.trans('reflar-webhooks.admin.settings.help.general')}</p>
                         <fieldset>
                             <div className="Webhooks--Container">
-                                {webhooks.map(webhook =>
+                                {webhooks.map((webhook) =>
                                     SettingsListItem.component({
                                         webhook,
                                         services: this.services,
@@ -98,6 +98,6 @@ export default class SettingsPage extends Page {
      * @returns boolean
      */
     changed() {
-        return this.fields.some(key => this.values[key]() !== (app.data.settings[this.addPrefix(key)] || ''));
+        return this.fields.some((key) => this.values[key]() !== (app.data.settings[this.addPrefix(key)] || ''));
     }
 }

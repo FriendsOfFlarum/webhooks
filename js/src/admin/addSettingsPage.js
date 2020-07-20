@@ -4,12 +4,12 @@ import AdminLinkButton from 'flarum/components/AdminLinkButton';
 
 import SettingsPage from './components/SettingsPage';
 
-export default function() {
+export default function () {
     app.routes['reflar-webhooks'] = { path: '/reflar/webhooks', component: SettingsPage.component() };
 
     app.extensionSettings['reflar-webhooks'] = () => m.route(app.route('reflar-webhooks'));
 
-    extend(AdminNav.prototype, 'items', items => {
+    extend(AdminNav.prototype, 'items', (items) => {
         items.add(
             'reflar-webhooks',
             AdminLinkButton.component({

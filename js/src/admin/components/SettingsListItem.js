@@ -69,7 +69,7 @@ export default class SettingsListItem extends Component {
                         dismissible: false,
                     })}
 
-                {errors.filter(Boolean).map(error =>
+                {errors.filter(Boolean).map((error) =>
                     Alert.component({
                         children: app.translator.trans(error),
                         className: 'Webhook-error',
@@ -82,7 +82,7 @@ export default class SettingsListItem extends Component {
     }
 
     update(field) {
-        return value => {
+        return (value) => {
             this[field](value);
 
             return this.webhook

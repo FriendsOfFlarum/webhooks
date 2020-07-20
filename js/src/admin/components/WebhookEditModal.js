@@ -5,7 +5,7 @@ import Dropdown from 'flarum/components/Dropdown';
 import icon from 'flarum/helpers/icon';
 import Group from 'flarum/models/Group';
 
-const sortByProp = prop => (a, b) => {
+const sortByProp = (prop) => (a, b) => {
     const propA = a[prop].toUpperCase(); // ignore upper and lowercase
     const propB = b[prop].toUpperCase(); // ignore upper and lowercase
 
@@ -16,7 +16,7 @@ const groupBy = (obj, fn) => {
     const keys = Object.keys(obj);
     const vals = Object.values(obj);
 
-    return keys.map(typeof fn === 'function' ? fn : val => val[fn]).reduce((acc, val, i) => {
+    return keys.map(typeof fn === 'function' ? fn : (val) => val[fn]).reduce((acc, val, i) => {
         if (!acc[val]) acc[val] = {};
 
         acc[val][keys[i]] = vals[i];
@@ -64,7 +64,7 @@ export default class WebhookEditModal extends Modal {
                 },
                 { other: [] }
             ),
-            key => key.split('.')[0]
+            (key) => key.split('.')[0]
         );
     }
 
@@ -95,8 +95,8 @@ export default class WebhookEditModal extends Modal {
                             buttonClassName: 'Button Button--danger',
                             children: app.store
                                 .all('groups')
-                                .filter(g => ['1', '2'].includes(g.id()))
-                                .map(g =>
+                                .filter((g) => ['1', '2'].includes(g.id()))
+                                .map((g) =>
                                     Button.component({
                                         active: group.id() === g.id(),
                                         disabled: group && group.id() === g.id(),
@@ -117,7 +117,7 @@ export default class WebhookEditModal extends Modal {
                                         events.length ? (
                                             <div>
                                                 <h3>{this.translate(group)}</h3>
-                                                {events.map(event =>
+                                                {events.map((event) =>
                                                     Switch.component({
                                                         state: this.webhook.events().includes(event.full),
                                                         children: this.translate(group, event.name.toLowerCase()),
