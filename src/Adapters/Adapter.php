@@ -94,11 +94,9 @@ abstract class Adapter
                 );
             }
         } catch (Throwable $e) {
-            $clazz = new ReflectionClass($this->exception);
-
             $webhook->setAttribute(
                 'error',
-                $clazz->isInstance($e) ? $e : $e->getMessage()
+                $e instanceof $this->exception ? $e : $e->getMessage()
             );
         }
 

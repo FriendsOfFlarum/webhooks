@@ -54,6 +54,7 @@ reflar-webhooks:
       services:
         discord: Discord
         slack: Slack
+        microsoft-teams: Microsoft Teams
 
       actions:
         flarum:

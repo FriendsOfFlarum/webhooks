@@ -8,7 +8,8 @@
   "license": "MIT",
   "require": {
     "flarum/core": "^0.1.0-beta.11",
-    "guzzlehttp/guzzle": "~6.0"
+    "guzzlehttp/guzzle": "~6.0",
+    "ssnepenthe/color-utils": "^0.4.2"
   },
   "authors": [
     {
