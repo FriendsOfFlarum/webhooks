@@ -42,6 +42,7 @@ class WebhookSerializer extends AbstractSerializer
             'error'    => $webhook->error,
             'events'   => $webhook->events,
             'group_id' => $webhook->group_id,
+            'extra_text' => $webhook->extra_text,
 
             'is_valid' => $webhook->isValid(),
         ];

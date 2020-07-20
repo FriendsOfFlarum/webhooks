@@ -55,6 +55,7 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
                 'themeColor' => $color->getRgb()->toHexString(),
 
                 'title'         => $this->settings->get('forum_title'),
+                'text'          => $response->getExtraText(),
                 'summary'       => $response->title,
 
                 'sections' => [

@@ -16,6 +16,7 @@ namespace Reflar\Webhooks;
 use Carbon\Carbon;
 use Flarum\Http\UrlGenerator;
 use Flarum\User\User;
+use Reflar\Webhooks\Models\Webhook;
 
 class Response
 {
@@ -57,6 +58,11 @@ class Response
     private $urlGenerator;
 
     /**
+     * @var Webhook
+     */
+    protected $webhook;
+
+    /**
      * Response constructor.
      *
      * @param $event
@@ -67,26 +73,14 @@ class Response
         $this->urlGenerator = app(UrlGenerator::class);
     }
 
-    /**
-     * @param string $title
-     *
-     * @return $this
-     */
-    public function setTitle(string $title)
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
         return $this;
     }
 
-    /**
-     * @param string      $name
-     * @param array|null  $data
-     * @param string|null $extra
-     *
-     * @return $this
-     */
-    public function setURL(string $name, $data = null, $extra = null)
+    public function setURL(string $name, array $data = null, ?string $extra = null): self
     {
         $url = $this->urlGenerator->to('forum')->route($name, $data);
 
@@ -99,52 +93,28 @@ class Response
         return $this;
     }
 
-    /**
-     * @param string $description
-     *
-     * @return $this
-     */
-    public function setDescription(?string $description)
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
         return $this;
     }
 
-    /**
-     * @param User $author
-     *
-     * @return $this
-     */
-    public function setAuthor(User $author)
+    public function setAuthor(User $author): self
     {
         $this->author = $author;
 
         return $this;
     }
 
-    /**
-     * Set color.
-     *
-     * @param string $color
-     *
-     * @return Response
-     */
-    public function setColor(?string $color)
+    public function setColor(?string $color): self
     {
         $this->color = $color;
 
         return $this;
     }
 
-    /**
-     * Set color.
-     *
-     * @param string $timestamp
-     *
-     * @return Response
-     */
-    public function setTimestamp(?string $timestamp)
+    public function setTimestamp(?string $timestamp): self
     {
         $this->timestamp = $timestamp ?: Carbon::now();
 
@@ -156,24 +126,35 @@ class Response
         return $this->color ? hexdec(substr($this->color, 1)) : null;
     }
 
-    /**
-     * @param $event
-     *
-     * @return Response
-     */
-    public static function build($event)
+    public static function build($event): self
     {
         return new self($event);
     }
 
-    /**
-     * @return string
-     */
-    public function getAuthorUrl()
+    public function getAuthorUrl(): ?string
     {
         return $this->author ? $this->urlGenerator->to('forum')->route('user', [
             'username' => $this->author->username,
         ]) : null;
+    }
+
+    public function getExtraText(): string
+    {
+        return $this->webhook->extra_text;
+    }
+
+    public function withWebhook(Webhook $webhook): Response
+    {
+        $clone = clone $this;
+
+        $clone->setWebhook($webhook);
+
+        return $clone;
+    }
+
+    protected function setWebhook(Webhook $webhook)
+    {
+        $this->webhook = $webhook;
     }
 
     public function __toString()

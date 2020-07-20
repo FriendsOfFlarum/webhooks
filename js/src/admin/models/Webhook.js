@@ -11,6 +11,8 @@ export default class Webhook extends mixin(Model, {
     events: Model.attribute('events', transformJSON([])),
     groupId: Model.attribute('group_id'),
 
+    extraText: Model.attribute('extra_text'),
+
     isValid: Model.attribute('is_valid', Boolean),
 }) {
     apiEndpoint() {

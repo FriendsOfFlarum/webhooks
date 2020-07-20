@@ -23,6 +23,7 @@ use Reflar\Webhooks\Adapters\Adapters;
  * @property string error
  * @property string events
  * @property number group_id
+ * @property string extra_text
  * @property Group|null group
  */
 class Webhook extends AbstractModel

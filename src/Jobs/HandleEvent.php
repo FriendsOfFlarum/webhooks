@@ -70,7 +70,7 @@ class HandleEvent implements ShouldQueue
             }
 
             if (!$action->ignore($response->event, $webhook->asGuest()) && $webhook->isValid()) {
-                Adapters\Adapters::get($webhook->service)->handle($webhook, $response);
+                Adapters\Adapters::get($webhook->service)->handle($webhook, $response->withWebhook($webhook));
             }
         }
     }

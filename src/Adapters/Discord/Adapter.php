@@ -49,6 +49,7 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
 
         $this->request($url, [
             'username'   => $title,
+            'content'    => $response->getExtraText(),
             'embeds'     => [
                 $this->toArray($response),
             ],

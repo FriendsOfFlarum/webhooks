@@ -89,6 +89,17 @@ export default class WebhookEditModal extends Modal {
                 {app.translator.trans('reflar-webhooks.admin.settings.modal.description')}
 
                 <div className="Form">
+                    <div className="Form-group hasLoading">
+                      <label className="label">{app.translator.trans('reflar-webhooks.admin.settings.modal.extra_text_label')}</label>
+
+                      <p className="helpText">{app.translator.trans('reflar-webhooks.admin.settings.modal.extra_text_help')}</p>
+
+                      <div>
+                        <input type="text" className="FormControl" value={this.extraText()} oninput={m.withAttr('value', this.updateExtraText.bind(this))} />
+                        {this.extraTextLoading && LoadingIndicator.component()}
+                      </div>
+                    </div>
+
                     <div className="Form-group">
                         {Dropdown.component({
                             label: [icon(this.loadingGroup() ? 'fas fa-spinner fa-spin' : group.icon() || icons[group.id()]), group.namePlural()],
@@ -137,6 +148,26 @@ export default class WebhookEditModal extends Modal {
 
     translate(group, key = 'title') {
         return app.translator.trans(`reflar-webhooks.admin.settings.actions.${group}.${key}`);
+    }
+
+    updateExtraText(val) {
+      this.extraText(val);
+
+      clearTimeout(this.extraTextTimeout);
+
+      this.extraTextTimeout = setTimeout(() => {
+        this.extraTextLoading = true;
+
+        m.redraw();
+
+        this.webhook.save({
+          extraText: this.extraText(),
+        }).then(() => {
+          this.extraTextLoading = false;
+
+          m.redraw();
+        });
+      }, 1000);
     }
 
     onchange(event, checked, component) {
