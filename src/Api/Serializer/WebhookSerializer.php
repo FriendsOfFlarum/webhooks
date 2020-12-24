@@ -1,21 +1,21 @@
 <?php
 
 /*
- * This file is part of fof/webhooks.
+ * This file is part of reflar/webhooks.
  *
- * Copyright (c) FriendsOfFlarum.
+ * Copyright (c) ReFlar.
  *
- * https://friendsofflarum.org
+ * https://reflar.redevs.org
  *
- * For the full copyright and license information, please view the LICENSE
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 
 namespace FoF\Webhooks\Api\Serializer;
 
 use Flarum\Api\Serializer\AbstractSerializer;
-use InvalidArgumentException;
 use FoF\Webhooks\Models\Webhook;
+use InvalidArgumentException;
 
 class WebhookSerializer extends AbstractSerializer
 {

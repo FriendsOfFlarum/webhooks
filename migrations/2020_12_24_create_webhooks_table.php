@@ -1,24 +1,25 @@
 <?php
 
 /*
- * This file is part of fof/webhooks.
+ * This file is part of reflar/webhooks.
  *
- * Copyright (c) FriendsOfFlarum.
+ * Copyright (c) ReFlar.
  *
- * https://friendsofflarum.org
+ * https://reflar.redevs.org
  *
- * For the full copyright and license information, please view the LICENSE
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 
-use Flarum\Database\Migration;
 use Flarum\Group\Group;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
 return [
     'up' => function (Builder $schema) {
-        if ($schema->hasTable('webhooks')) return;
+        if ($schema->hasTable('webhooks')) {
+            return;
+        }
 
         $schema->create('webhooks', function (Blueprint $table) {
             $table->increments('id');
@@ -33,5 +34,5 @@ return [
     },
     'down' => function (Builder $schema) {
         $schema->drop('webhooks');
-    }
+    },
 ];

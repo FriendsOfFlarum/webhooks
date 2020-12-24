@@ -1,13 +1,13 @@
 <?php
 
 /*
- * This file is part of fof/webhooks.
+ * This file is part of reflar/webhooks.
  *
- * Copyright (c) FriendsOfFlarum.
+ * Copyright (c) ReFlar.
  *
- * https://friendsofflarum.org
+ * https://reflar.redevs.org
  *
- * For the full copyright and license information, please view the LICENSE
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 
@@ -15,11 +15,11 @@ namespace FoF\Webhooks\Extend;
 
 use Flarum\Extend\ExtenderInterface;
 use Flarum\Extension\Extension;
-use Illuminate\Contracts\Container\Container;
 use FoF\Webhooks\Action;
 use FoF\Webhooks\Adapters\Adapter;
 use FoF\Webhooks\Adapters\Adapters;
 use FoF\Webhooks\Listener\TriggerListener;
+use Illuminate\Contracts\Container\Container;
 
 class FoFWebhooksExtender implements ExtenderInterface
 {

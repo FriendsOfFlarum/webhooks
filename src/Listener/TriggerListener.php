@@ -1,13 +1,13 @@
 <?php
 
 /*
- * This file is part of fof/webhooks.
+ * This file is part of reflar/webhooks.
  *
- * Copyright (c) FriendsOfFlarum.
+ * Copyright (c) ReFlar.
  *
- * https://friendsofflarum.org
+ * https://reflar.redevs.org
  *
- * For the full copyright and license information, please view the LICENSE
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 
@@ -15,12 +15,12 @@ namespace FoF\Webhooks\Listener;
 
 use ArrayObject;
 use Flarum\Settings\SettingsRepositoryInterface;
-use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Contracts\Queue\Queue;
-use Illuminate\Support\Arr;
 use FoF\Webhooks\Action;
 use FoF\Webhooks\Actions;
 use FoF\Webhooks\Jobs\HandleEvent;
+use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Queue\Queue;
+use Illuminate\Support\Arr;
 
 class TriggerListener
 {

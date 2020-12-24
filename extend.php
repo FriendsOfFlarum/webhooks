@@ -1,13 +1,13 @@
 <?php
 
 /*
- * This file is part of fof/webhooks.
+ * This file is part of reflar/webhooks.
  *
- * Copyright (c) FriendsOfFlarum.
+ * Copyright (c) ReFlar.
  *
- * https://friendsofflarum.org
+ * https://reflar.redevs.org
  *
- * For the full copyright and license information, please view the LICENSE
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 
@@ -17,13 +17,12 @@ use Flarum\Api\Controller\ShowForumController;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Extend;
 use Flarum\Frontend\Document;
-use Illuminate\Contracts\Events\Dispatcher;
-use Psr\Http\Message\ServerRequestInterface;
 use FoF\Webhooks\Adapters\Adapters;
 use FoF\Webhooks\Api\Serializer\WebhookSerializer;
 use FoF\Webhooks\Listener\TriggerListener;
 use FoF\Webhooks\Models\Webhook;
-use Reflar\Webhooks\Extend\ReflarWebhooksExtender;
+use Illuminate\Contracts\Events\Dispatcher;
+use Psr\Http\Message\ServerRequestInterface;
 
 return [
     (new Extend\Frontend('admin'))
