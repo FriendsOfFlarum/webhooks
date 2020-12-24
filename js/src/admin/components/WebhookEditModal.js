@@ -105,26 +105,21 @@ export default class WebhookEditModal extends Modal {
                         <label className="label">{app.translator.trans('fof-webhooks.admin.settings.modal.group_label')}</label>
                         <p className="helpText">{app.translator.trans('fof-webhooks.admin.settings.modal.group_help')}</p>
 
-                        {Dropdown.component(
-                            {
-                                label: [icon(group.icon() || icons[group.id()]), group.namePlural()],
-                                buttonClassName: 'Button Button--danger',
-                            },
-                            app.store
+                        <Dropdown label={[icon(group.icon() || icons[group.id()]), group.namePlural()]} buttonClassName="Button Button--danger">
+                            {app.store
                                 .all('groups')
                                 .filter((g) => ['1', '2'].includes(g.id()))
-                                .map((g) =>
-                                    Button.component(
-                                        {
-                                            active: group && group.id() === g.id(),
-                                            disabled: group && group.id() === g.id(),
-                                            icon: g.icon() || icons[g.id()],
-                                            onclick: () => this.groupId(g.id()),
-                                        },
-                                        g.namePlural()
-                                    )
-                                )
-                        )}
+                                .map((g) => (
+                                    <Button
+                                        active={group.id() === g.id()}
+                                        disabled={group.id() === g.id()}
+                                        icon={g.icon() || icons[g.id()]}
+                                        onclick={() => this.groupId(g.id())}
+                                    >
+                                        {g.namePlural()}
+                                    </Button>
+                                ))}
+                        </Dropdown>
                     </div>
 
                     <div className="Form-group Webhook-events">
@@ -138,15 +133,14 @@ export default class WebhookEditModal extends Modal {
                                         events.length ? (
                                             <div>
                                                 <h3>{this.translate(group)}</h3>
-                                                {events.map((event) =>
-                                                    Switch.component(
-                                                        {
-                                                            state: this.webhook.events().includes(event.full),
-                                                            onchange: this.onchange.bind(this, event.full),
-                                                        },
-                                                        this.translate(group, event.name.toLowerCase())
-                                                    )
-                                                )}
+                                                {events.map((event) => (
+                                                    <Switch
+                                                        state={this.webhook.events().includes(event.full)}
+                                                        onchange={this.onchange.bind(this, event.full)}
+                                                    >
+                                                        {this.translate(group, event.name.toLowerCase())}
+                                                    </Switch>
+                                                ))}
                                             </div>
                                         ) : null
                                     )}
