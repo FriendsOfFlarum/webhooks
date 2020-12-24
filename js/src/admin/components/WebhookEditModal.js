@@ -1,9 +1,8 @@
-import Switch from 'flarum/components/Switch';
-import Button from 'flarum/components/Button';
-import Dropdown from 'flarum/components/Dropdown';
-import icon from 'flarum/helpers/icon';
-import Group from 'flarum/models/Group';
-
+import Switch from 'flarum/common/components/Switch';
+import Button from 'flarum/common/components/Button';
+import Dropdown from 'flarum/common/components/Dropdown';
+import icon from 'flarum/common/helpers/icon';
+import Group from 'flarum/common/models/Group';
 import Modal from 'flarum/common/components/Modal';
 import Stream from 'flarum/common/utils/Stream';
 

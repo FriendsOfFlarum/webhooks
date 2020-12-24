@@ -1,6 +1,5 @@
-import app from 'flarum/app';
-import Model from 'flarum/Model';
-import Forum from 'flarum/models/Forum';
+import Model from 'flarum/common/Model';
+import Forum from 'flarum/common/models/Forum';
 
 import Webhook from './models/Webhook';
 import WebhooksPage from './components/WebhooksPage';

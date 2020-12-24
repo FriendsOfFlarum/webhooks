@@ -1,8 +1,7 @@
-import Component from 'flarum/Component';
-import Select from 'flarum/components/Select';
-import Button from 'flarum/components/Button';
-import Alert from 'flarum/components/Alert';
-
+import Component from 'flarum/common/Component';
+import Select from 'flarum/common/components/Select';
+import Button from 'flarum/common/components/Button';
+import Alert from 'flarum/common/components/Alert';
 import Stream from 'flarum/common/utils/Stream';
 import withAttr from 'flarum/common/utils/withAttr';
 
