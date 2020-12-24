@@ -17,6 +17,7 @@ use ArrayObject;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Queue\Queue;
+use Illuminate\Support\Arr;
 use Reflar\Webhooks\Action;
 use Reflar\Webhooks\Actions;
 use Reflar\Webhooks\Jobs\HandleEvent;
@@ -72,7 +73,7 @@ class TriggerListener
      */
     public function run($name, $data)
     {
-        $event = array_get($data, 0);
+        $event = Arr::get($data, 0);
 
         if (!isset($event) || !array_key_exists($name, self::$listeners)) {
             return;

@@ -45,8 +45,6 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
 
         $color = color($this->settings->get('theme_primary_color'));
 
-//        dd($color->toHexString());
-
         $this->request(
             $url,
             [

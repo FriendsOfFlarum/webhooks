@@ -40,7 +40,7 @@ class WebhookSerializer extends AbstractSerializer
             'service'    => $webhook->service,
             'url'        => $webhook->url,
             'error'      => $webhook->error,
-            'events'     => $webhook->events,
+            'events'     => json_decode($webhook->events) ?: [],
             'group_id'   => $webhook->group_id,
             'extra_text' => $webhook->extra_text,
 

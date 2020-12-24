@@ -1,10 +1,11 @@
-import Modal from 'flarum/components/Modal';
 import Switch from 'flarum/components/Switch';
 import Button from 'flarum/components/Button';
 import Dropdown from 'flarum/components/Dropdown';
-import LoadingIndicator from 'flarum/components/LoadingIndicator';
 import icon from 'flarum/helpers/icon';
 import Group from 'flarum/models/Group';
+
+import Modal from 'flarum/common/components/Modal';
+import Stream from 'flarum/common/utils/Stream';
 
 const sortByProp = (prop) => (a, b) => {
     const propA = a[prop].toUpperCase(); // ignore upper and lowercase
@@ -27,17 +28,17 @@ const groupBy = (obj, fn) => {
 };
 
 export default class WebhookEditModal extends Modal {
-    init() {
-        super.init();
+    oninit(vnode) {
+        super.oninit(vnode);
 
-        this.webhook = this.props.webhook;
+        this.webhook = this.attrs.webhook;
 
         const events = app.data['reflar-webhooks.events'];
 
-        this.loadingGroup = m.prop(false);
+        this.loadingGroup = Stream(false);
 
-        this.groupId = m.prop(this.webhook.groupId() || Group.GUEST_ID);
-        this.extraText = m.prop(this.webhook.extraText() || '');
+        this.groupId = Stream(this.webhook.groupId() || Group.GUEST_ID);
+        this.extraText = Stream(this.webhook.extraText() || '');
 
         this.events = groupBy(
             events.reduce(
@@ -105,22 +106,26 @@ export default class WebhookEditModal extends Modal {
                         <label className="label">{app.translator.trans('reflar-webhooks.admin.settings.modal.group_label')}</label>
                         <p className="helpText">{app.translator.trans('reflar-webhooks.admin.settings.modal.group_help')}</p>
 
-                        {Dropdown.component({
-                            label: [icon(group.icon() || icons[group.id()]), group.namePlural()],
-                            buttonClassName: 'Button Button--danger',
-                            children: app.store
+                        {Dropdown.component(
+                            {
+                                label: [icon(group.icon() || icons[group.id()]), group.namePlural()],
+                                buttonClassName: 'Button Button--danger',
+                            },
+                            app.store
                                 .all('groups')
                                 .filter((g) => ['1', '2'].includes(g.id()))
                                 .map((g) =>
-                                    Button.component({
-                                        active: group && group.id() === g.id(),
-                                        disabled: group && group.id() === g.id(),
-                                        children: g.namePlural(),
-                                        icon: g.icon() || icons[g.id()],
-                                        onclick: () => this.groupId(g.id()),
-                                    })
-                                ),
-                        })}
+                                    Button.component(
+                                        {
+                                            active: group && group.id() === g.id(),
+                                            disabled: group && group.id() === g.id(),
+                                            icon: g.icon() || icons[g.id()],
+                                            onclick: () => this.groupId(g.id()),
+                                        },
+                                        g.namePlural()
+                                    )
+                                )
+                        )}
                     </div>
 
                     <div className="Form-group Webhook-events">
@@ -135,11 +140,13 @@ export default class WebhookEditModal extends Modal {
                                             <div>
                                                 <h3>{this.translate(group)}</h3>
                                                 {events.map((event) =>
-                                                    Switch.component({
-                                                        state: this.webhook.events().includes(event.full),
-                                                        children: this.translate(group, event.name.toLowerCase()),
-                                                        onchange: this.onchange.bind(this, event.full),
-                                                    })
+                                                    Switch.component(
+                                                        {
+                                                            state: this.webhook.events().includes(event.full),
+                                                            onchange: this.onchange.bind(this, event.full),
+                                                        },
+                                                        this.translate(group, event.name.toLowerCase())
+                                                    )
                                                 )}
                                             </div>
                                         ) : null
@@ -149,7 +156,7 @@ export default class WebhookEditModal extends Modal {
                     </div>
 
                     <div className="Form-group">
-                        <Button type="submit" className="Button Button--primary" loading={this.loading}>
+                        <Button type="submit" className="Button Button--primary" loading={this.loading} disabled={!this.isDirty()}>
                             {app.translator.trans('core.admin.settings.submit_button')}
                         </Button>
                     </div>
@@ -160,6 +167,10 @@ export default class WebhookEditModal extends Modal {
 
     translate(group, key = 'title') {
         return app.translator.trans(`reflar-webhooks.admin.settings.actions.${group}.${key}`);
+    }
+
+    isDirty() {
+        return this.extraText() !== this.webhook.extraText() || this.groupId() != this.webhook.groupId();
     }
 
     onsubmit(e) {
@@ -196,9 +207,9 @@ export default class WebhookEditModal extends Modal {
             events.splice(events.indexOf(event), 1);
         }
 
-        return this.props.updateWebhook(events).then(() => {
+        return this.attrs.updateWebhook(events).then(() => {
             component.loading = false;
-            m.lazyRedraw();
+            m.redraw();
         });
     }
 }

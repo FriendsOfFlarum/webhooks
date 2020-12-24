@@ -15,6 +15,7 @@ namespace Reflar\Webhooks\Api\Controller;
 
 use Flarum\Api\Controller\AbstractDeleteController;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Reflar\Webhooks\Command\DeleteWebhook;
 
@@ -39,7 +40,7 @@ class DeleteWebhookController extends AbstractDeleteController
     protected function delete(ServerRequestInterface $request)
     {
         $this->bus->dispatch(
-            new DeleteWebhook(array_get($request->getQueryParams(), 'id'), $request->getAttribute('actor'))
+            new DeleteWebhook(Arr::get($request->getQueryParams(), 'id'), $request->getAttribute('actor'))
         );
     }
 }

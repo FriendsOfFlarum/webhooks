@@ -15,6 +15,7 @@ namespace Reflar\Webhooks\Api\Controller;
 
 use Flarum\Api\Controller\AbstractCreateController;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Reflar\Webhooks\Api\Serializer\WebhookSerializer;
 use Reflar\Webhooks\Command\UpdateWebhook;
@@ -48,9 +49,9 @@ class UpdateWebhookController extends AbstractCreateController
      */
     protected function data(ServerRequestInterface $request, Document $document)
     {
-        $id = array_get($request->getQueryParams(), 'id');
+        $id = Arr::get($request->getQueryParams(), 'id');
         $actor = $request->getAttribute('actor');
-        $data = array_get($request->getParsedBody(), 'data', []);
+        $data = Arr::get($request->getParsedBody(), 'data', []);
 
         return $this->bus->dispatch(
             new UpdateWebhook($id, $actor, $data)

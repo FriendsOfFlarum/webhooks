@@ -13,7 +13,6 @@
 
 namespace Reflar\Webhooks\Command;
 
-use Flarum\User\AssertPermissionTrait;
 use Flarum\User\Exception\PermissionDeniedException;
 use Illuminate\Support\Arr;
 use Reflar\Webhooks\Models\Webhook;
@@ -21,8 +20,6 @@ use Reflar\Webhooks\Validator\WebhookValidator;
 
 class UpdateWebhookHandler
 {
-    use AssertPermissionTrait;
-
     /**
      * @var WebhookValidator
      */
@@ -49,7 +46,7 @@ class UpdateWebhookHandler
         $actor = $command->actor;
         $data = $command->data;
 
-        $this->assertAdmin($actor);
+        $actor->assertAdmin();
 
         $webhook = Webhook::findOrFail($command->webhookId);
 
@@ -66,7 +63,7 @@ class UpdateWebhookHandler
             $webhook->error = null;
         }
         if (isset($events)) {
-            $webhook->events = json_encode($events);
+            $webhook->events = is_array($events) ? json_encode($events) : $events;
         }
         if (isset($groupId)) {
             $webhook->group_id = $groupId;

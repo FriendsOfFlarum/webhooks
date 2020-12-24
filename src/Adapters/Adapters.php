@@ -14,6 +14,7 @@
 namespace Reflar\Webhooks\Adapters;
 
 use ArrayObject;
+use Illuminate\Support\Arr;
 
 class Adapters
 {
@@ -42,7 +43,7 @@ class Adapters
      */
     public static function get(string $name): ?Adapter
     {
-        $adapter = array_get(self::$adapters, $name);
+        $adapter = Arr::get(self::$adapters, $name);
 
         if (isset($adapter)) {
             return app()->make($adapter);

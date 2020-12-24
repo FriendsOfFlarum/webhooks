@@ -13,14 +13,11 @@
 
 namespace Reflar\Webhooks\Command;
 
-use Flarum\User\AssertPermissionTrait;
 use Flarum\User\Exception\PermissionDeniedException;
 use Reflar\Webhooks\Models\Webhook;
 
 class DeleteWebhookHandler
 {
-    use AssertPermissionTrait;
-
     /**
      * @param DeleteWebhook $command
      *
@@ -30,9 +27,7 @@ class DeleteWebhookHandler
      */
     public function handle(DeleteWebhook $command)
     {
-        $actor = $command->actor;
-
-        $this->assertAdmin($actor);
+        $command->actor->assertAdmin();
 
         Webhook::where('id', $command->webhookId)->first()->delete();
     }

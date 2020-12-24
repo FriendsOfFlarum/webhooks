@@ -1,12 +1,14 @@
-import Button from 'flarum/components/Button';
-import Page from 'flarum/components/Page';
-import Select from 'flarum/components/Select';
-import SettingsListItem from './SettingsListItem';
-import Webhook from '../models/Webhook';
+import ExtensionPage from 'flarum/admin/components/ExtensionPage';
+import Stream from 'flarum/common/utils/Stream';
+import withAttr from 'flarum/common/utils/withAttr';
+import Button from 'flarum/common/components/Button';
+import Select from 'flarum/common/components/Select';
 
-export default class SettingsPage extends Page {
-    init() {
-        super.init();
+import SettingsListItem from './SettingsListItem';
+
+export default class WebhooksPage extends ExtensionPage {
+    oninit(vnode) {
+        super.oninit(vnode);
 
         this.values = {};
         this.services = app.data['reflar-webhooks.services'].reduce((o, service) => {
@@ -15,52 +17,45 @@ export default class SettingsPage extends Page {
         }, {});
 
         this.newWebhook = {
-            service: m.prop('discord'),
-            url: m.prop(''),
-            loading: m.prop(false),
+            service: Stream('discord'),
+            url: Stream(''),
+            loading: Stream(false),
         };
     }
 
-    /**
-     * @returns {*}
-     */
-    view() {
+    content() {
         const webhooks = app.store.all('webhooks');
 
         return (
-            <div className="WebhooksPage">
+            <div className="WebhookContent">
                 <div className="container">
                     <form>
                         <h1>{app.translator.trans('reflar-webhooks.admin.settings.title')}</h1>
                         <p className="helpText">{app.translator.trans('reflar-webhooks.admin.settings.help.general')}</p>
                         <fieldset>
                             <div className="Webhooks--Container">
-                                {webhooks.map((webhook) =>
-                                    SettingsListItem.component({
-                                        webhook,
-                                        services: this.services,
-                                    })
-                                )}
+                                {webhooks.map((webhook) => (
+                                    <SettingsListItem webhook={webhook} services={this.services} />
+                                ))}
                                 <div className="Webhooks--row">
                                     <div className="Webhook-input">
-                                        {Select.component({
-                                            options: this.services,
-                                            value: this.newWebhook.service(),
-                                            onchange: this.newWebhook.service,
-                                        })}
+                                        <Select options={this.services} value={this.newWebhook.service()} onchange={this.newWebhook.service} />
+
                                         <input
                                             className="FormControl Webhook-url"
                                             type="url"
                                             placeholder={app.translator.trans('reflar-webhooks.admin.settings.help.url')}
-                                            onchange={m.withAttr('value', this.newWebhook.url)}
+                                            onchange={withAttr('value', this.newWebhook.url)}
+                                            onkeypress={this.onkeypress.bind(this)}
                                         />
-                                        {Button.component({
-                                            type: 'button',
-                                            loading: this.newWebhook.loading(),
-                                            className: 'Button Button--warning Webhook-button',
-                                            icon: 'fas fa-plus',
-                                            onclick: this.addWebhook.bind(this),
-                                        })}
+
+                                        <Button
+                                            type="button"
+                                            loading={this.newWebhook.loading()}
+                                            className="Button Button--warning Webhook-button"
+                                            icon="fas fa-plus"
+                                            onclick={this.addWebhook.bind(this)}
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -72,6 +67,8 @@ export default class SettingsPage extends Page {
     }
 
     addWebhook() {
+        if (this.newWebhook.loading()) return;
+
         this.newWebhook.loading(true);
 
         return app.store
@@ -92,6 +89,12 @@ export default class SettingsPage extends Page {
 
                 m.redraw();
             });
+    }
+
+    onkeypress(e) {
+        if (e.key === 'Enter') {
+            this.addWebhook();
+        }
     }
 
     /**

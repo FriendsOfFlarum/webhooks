@@ -15,6 +15,7 @@ namespace Reflar\Webhooks\Api\Controller;
 
 use Flarum\Api\Controller\AbstractCreateController;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Reflar\Webhooks\Api\Serializer\WebhookSerializer;
 use Reflar\Webhooks\Command\CreateWebhook;
@@ -49,7 +50,7 @@ class CreateWebhookController extends AbstractCreateController
     protected function data(ServerRequestInterface $request, Document $document)
     {
         return $this->bus->dispatch(
-            new CreateWebhook($request->getAttribute('actor'), array_get($request->getParsedBody(), 'data', []))
+            new CreateWebhook($request->getAttribute('actor'), Arr::get($request->getParsedBody(), 'data', []))
         );
     }
 }

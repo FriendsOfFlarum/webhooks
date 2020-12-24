@@ -7,8 +7,8 @@
   "type": "flarum-extension",
   "license": "MIT",
   "require": {
-    "flarum/core": "^0.1.0-beta.11",
-    "guzzlehttp/guzzle": "~6.0",
+    "flarum/core": "^0.1.0-beta.15",
+    "guzzlehttp/guzzle": "6.* || 7.*",
     "ssnepenthe/color-utils": "^0.4.2"
   },
   "authors": [
