@@ -28,9 +28,9 @@ export default class SettingsListItem extends Component {
         const errors = [webhook.error && webhook.error()];
 
         if (!services[service]) {
-            errors.push(app.translator.trans('reflar-webhooks.admin.errors.service_not_found', { service }));
+            errors.push(app.translator.trans('fof-webhooks.admin.errors.service_not_found', { service }));
         } else if (!webhook.isValid()) {
-            errors.push(app.translator.trans('reflar-webhooks.admin.errors.url_invalid'));
+            errors.push(app.translator.trans('fof-webhooks.admin.errors.url_invalid'));
         }
 
         return (
@@ -43,7 +43,7 @@ export default class SettingsListItem extends Component {
                         type="url"
                         value={this.url()}
                         onchange={withAttr('value', this.update('url'))}
-                        placeholder={app.translator.trans('reflar-webhooks.admin.settings.help.url')}
+                        placeholder={app.translator.trans('fof-webhooks.admin.settings.help.url')}
                     />
 
                     <Button
@@ -63,7 +63,7 @@ export default class SettingsListItem extends Component {
 
                 {!this.events().length && (
                     <Alert className="Webhook-error" dismissible={false}>
-                        {app.translator.trans('reflar-webhooks.admin.settings.help.disabled')}
+                        {app.translator.trans('fof-webhooks.admin.settings.help.disabled')}
                     </Alert>
                 )}
 

@@ -11,8 +11,8 @@ export default class WebhooksPage extends ExtensionPage {
         super.oninit(vnode);
 
         this.values = {};
-        this.services = app.data['reflar-webhooks.services'].reduce((o, service) => {
-            o[service] = app.translator.trans(`reflar-webhooks.admin.settings.services.${service}`);
+        this.services = app.data['fof-webhooks.services'].reduce((o, service) => {
+            o[service] = app.translator.trans(`fof-webhooks.admin.settings.services.${service}`);
             return o;
         }, {});
 
@@ -30,8 +30,8 @@ export default class WebhooksPage extends ExtensionPage {
             <div className="WebhookContent">
                 <div className="container">
                     <form>
-                        <h1>{app.translator.trans('reflar-webhooks.admin.settings.title')}</h1>
-                        <p className="helpText">{app.translator.trans('reflar-webhooks.admin.settings.help.general')}</p>
+                        <h1>{app.translator.trans('fof-webhooks.admin.settings.title')}</h1>
+                        <p className="helpText">{app.translator.trans('fof-webhooks.admin.settings.help.general')}</p>
                         <fieldset>
                             <div className="Webhooks--Container">
                                 {webhooks.map((webhook) => (
@@ -44,7 +44,7 @@ export default class WebhooksPage extends ExtensionPage {
                                         <input
                                             className="FormControl Webhook-url"
                                             type="url"
-                                            placeholder={app.translator.trans('reflar-webhooks.admin.settings.help.url')}
+                                            placeholder={app.translator.trans('fof-webhooks.admin.settings.help.url')}
                                             onchange={withAttr('value', this.newWebhook.url)}
                                             onkeypress={this.onkeypress.bind(this)}
                                         />

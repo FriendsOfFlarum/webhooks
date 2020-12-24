@@ -33,7 +33,7 @@ export default class WebhookEditModal extends Modal {
 
         this.webhook = this.attrs.webhook;
 
-        const events = app.data['reflar-webhooks.events'];
+        const events = app.data['fof-webhooks.events'];
 
         this.loadingGroup = Stream(false);
 
@@ -78,7 +78,7 @@ export default class WebhookEditModal extends Modal {
     }
 
     title() {
-        return app.translator.trans('reflar-webhooks.admin.settings.modal.title');
+        return app.translator.trans('fof-webhooks.admin.settings.modal.title');
     }
 
     content() {
@@ -90,21 +90,21 @@ export default class WebhookEditModal extends Modal {
         const group = app.store.getById('groups', this.groupId());
 
         return (
-            <div className="ReflarWebhooksModal Modal-body">
-                {app.translator.trans('reflar-webhooks.admin.settings.modal.description')}
+            <div className="FofWebhooksModal Modal-body">
+                {app.translator.trans('fof-webhooks.admin.settings.modal.description')}
 
                 <form className="Form" onsubmit={this.onsubmit.bind(this)}>
                     <div className="Form-group hasLoading">
-                        <label className="label">{app.translator.trans('reflar-webhooks.admin.settings.modal.extra_text_label')}</label>
+                        <label className="label">{app.translator.trans('fof-webhooks.admin.settings.modal.extra_text_label')}</label>
 
-                        <p className="helpText">{app.translator.trans('reflar-webhooks.admin.settings.modal.extra_text_help')}</p>
+                        <p className="helpText">{app.translator.trans('fof-webhooks.admin.settings.modal.extra_text_help')}</p>
 
                         <input type="text" className="FormControl" bidi={this.extraText} onkeypress={this.onkeypress.bind(this)} />
                     </div>
 
                     <div className="Form-group">
-                        <label className="label">{app.translator.trans('reflar-webhooks.admin.settings.modal.group_label')}</label>
-                        <p className="helpText">{app.translator.trans('reflar-webhooks.admin.settings.modal.group_help')}</p>
+                        <label className="label">{app.translator.trans('fof-webhooks.admin.settings.modal.group_label')}</label>
+                        <p className="helpText">{app.translator.trans('fof-webhooks.admin.settings.modal.group_help')}</p>
 
                         {Dropdown.component(
                             {
@@ -129,7 +129,7 @@ export default class WebhookEditModal extends Modal {
                     </div>
 
                     <div className="Form-group Webhook-events">
-                        <label className="label">{app.translator.trans('reflar-webhooks.admin.settings.modal.events_label')}</label>
+                        <label className="label">{app.translator.trans('fof-webhooks.admin.settings.modal.events_label')}</label>
 
                         {Object.entries(this.events).map(([, events]) => (
                             <div>
@@ -166,7 +166,7 @@ export default class WebhookEditModal extends Modal {
     }
 
     translate(group, key = 'title') {
-        return app.translator.trans(`reflar-webhooks.admin.settings.actions.${group}.${key}`);
+        return app.translator.trans(`fof-webhooks.admin.settings.actions.${group}.${key}`);
     }
 
     isDirty() {

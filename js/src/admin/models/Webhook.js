@@ -14,6 +14,6 @@ export default class Webhook extends mixin(Model, {
     isValid: Model.attribute('is_valid', Boolean),
 }) {
     apiEndpoint() {
-        return `/reflar/webhooks${this.exists ? `/${this.data.id}` : ''}`;
+        return `/fof/webhooks${this.exists ? `/${this.data.id}` : ''}`;
     }
 }
