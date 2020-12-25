@@ -1,21 +1,21 @@
 <?php
 
 /*
- * This file is part of reflar/webhooks.
+ * This file is part of fof/webhooks.
  *
- * Copyright (c) ReFlar.
+ * Copyright (c) FriendsOfFlarum.
  *
- * https://reflar.redevs.org
+ * https://friendsofflarum.org
  *
- * For the full copyright and license information, please view the LICENSE.md
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Reflar\Webhooks\Adapters\Discord;
+namespace FoF\Webhooks\Adapters\Discord;
 
-use Reflar\Webhooks\Response;
+use FoF\Webhooks\Response;
 
-class Adapter extends \Reflar\Webhooks\Adapters\Adapter
+class Adapter extends \FoF\Webhooks\Adapters\Adapter
 {
     /**
      * {@inheritdoc}
@@ -85,6 +85,6 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
      */
     public static function isValidURL(string $url): bool
     {
-        return preg_match('/^https?:\/\/(?:\w+\.)?discordapp\.com\/api\/webhooks\/\d+?\/.+$/', $url);
+        return preg_match('/^https?:\/\/(?:\w+\.)?discord(?:app)?\.com\/api\/webhooks\/\d+?\/.+$/', $url);
     }
 }

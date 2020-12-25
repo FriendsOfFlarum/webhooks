@@ -1,27 +1,25 @@
 <?php
 
 /*
- * This file is part of reflar/webhooks.
+ * This file is part of fof/webhooks.
  *
- * Copyright (c) ReFlar.
+ * Copyright (c) FriendsOfFlarum.
  *
- * https://reflar.redevs.org
+ * https://friendsofflarum.org
  *
- * For the full copyright and license information, please view the LICENSE.md
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Reflar\Webhooks\Command;
+namespace FoF\Webhooks\Command;
 
-use Flarum\User\AssertPermissionTrait;
 use Flarum\User\Exception\PermissionDeniedException;
-use Reflar\Webhooks\Models\Webhook;
-use Reflar\Webhooks\Validator\WebhookValidator;
+use FoF\Webhooks\Models\Webhook;
+use FoF\Webhooks\Validator\WebhookValidator;
+use Illuminate\Support\Arr;
 
 class CreateWebhookHandler
 {
-    use AssertPermissionTrait;
-
     /**
      * @var WebhookValidator
      */
@@ -48,11 +46,11 @@ class CreateWebhookHandler
         $actor = $command->actor;
         $data = $command->data;
 
-        $this->assertAdmin($actor);
+        $actor->assertAdmin();
 
         $webhook = Webhook::build(
-            array_get($data, 'attributes.service'),
-            array_get($data, 'attributes.url')
+            Arr::get($data, 'attributes.service'),
+            Arr::get($data, 'attributes.url')
         );
 
         $this->validator->assertValid($webhook->getAttributes());

@@ -1,39 +1,60 @@
 {
-  "name": "reflar/webhooks",
+  "name": "fof/webhooks",
   "description": "Flarum with webhooks",
   "keywords": [
     "flarum"
   ],
   "type": "flarum-extension",
   "license": "MIT",
+  "support": {
+    "issues": "https://github.com/FriendsOfFlarum/webhooks/issues",
+    "source": "https://github.com/FriendsOfFlarum/webhooks",
+    "forum": "https://discuss.flarum.org/d/17812"
+  },
+  "homepage": "https://friendsofflarum.org",
+  "funding": [
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/fof/donate"
+    },
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/datitisev"
+    }
+  ],
   "require": {
-    "flarum/core": "^0.1.0-beta.11",
-    "guzzlehttp/guzzle": "~6.0",
+    "flarum/core": "^0.1.0-beta.15",
+    "guzzlehttp/guzzle": "6.* || 7.*",
     "ssnepenthe/color-utils": "^0.4.2"
+  },
+  "replace": {
+    "reflar/webhooks": "*"
   },
   "authors": [
     {
       "name": "David Sevilla Martín",
-      "email": "david.s@redevs.org",
+      "email": "me+fof@datitisev.me",
       "role": "Developer"
     }
   ],
   "autoload": {
     "psr-4": {
-      "Reflar\\Webhooks\\": "src/"
+      "FoF\\Webhooks\\": "src/",
+      "Reflar\\Webhooks\\": "src/Legacy"
     }
   },
   "extra": {
     "flarum-extension": {
-      "title": "ReFlar Webhooks",
+      "title": "FoF Webhooks",
+      "category": "feature",
       "icon": {
         "name": "fas fa-external-link-alt",
-        "backgroundColor": "#263238",
-        "color": "#FFF"
+        "backgroundColor": "#e74c3c",
+        "color": "#fff"
       }
     },
     "flagrow": {
-      "discuss": "https://discuss.flarum.org/d/17812-webhooks-by-reflar"
+      "discuss": "https://discuss.flarum.org/d/17812"
     }
   }
 }

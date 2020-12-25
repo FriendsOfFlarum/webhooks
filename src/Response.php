@@ -1,22 +1,22 @@
 <?php
 
 /*
- * This file is part of reflar/webhooks.
+ * This file is part of fof/webhooks.
  *
- * Copyright (c) ReFlar.
+ * Copyright (c) FriendsOfFlarum.
  *
- * https://reflar.redevs.org
+ * https://friendsofflarum.org
  *
- * For the full copyright and license information, please view the LICENSE.md
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Reflar\Webhooks;
+namespace FoF\Webhooks;
 
 use Carbon\Carbon;
 use Flarum\Http\UrlGenerator;
 use Flarum\User\User;
-use Reflar\Webhooks\Models\Webhook;
+use FoF\Webhooks\Models\Webhook;
 
 class Response
 {

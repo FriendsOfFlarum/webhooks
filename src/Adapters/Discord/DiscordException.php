@@ -1,19 +1,20 @@
 <?php
 
 /*
- * This file is part of reflar/webhooks.
+ * This file is part of fof/webhooks.
  *
- * Copyright (c) ReFlar.
+ * Copyright (c) FriendsOfFlarum.
  *
- * https://reflar.redevs.org
+ * https://friendsofflarum.org
  *
- * For the full copyright and license information, please view the LICENSE.md
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Reflar\Webhooks\Adapters\Discord;
+namespace FoF\Webhooks\Adapters\Discord;
 
 use Exception;
+use Illuminate\Support\Arr;
 use Psr\Http\Message\ResponseInterface;
 
 class DiscordException extends Exception
@@ -35,13 +36,13 @@ class DiscordException extends Exception
         $contents = $res->getBody()->getContents();
         $body = json_decode($contents);
 
-        if (!array_get($body, 'message')) {
+        if (!Arr::get($body, 'message')) {
             app('log')->error("\t— $contents");
         }
 
         parent::__construct(
-            array_get($body, 'message') ?: $res->getReasonPhrase(),
-            array_get($body, 'code')
+            Arr::get($body, 'message') ?: $res->getReasonPhrase(),
+            Arr::get($body, 'code')
         );
     }
 

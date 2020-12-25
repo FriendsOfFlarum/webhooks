@@ -1,14 +1,13 @@
-import app from 'flarum/app';
-import Model from 'flarum/Model';
-import Forum from 'flarum/models/Forum';
+import Model from 'flarum/common/Model';
+import Forum from 'flarum/common/models/Forum';
 
 import Webhook from './models/Webhook';
-import addSettingsPage from './addSettingsPage';
+import WebhooksPage from './components/WebhooksPage';
 
-app.initializers.add('reflar/webhooks', () => {
+app.initializers.add('fof/webhooks', () => {
     app.store.models.webhooks = Webhook;
 
     Forum.prototype.webhooks = Model.hasMany('webhooks');
 
-    addSettingsPage();
+    app.extensionData.for('fof-webhooks').registerPage(WebhooksPage);
 });

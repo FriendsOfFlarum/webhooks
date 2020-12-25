@@ -1,27 +1,27 @@
 <?php
 
 /*
- * This file is part of reflar/webhooks.
+ * This file is part of fof/webhooks.
  *
- * Copyright (c) ReFlar.
+ * Copyright (c) FriendsOfFlarum.
  *
- * https://reflar.redevs.org
+ * https://friendsofflarum.org
  *
- * For the full copyright and license information, please view the LICENSE.md
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Reflar\Webhooks\Extend;
+namespace FoF\Webhooks\Extend;
 
 use Flarum\Extend\ExtenderInterface;
 use Flarum\Extension\Extension;
+use FoF\Webhooks\Action;
+use FoF\Webhooks\Adapters\Adapter;
+use FoF\Webhooks\Adapters\Adapters;
+use FoF\Webhooks\Listener\TriggerListener;
 use Illuminate\Contracts\Container\Container;
-use Reflar\Webhooks\Action;
-use Reflar\Webhooks\Adapters\Adapter;
-use Reflar\Webhooks\Adapters\Adapters;
-use Reflar\Webhooks\Listener\TriggerListener;
 
-class ReflarWebhooksExtender implements ExtenderInterface
+class FoFWebhooksExtender implements ExtenderInterface
 {
     private $listeners = [];
     private $adapters = [];

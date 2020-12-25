@@ -1,4 +1,4 @@
-reflar-webhooks:
+fof-webhooks:
   actions:
     discussion:
       started: "Started discussion `{1}`"
@@ -70,33 +70,33 @@ reflar-webhooks:
             title: Flarum Discussion
 
             started: Started
-            renamed: => reflar-webhooks.ref.renamed
-            hidden: => reflar-webhooks.ref.hidden
-            restored: => reflar-webhooks.ref.restored
-            deleted: => reflar-webhooks.ref.deleted
+            renamed: => fof-webhooks.ref.renamed
+            hidden: => fof-webhooks.ref.hidden
+            restored: => fof-webhooks.ref.restored
+            deleted: => fof-webhooks.ref.deleted
 
           group:
             title: Flarum Group
 
             created: Created
-            renamed: => reflar-webhooks.ref.renamed
-            deleted: => reflar-webhooks.ref.deleted
+            renamed: => fof-webhooks.ref.renamed
+            deleted: => fof-webhooks.ref.deleted
 
           post:
             title: Flarum Post
 
             posted: Posted
             revised: Edited
-            hidden: => reflar-webhooks.ref.hidden
-            restored: => reflar-webhooks.ref.restored
-            deleted: => reflar-webhooks.ref.deleted
+            hidden: => fof-webhooks.ref.hidden
+            restored: => fof-webhooks.ref.restored
+            deleted: => fof-webhooks.ref.deleted
 
           user:
             title: Flarum User
 
             registered: Registered
-            renamed: => reflar-webhooks.ref.renamed
-            deleted: => reflar-webhooks.ref.deleted
+            renamed: => fof-webhooks.ref.renamed
+            deleted: => fof-webhooks.ref.deleted
 
   ref:
     deleted: Deleted

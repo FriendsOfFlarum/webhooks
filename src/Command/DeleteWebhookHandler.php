@@ -1,26 +1,23 @@
 <?php
 
 /*
- * This file is part of reflar/webhooks.
+ * This file is part of fof/webhooks.
  *
- * Copyright (c) ReFlar.
+ * Copyright (c) FriendsOfFlarum.
  *
- * https://reflar.redevs.org
+ * https://friendsofflarum.org
  *
- * For the full copyright and license information, please view the LICENSE.md
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Reflar\Webhooks\Command;
+namespace FoF\Webhooks\Command;
 
-use Flarum\User\AssertPermissionTrait;
 use Flarum\User\Exception\PermissionDeniedException;
-use Reflar\Webhooks\Models\Webhook;
+use FoF\Webhooks\Models\Webhook;
 
 class DeleteWebhookHandler
 {
-    use AssertPermissionTrait;
-
     /**
      * @param DeleteWebhook $command
      *
@@ -30,9 +27,7 @@ class DeleteWebhookHandler
      */
     public function handle(DeleteWebhook $command)
     {
-        $actor = $command->actor;
-
-        $this->assertAdmin($actor);
+        $command->actor->assertAdmin();
 
         Webhook::where('id', $command->webhookId)->first()->delete();
     }

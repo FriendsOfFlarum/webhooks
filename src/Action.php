@@ -1,17 +1,17 @@
 <?php
 
 /*
- * This file is part of reflar/webhooks.
+ * This file is part of fof/webhooks.
  *
- * Copyright (c) ReFlar.
+ * Copyright (c) FriendsOfFlarum.
  *
- * https://reflar.redevs.org
+ * https://friendsofflarum.org
  *
- * For the full copyright and license information, please view the LICENSE.md
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Reflar\Webhooks;
+namespace FoF\Webhooks;
 
 use Flarum\Http\UrlGenerator;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -62,7 +62,7 @@ abstract class Action
      */
     protected function translate(string $id, $param1 = null)
     {
-        return $this->translator->trans('reflar-webhooks.actions.'.$id, [
+        return $this->translator->trans('fof-webhooks.actions.'.$id, [
             '{1}' => $param1,
         ]);
     }

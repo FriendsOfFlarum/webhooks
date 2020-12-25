@@ -1,23 +1,23 @@
 <?php
 
 /*
- * This file is part of reflar/webhooks.
+ * This file is part of fof/webhooks.
  *
- * Copyright (c) ReFlar.
+ * Copyright (c) FriendsOfFlarum.
  *
- * https://reflar.redevs.org
+ * https://friendsofflarum.org
  *
- * For the full copyright and license information, please view the LICENSE.md
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Reflar\Webhooks\Api\Controller;
+namespace FoF\Webhooks\Api\Controller;
 
 use Flarum\Api\Controller\AbstractListController;
 use Flarum\User\Exception\PermissionDeniedException;
+use FoF\Webhooks\Api\Serializer\WebhookSerializer;
+use FoF\Webhooks\Models\Webhook;
 use Psr\Http\Message\ServerRequestInterface;
-use Reflar\Webhooks\Api\Serializer\WebhookSerializer;
-use Reflar\Webhooks\Models\Webhook;
 use Tobscure\JsonApi\Document;
 
 class ListWebhooksController extends AbstractListController

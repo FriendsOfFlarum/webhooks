@@ -1,23 +1,23 @@
 <?php
 
 /*
- * This file is part of reflar/webhooks.
+ * This file is part of fof/webhooks.
  *
- * Copyright (c) ReFlar.
+ * Copyright (c) FriendsOfFlarum.
  *
- * https://reflar.redevs.org
+ * https://friendsofflarum.org
  *
- * For the full copyright and license information, please view the LICENSE.md
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Reflar\Webhooks\Adapters\MicrosoftTeams;
+namespace FoF\Webhooks\Adapters\MicrosoftTeams;
 
 use Flarum\Http\UrlGenerator;
-use Reflar\Webhooks\Response;
+use FoF\Webhooks\Response;
 use function SSNepenthe\ColorUtils\color;
 
-class Adapter extends \Reflar\Webhooks\Adapters\Adapter
+class Adapter extends \FoF\Webhooks\Adapters\Adapter
 {
     /**
      * {@inheritdoc}
@@ -44,8 +44,6 @@ class Adapter extends \Reflar\Webhooks\Adapters\Adapter
         }
 
         $color = color($this->settings->get('theme_primary_color'));
-
-//        dd($color->toHexString());
 
         $this->request(
             $url,

@@ -1,17 +1,17 @@
 <?php
 
 /*
- * This file is part of reflar/webhooks.
+ * This file is part of fof/webhooks.
  *
- * Copyright (c) ReFlar.
+ * Copyright (c) FriendsOfFlarum.
  *
- * https://reflar.redevs.org
+ * https://friendsofflarum.org
  *
- * For the full copyright and license information, please view the LICENSE.md
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Reflar\Webhooks\Adapters\Slack;
+namespace FoF\Webhooks\Adapters\Slack;
 
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -40,7 +40,7 @@ class SlackException extends Exception
         $body = json_decode($contents);
 
         if ($this->http == 404) {
-            parent::__construct(app('translator')->trans('reflar-webhooks.adapters.errors.404'));
+            parent::__construct(app('translator')->trans('fof-webhooks.adapters.errors.404'));
         } else {
             parent::__construct($body->message ?: $contents, $body->code);
         }

@@ -1,25 +1,26 @@
 <?php
 
 /*
- * This file is part of reflar/webhooks.
+ * This file is part of fof/webhooks.
  *
- * Copyright (c) ReFlar.
+ * Copyright (c) FriendsOfFlarum.
  *
- * https://reflar.redevs.org
+ * https://friendsofflarum.org
  *
- * For the full copyright and license information, please view the LICENSE.md
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Reflar\Webhooks\Listener;
+namespace FoF\Webhooks\Listener;
 
 use ArrayObject;
 use Flarum\Settings\SettingsRepositoryInterface;
+use FoF\Webhooks\Action;
+use FoF\Webhooks\Actions;
+use FoF\Webhooks\Jobs\HandleEvent;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Queue\Queue;
-use Reflar\Webhooks\Action;
-use Reflar\Webhooks\Actions;
-use Reflar\Webhooks\Jobs\HandleEvent;
+use Illuminate\Support\Arr;
 
 class TriggerListener
 {
@@ -72,7 +73,7 @@ class TriggerListener
      */
     public function run($name, $data)
     {
-        $event = array_get($data, 0);
+        $event = Arr::get($data, 0);
 
         if (!isset($event) || !array_key_exists($name, self::$listeners)) {
             return;

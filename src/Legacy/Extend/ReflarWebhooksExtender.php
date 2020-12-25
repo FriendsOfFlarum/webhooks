@@ -11,14 +11,10 @@
  * file that was distributed with this source code.
  */
 
-namespace FoF\Webhooks\Actions\Post;
+namespace Reflar\Webhooks\Extend;
 
-use Flarum\User\Guest;
+use FoF\Webhooks\Extend\FoFWebhooksExtender;
 
-abstract class Action extends \FoF\Webhooks\Action
+class ReflarWebhooksExtender extends FoFWebhooksExtender
 {
-    public function ignore($event, bool $asGuest): bool
-    {
-        return $asGuest && !$event->post->isVisibleTo(new Guest());
-    }
 }

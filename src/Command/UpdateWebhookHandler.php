@@ -1,28 +1,25 @@
 <?php
 
 /*
- * This file is part of reflar/webhooks.
+ * This file is part of fof/webhooks.
  *
- * Copyright (c) ReFlar.
+ * Copyright (c) FriendsOfFlarum.
  *
- * https://reflar.redevs.org
+ * https://friendsofflarum.org
  *
- * For the full copyright and license information, please view the LICENSE.md
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Reflar\Webhooks\Command;
+namespace FoF\Webhooks\Command;
 
-use Flarum\User\AssertPermissionTrait;
 use Flarum\User\Exception\PermissionDeniedException;
+use FoF\Webhooks\Models\Webhook;
+use FoF\Webhooks\Validator\WebhookValidator;
 use Illuminate\Support\Arr;
-use Reflar\Webhooks\Models\Webhook;
-use Reflar\Webhooks\Validator\WebhookValidator;
 
 class UpdateWebhookHandler
 {
-    use AssertPermissionTrait;
-
     /**
      * @var WebhookValidator
      */
@@ -49,7 +46,7 @@ class UpdateWebhookHandler
         $actor = $command->actor;
         $data = $command->data;
 
-        $this->assertAdmin($actor);
+        $actor->assertAdmin();
 
         $webhook = Webhook::findOrFail($command->webhookId);
 
@@ -66,7 +63,7 @@ class UpdateWebhookHandler
             $webhook->error = null;
         }
         if (isset($events)) {
-            $webhook->events = json_encode($events);
+            $webhook->events = is_array($events) ? json_encode($events) : $events;
         }
         if (isset($groupId)) {
             $webhook->group_id = $groupId;
