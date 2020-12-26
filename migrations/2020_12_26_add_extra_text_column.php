@@ -17,21 +17,17 @@ use Illuminate\Database\Schema\Builder;
 
 return [
     'up' => function (Builder $schema) {
-        if ($schema->hasTable('webhooks')) {
+        if ($schema->hasColumn('webhooks', 'extra_text')) {
             return;
         }
 
-        $schema->create('webhooks', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('service');
-            $table->string('url');
-            $table->string('error')->nullable();
-            $table->binary('events');
-
-            $table->integer('group_id')->unsigned()->default(Group::GUEST_ID);
+        $schema->table('webhooks', function (Blueprint $table) {
+            $table->string('extra_text', 256)->nullable();
         });
     },
     'down' => function (Builder $schema) {
-        $schema->drop('webhooks');
+        $schema->table('webhooks', function (Blueprint $table) {
+            $table->dropColumn('extra_text');
+        });
     },
 ];
