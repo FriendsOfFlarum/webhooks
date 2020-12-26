@@ -138,7 +138,7 @@ class Response
         ]) : null;
     }
 
-    public function getExtraText(): string
+    public function getExtraText(): ?string
     {
         return $this->webhook->extra_text;
     }
