@@ -38,7 +38,7 @@ class Deleted extends Action
                 ],
                 '/'.$event->post->number
             )
-            ->setDescription($event->post->content)
+            ->setDescription(is_array($content = $event->post->content) ? null : $content)
             ->setAuthor($event->actor)
             ->setColor('26de81')
             ->setTimestamp(Carbon::now());
