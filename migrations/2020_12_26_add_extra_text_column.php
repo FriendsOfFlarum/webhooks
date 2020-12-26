@@ -11,7 +11,6 @@
  * file that was distributed with this source code.
  */
 
-use Flarum\Group\Group;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
