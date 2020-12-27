@@ -14,6 +14,7 @@
 namespace FoF\Webhooks\Actions\Discussion;
 
 use FoF\Webhooks\Response;
+use FoF\Webhooks\Helpers\Post;
 
 class Started extends Action
 {
@@ -33,7 +34,7 @@ class Started extends Action
             ->setURL('discussion', [
                 'id' => $event->discussion->id,
             ])
-            ->setDescription($event->discussion->firstPost->content)
+            ->setDescription(Post::getContent($event->discussion->firstPost))
             ->setAuthor($event->actor)
             ->setColor('fed330')
             ->setTimestamp($event->discussion->created_at);

@@ -13,6 +13,7 @@
 
 namespace FoF\Webhooks\Actions\Discussion;
 
+use FoF\Webhooks\Helpers\Post;
 use FoF\Webhooks\Response;
 
 class Hidden extends Action
@@ -35,7 +36,7 @@ class Hidden extends Action
             ->setURL('discussion', [
                 'id' => $event->discussion->id,
             ])
-            ->setDescription($firstPost ? $firstPost->content : null)
+            ->setDescription(Post::getContent($firstPost))
             ->setAuthor($event->actor)
             ->setColor('fed330')
             ->setTimestamp($event->discussion->hidden_at);

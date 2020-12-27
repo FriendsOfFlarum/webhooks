@@ -14,6 +14,7 @@
 namespace FoF\Webhooks\Actions\Discussion;
 
 use Carbon\Carbon;
+use FoF\Webhooks\Helpers\Post;
 use FoF\Webhooks\Response;
 
 class Restored extends Action
@@ -36,7 +37,7 @@ class Restored extends Action
             ->setURL('discussion', [
                 'id' => $event->discussion->id,
             ])
-            ->setDescription($firstPost ? $firstPost->content : null)
+            ->setDescription(Post::getContent($firstPost))
             ->setAuthor($event->actor)
             ->setColor('fed330')
             ->setTimestamp(Carbon::now());

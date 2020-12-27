@@ -14,6 +14,7 @@
 namespace FoF\Webhooks\Actions\Post;
 
 use Carbon\Carbon;
+use FoF\Webhooks\Helpers\Post;
 use FoF\Webhooks\Response;
 
 class Deleted extends Action
@@ -38,7 +39,7 @@ class Deleted extends Action
                 ],
                 '/'.$event->post->number
             )
-            ->setDescription(is_array($content = $event->post->content) ? null : $content)
+            ->setDescription(Post::getContent($event->post))
             ->setAuthor($event->actor)
             ->setColor('26de81')
             ->setTimestamp(Carbon::now());

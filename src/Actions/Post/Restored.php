@@ -15,6 +15,7 @@ namespace FoF\Webhooks\Actions\Post;
 
 use Carbon\Carbon;
 use FoF\Webhooks\Response;
+use FoF\Webhooks\Helpers\Post;
 
 class Restored extends Action
 {
@@ -38,7 +39,7 @@ class Restored extends Action
                 ],
                 '/'.$event->post->number
             )
-            ->setDescription($event->post->content)
+            ->setDescription(Post::getContent($event->post))
             ->setAuthor($event->actor)
             ->setColor('26de81')
             ->setTimestamp(Carbon::now());

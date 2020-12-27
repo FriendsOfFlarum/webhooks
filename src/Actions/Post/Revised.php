@@ -13,6 +13,7 @@
 
 namespace FoF\Webhooks\Actions\Post;
 
+use FoF\Webhooks\Helpers\Post;
 use FoF\Webhooks\Response;
 
 class Revised extends Action
@@ -37,7 +38,7 @@ class Revised extends Action
                 ],
                 '/'.$event->post->number
             )
-            ->setDescription($event->post->content)
+            ->setDescription(Post::getContent($event->post))
             ->setAuthor($event->actor)
             ->setColor('26de81')
             ->setTimestamp($event->post->edited_at);
