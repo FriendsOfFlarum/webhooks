@@ -27,6 +27,8 @@ class Restored extends Action
      */
     public function listen($event)
     {
+        $firstPost = $event->discussion->firstPost;
+
         return Response::build($event)
             ->setTitle(
                 $this->translate('discussion.restored', $event->discussion->title)
@@ -34,7 +36,7 @@ class Restored extends Action
             ->setURL('discussion', [
                 'id' => $event->discussion->id,
             ])
-            ->setDescription($event->discussion->firstPost->content)
+            ->setDescription($firstPost ? $firstPost->content : null)
             ->setAuthor($event->actor)
             ->setColor('fed330')
             ->setTimestamp(Carbon::now());
