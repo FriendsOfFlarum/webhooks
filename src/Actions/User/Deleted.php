@@ -30,7 +30,7 @@ class Deleted extends Action
     {
         return Response::build($event)
             ->setTitle(
-                $this->translate('user.deleted', $event->user->username)
+                $this->translate('user.deleted', $event->user->display_name)
             )
             ->setAuthor($event->actor)
             ->setColor('4b7bec')

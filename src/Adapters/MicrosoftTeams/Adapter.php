@@ -68,9 +68,9 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
      *
      * @return array
      */
-    public function toArray(Response $response)
+    public function toArray(Response $response): array
     {
-        $user = app(UrlGenerator::class)->to('forum')->route('user', ['username' => $response->author->username]);
+        $user = $response->getAuthorUrl();
 
         return [
             'title' => $response->title,

@@ -61,14 +61,14 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
      *
      * @return array
      */
-    public function toArray(Response $response)
+    public function toArray(Response $response): array
     {
         return [
             'title'       => substr($response->title, 0, 256),
             'url'         => $response->url,
             'description' => $response->description ? substr($response->description, 0, 2048) : null,
             'author'      => isset($response->author) ? [
-                'name'     => substr($response->author->username, 0, 256),
+                'name'     => substr($response->author->display_name, 0, 256),
                 'url'      => $response->getAuthorUrl(),
                 'icon_url' => $response->author->avatar_url,
             ] : null,

@@ -63,10 +63,10 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
      *
      * @return array
      */
-    public function toArray(Response $response)
+    public function toArray(Response $response): array
     {
         $data = [
-            'fallback'   => $response->description.($response->author ? ' - '.$response->author->username : ''),
+            'fallback'   => $response->description.($response->author ? ' - '.$response->author->display_name : ''),
             'color'      => $response->color,
             'title'      => $response->title,
             'title_link' => $response->url,
@@ -75,7 +75,7 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
         ];
 
         if (isset($response->author)) {
-            $data['author_name'] = $response->author->username;
+            $data['author_name'] = $response->author->display_name;
             $data['author_link'] = $response->getAuthorUrl();
             $data['author_icon'] = $response->author->avatar_url;
         }

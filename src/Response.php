@@ -159,6 +159,6 @@ class Response
 
     public function __toString()
     {
-        return "Response{title=$this->title,url=$this->url,author={$this->author->username}}";
+        return "Response{title=$this->title,url=$this->url,author={$this->author->display_name}}";
     }
 }
