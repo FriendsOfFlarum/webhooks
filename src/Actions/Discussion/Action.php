@@ -13,14 +13,32 @@
 
 namespace FoF\Webhooks\Actions\Discussion;
 
+use Flarum\Discussion\Discussion;
+use Flarum\Extension\ExtensionManager;
 use Flarum\User\Guest;
+use FoF\Webhooks\Models\Webhook;
 
 abstract class Action extends \FoF\Webhooks\Action
 {
-    public function ignore($event, bool $asGuest): bool
+    public function ignore($event, Webhook $webhook): bool
     {
-        $post = $event->discussion->firstPost ?? $event->discussion->posts()->where('number', 1)->first();
+        /**
+         * @var Discussion $discussion
+         */
+        $discussion = $event->discussion;
+        $post = $discussion->firstPost ?? $discussion->posts()->where('number', 1)->first();
 
-        return $asGuest && $post && !$post->isVisibleTo(new Guest());
+        if ($webhook->asGuest() && $post && !$post->isVisibleTo(new Guest())) {
+            return true;
+        }
+
+        $tag = $webhook->tag;
+        $tagsIsEnabled = app(ExtensionManager::class)->isEnabled('flarum-tags');
+
+        if ($tag && $tagsIsEnabled && !$discussion->tags()->where('id', $tag->id)->exists()) {
+            return true;
+        }
+
+        return false;
     }
 }

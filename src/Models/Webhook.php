@@ -15,6 +15,7 @@ namespace FoF\Webhooks\Models;
 
 use Flarum\Database\AbstractModel;
 use Flarum\Group\Group;
+use Flarum\Tags\Tag;
 use FoF\Webhooks\Adapters\Adapters;
 
 /**
@@ -23,8 +24,11 @@ use FoF\Webhooks\Adapters\Adapters;
  * @property string error
  * @property string events
  * @property number group_id
+ * @property number tag_id
  * @property string extra_text
+ *
  * @property Group|null group
+ * @property Tag|null tag
  */
 class Webhook extends AbstractModel
 {
@@ -66,7 +70,12 @@ class Webhook extends AbstractModel
         return $this->belongsTo(Group::class);
     }
 
-    public function asGuest()
+    public function tag()
+    {
+        return $this->belongsTo(Tag::class);
+    }
+
+    public function asGuest(): bool
     {
         $group = $this->group;
 

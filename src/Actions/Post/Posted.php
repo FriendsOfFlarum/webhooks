@@ -13,6 +13,7 @@
 
 namespace FoF\Webhooks\Actions\Post;
 
+use FoF\Webhooks\Models\Webhook;
 use FoF\Webhooks\Response;
 
 class Posted extends Action
@@ -45,12 +46,11 @@ class Posted extends Action
 
     /**
      * @param \Flarum\Post\Event\Posted $event
-     * @param bool                      $asGuest
-     *
+     * @param Webhook $webhook
      * @return bool
      */
-    public function ignore($event, bool $asGuest): bool
+    public function ignore($event, Webhook $webhook): bool
     {
-        return parent::ignore($event, $asGuest) || !isset($event->post->discussion->first_post_id) || $event->post->id == $event->post->discussion->first_post_id;
+        return parent::ignore($event, $webhook) || !isset($event->post->discussion->first_post_id) || $event->post->id == $event->post->discussion->first_post_id;
     }
 }

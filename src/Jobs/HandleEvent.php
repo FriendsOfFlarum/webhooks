@@ -69,7 +69,7 @@ class HandleEvent implements ShouldQueue
                 continue;
             }
 
-            if (!$action->ignore($response->event, $webhook->asGuest()) && $webhook->isValid()) {
+            if (!$action->ignore($response->event, $webhook) && $webhook->isValid()) {
                 Adapters\Adapters::get($webhook->service)->handle($webhook, $response->withWebhook($webhook));
             }
         }

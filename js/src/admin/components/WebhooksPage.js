@@ -30,7 +30,6 @@ export default class WebhooksPage extends ExtensionPage {
             <div className="WebhookContent">
                 <div className="container">
                     <form>
-                        <h1>{app.translator.trans('fof-webhooks.admin.settings.title')}</h1>
                         <p className="helpText">{app.translator.trans('fof-webhooks.admin.settings.help.general')}</p>
                         <fieldset>
                             <div className="Webhooks--Container">

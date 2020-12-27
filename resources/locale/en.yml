@@ -40,7 +40,8 @@ fof-webhooks:
     nav:
       desc: Customizable outgoing webhooks for your forum.
     settings:
-      title: Webhooks
+      item:
+        tag_any_label: Any
 
       help:
         disabled: This webhook is disabled because it doesn't have any events enabled.

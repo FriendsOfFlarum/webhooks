@@ -13,12 +13,26 @@
 
 namespace FoF\Webhooks\Actions\Post;
 
+use Flarum\Extension\ExtensionManager;
 use Flarum\User\Guest;
+use FoF\Webhooks\Models\Webhook;
 
 abstract class Action extends \FoF\Webhooks\Action
 {
-    public function ignore($event, bool $asGuest): bool
+    public function ignore($event, Webhook $webhook): bool
     {
-        return $asGuest && !$event->post->isVisibleTo(new Guest());
+        if ($webhook->asGuest() && !$event->post->isVisibleTo(new Guest())) {
+            return true;
+        }
+
+        $discussion = $event->post->discussion;
+        $tag = $webhook->tag;
+        $tagsIsEnabled = app(ExtensionManager::class)->isEnabled('flarum-tags');
+
+        if ($discussion && $tag && $tagsIsEnabled && !$discussion->tags()->where('id', $tag->id)->exists()) {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -14,6 +14,7 @@
 namespace FoF\Webhooks;
 
 use Flarum\Http\UrlGenerator;
+use FoF\Webhooks\Models\Webhook;
 use Symfony\Component\Translation\TranslatorInterface;
 
 abstract class Action
@@ -45,11 +46,11 @@ abstract class Action
 
     /**
      * @param $event
-     * @param bool $asGuest
+     * @param Webhook $webhook
      *
      * @return bool
      */
-    public function ignore($event, bool $asGuest): bool
+    public function ignore($event, Webhook $webhook): bool
     {
         return false;
     }
