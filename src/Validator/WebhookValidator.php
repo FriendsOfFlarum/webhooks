@@ -26,7 +26,6 @@ class WebhookValidator extends AbstractValidator
             'required',
             'string',
             'url',
-            'unique:webhooks',
         ],
         'group_id' => [
             'nullable',
