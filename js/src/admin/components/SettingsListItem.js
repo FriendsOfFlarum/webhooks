@@ -18,6 +18,8 @@ export default class SettingsListItem extends Component {
         this.service = Stream(this.webhook.service());
         this.events = Stream(this.webhook.events());
         this.error = Stream(this.webhook.error());
+
+        this.loading = {};
     }
 
     view() {
@@ -35,13 +37,14 @@ export default class SettingsListItem extends Component {
         return (
             <div className="Webhooks--row">
                 <div className="Webhook-input">
-                    <Select options={services} value={service} onchange={this.update('service')} />
+                    <Select options={services} value={service} onchange={this.update('service')} disabled={this.loading['service']} />
 
                     <input
                         className="FormControl Webhook-url"
                         type="url"
                         value={this.url()}
                         onchange={withAttr('value', this.update('url'))}
+                        disabled={this.loading['url']}
                         placeholder={app.translator.trans('fof-webhooks.admin.settings.help.url')}
                     />
 
@@ -77,11 +80,20 @@ export default class SettingsListItem extends Component {
 
     update(field) {
         return (value) => {
+            this.loading[field] = true;
+
             return this.webhook
                 .save({
                     [field]: value,
                 })
-                .then(() => m.redraw());
+                .catch(() => {})
+                .then(() => {
+                    this.loading[field] = false;
+
+                    if (this[field]) this[field](value);
+
+                    m.redraw();
+                });
         };
     }
 
