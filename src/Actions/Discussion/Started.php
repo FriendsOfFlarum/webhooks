@@ -13,8 +13,8 @@
 
 namespace FoF\Webhooks\Actions\Discussion;
 
-use FoF\Webhooks\Response;
 use FoF\Webhooks\Helpers\Post;
+use FoF\Webhooks\Response;
 
 class Started extends Action
 {
