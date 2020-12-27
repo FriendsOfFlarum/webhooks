@@ -13,7 +13,6 @@
 
 namespace FoF\Webhooks\Adapters\MicrosoftTeams;
 
-use Flarum\Http\UrlGenerator;
 use FoF\Webhooks\Response;
 use function SSNepenthe\ColorUtils\color;
 

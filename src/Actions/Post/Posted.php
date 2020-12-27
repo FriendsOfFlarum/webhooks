@@ -46,7 +46,8 @@ class Posted extends Action
 
     /**
      * @param \Flarum\Post\Event\Posted $event
-     * @param Webhook $webhook
+     * @param Webhook                   $webhook
+     *
      * @return bool
      */
     public function ignore($event, Webhook $webhook): bool

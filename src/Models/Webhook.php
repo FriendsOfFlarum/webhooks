@@ -26,7 +26,6 @@ use FoF\Webhooks\Adapters\Adapters;
  * @property number group_id
  * @property number tag_id
  * @property string extra_text
- *
  * @property Group|null group
  * @property Tag|null tag
  */
