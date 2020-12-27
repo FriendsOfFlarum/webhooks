@@ -14,16 +14,16 @@
     flex-direction: row;
     flex-basis: fit-content;
 
-    .Select, button, input {
+    > .Select, > button, > input, > div {
       margin: 0 5px;
+    }
 
-      &:first-child {
-        margin-left: 0;
-      }
+    > :first-child {
+      margin-left: 0;
+    }
 
-      &:last-child {
-        margin-right: 0;
-      }
+    > :last-child {
+      margin-right: 0;
     }
 
     .Select {
@@ -32,7 +32,6 @@
 
     .Webhook-url {
       flex-grow: 1;
-      margin-left: 20px;
 
       &::placeholder {
         font-style: italic;
