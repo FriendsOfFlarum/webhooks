@@ -145,11 +145,9 @@ class Response
 
     public function withWebhook(Webhook $webhook): self
     {
-        $clone = clone $this;
+        $this->setWebhook($webhook);
 
-        $clone->setWebhook($webhook);
-
-        return $clone;
+        return $this;
     }
 
     protected function setWebhook(Webhook $webhook)

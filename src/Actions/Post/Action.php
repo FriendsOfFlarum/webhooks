@@ -19,7 +19,7 @@ use FoF\Webhooks\Models\Webhook;
 
 abstract class Action extends \FoF\Webhooks\Action
 {
-    public function ignore($event, Webhook $webhook): bool
+    public function ignore(Webhook $webhook, $event): bool
     {
         if ($webhook->asGuest() && !$event->post->isVisibleTo(new Guest())) {
             return true;

@@ -51,8 +51,8 @@ class Posted extends Action
      *
      * @return bool
      */
-    public function ignore($event, Webhook $webhook): bool
+    public function ignore(Webhook $webhook, $event): bool
     {
-        return parent::ignore($event, $webhook) || !isset($event->post->discussion->first_post_id) || $event->post->id == $event->post->discussion->first_post_id;
+        return parent::ignore($webhook, $event) || !isset($event->post->discussion->first_post_id) || $event->post->id == $event->post->discussion->first_post_id;
     }
 }

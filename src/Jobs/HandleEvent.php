@@ -41,35 +41,28 @@ class HandleEvent implements ShouldQueue
         $clazz = TriggerListener::$listeners[$this->name];
         $action = (new ReflectionClass($clazz))->newInstance();
 
-        /**
-         * @var Response
-         */
-        $response = $action->listen($this->event);
-
-        if (isset($response)) {
-            $this->send($this->name, $action, $response);
-        }
+        $this->send($this->name, $action);
     }
 
     /**
-     * @param string   $event_name
-     * @param Action   $action
-     * @param Response $response
-     *
+     * @param string $event_name
+     * @param Action $action
      * @throws \ReflectionException
      */
-    private function send(string $event_name, Action $action, Response $response)
+    private function send(string $event_name, Action $action)
     {
-        if (!$response) {
-            return;
-        }
-
         foreach (Webhook::all() as $webhook) {
             if ($webhook->events != null && !in_array($event_name, $webhook->getEvents())) {
                 continue;
             }
 
-            if (!$action->ignore($response->event, $webhook) && $webhook->isValid()) {
+            if (!$webhook->isValid() || $action->ignore($webhook, $this->event)) {
+                continue;
+            }
+
+            $response = $action->handle($webhook, $this->event);
+
+            if (isset($response)) {
                 Adapters\Adapters::get($webhook->service)->handle($webhook, $response->withWebhook($webhook));
             }
         }
