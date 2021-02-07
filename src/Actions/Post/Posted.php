@@ -22,7 +22,7 @@ class Posted extends Action
     const EVENT = \Flarum\Post\Event\Posted::class;
 
     /**
-     * @param Webhook $webhook
+     * @param Webhook                   $webhook
      * @param \Flarum\Post\Event\Posted $event
      *
      * @return Response

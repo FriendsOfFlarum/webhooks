@@ -23,7 +23,7 @@ class Deleted extends Action
     const EVENT = \Flarum\Post\Event\Deleted::class;
 
     /**
-     * @param Webhook $webhook
+     * @param Webhook                    $webhook
      * @param \Flarum\Post\Event\Deleted $event
      *
      * @return Response

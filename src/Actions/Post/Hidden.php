@@ -22,7 +22,7 @@ class Hidden extends Action
     const EVENT = \Flarum\Post\Event\Hidden::class;
 
     /**
-     * @param Webhook $webhook
+     * @param Webhook                   $webhook
      * @param \Flarum\Post\Event\Hidden $event
      *
      * @return Response

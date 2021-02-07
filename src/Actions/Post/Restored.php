@@ -23,7 +23,7 @@ class Restored extends Action
     const EVENT = \Flarum\Post\Event\Restored::class;
 
     /**
-     * @param Webhook $webhook
+     * @param Webhook                     $webhook
      * @param \Flarum\Post\Event\Restored $event
      *
      * @return Response

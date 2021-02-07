@@ -21,7 +21,8 @@ class Post
 {
     /**
      * @param \Flarum\Post\Post $post
-     * @param Webhook|null $webhook
+     * @param Webhook|null      $webhook
+     *
      * @return string|null
      */
     public static function getContent(\Flarum\Post\Post $post, Webhook $webhook = null): ?string

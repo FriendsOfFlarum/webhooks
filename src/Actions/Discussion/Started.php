@@ -22,7 +22,7 @@ class Started extends Action
     const EVENT = \Flarum\Discussion\Event\Started::class;
 
     /**
-     * @param Webhook $webhook
+     * @param Webhook                          $webhook
      * @param \Flarum\Discussion\Event\Started $event
      *
      * @return Response

@@ -17,7 +17,6 @@ use FoF\Webhooks\Action;
 use FoF\Webhooks\Adapters;
 use FoF\Webhooks\Listener\TriggerListener;
 use FoF\Webhooks\Models\Webhook;
-use FoF\Webhooks\Response;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\SerializesModels;
@@ -47,6 +46,7 @@ class HandleEvent implements ShouldQueue
     /**
      * @param string $event_name
      * @param Action $action
+     *
      * @throws \ReflectionException
      */
     private function send(string $event_name, Action $action)

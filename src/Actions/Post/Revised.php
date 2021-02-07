@@ -22,7 +22,7 @@ class Revised extends Action
     const EVENT = \Flarum\Post\Event\Revised::class;
 
     /**
-     * @param Webhook $webhook
+     * @param Webhook                    $webhook
      * @param \Flarum\Post\Event\Revised $event
      *
      * @return Response

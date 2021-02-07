@@ -39,6 +39,7 @@ abstract class Action
 
     /**
      * @param $event
+     *
      * @return Response|null
      *
      * @deprecated
@@ -51,6 +52,7 @@ abstract class Action
     /**
      * @param Webhook $webhook
      * @param $event
+     *
      * @return Response|null
      *
      * @abstract
