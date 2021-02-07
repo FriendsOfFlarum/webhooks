@@ -14,6 +14,7 @@
 namespace FoF\Webhooks\Actions\Post;
 
 use FoF\Webhooks\Helpers\Post;
+use FoF\Webhooks\Models\Webhook;
 use FoF\Webhooks\Response;
 
 class Hidden extends Action
@@ -21,11 +22,12 @@ class Hidden extends Action
     const EVENT = \Flarum\Post\Event\Hidden::class;
 
     /**
+     * @param Webhook $webhook
      * @param \Flarum\Post\Event\Hidden $event
      *
      * @return Response
      */
-    public function listen($event)
+    public function handle(Webhook $webhook, $event): Response
     {
         return Response::build($event)
             ->setTitle(
@@ -38,7 +40,7 @@ class Hidden extends Action
                 ],
                 '/'.$event->post->number
             )
-            ->setDescription(Post::getContent($event->post))
+            ->setDescription(Post::getContent($event->post, $webhook))
             ->setAuthor($event->actor)
             ->setColor('26de81')
             ->setTimestamp($event->post->hidden_at);

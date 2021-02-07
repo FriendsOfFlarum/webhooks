@@ -15,6 +15,7 @@ namespace FoF\Webhooks\Actions\Post;
 
 use Carbon\Carbon;
 use FoF\Webhooks\Helpers\Post;
+use FoF\Webhooks\Models\Webhook;
 use FoF\Webhooks\Response;
 
 class Restored extends Action
@@ -22,11 +23,12 @@ class Restored extends Action
     const EVENT = \Flarum\Post\Event\Restored::class;
 
     /**
+     * @param Webhook $webhook
      * @param \Flarum\Post\Event\Restored $event
      *
      * @return Response
      */
-    public function listen($event)
+    public function handle(Webhook $webhook, $event): Response
     {
         return Response::build($event)
             ->setTitle(
@@ -39,7 +41,7 @@ class Restored extends Action
                 ],
                 '/'.$event->post->number
             )
-            ->setDescription(Post::getContent($event->post))
+            ->setDescription(Post::getContent($event->post, $webhook))
             ->setAuthor($event->actor)
             ->setColor('26de81')
             ->setTimestamp(Carbon::now());

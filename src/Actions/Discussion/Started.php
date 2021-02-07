@@ -14,6 +14,7 @@
 namespace FoF\Webhooks\Actions\Discussion;
 
 use FoF\Webhooks\Helpers\Post;
+use FoF\Webhooks\Models\Webhook;
 use FoF\Webhooks\Response;
 
 class Started extends Action
@@ -21,11 +22,12 @@ class Started extends Action
     const EVENT = \Flarum\Discussion\Event\Started::class;
 
     /**
+     * @param Webhook $webhook
      * @param \Flarum\Discussion\Event\Started $event
      *
      * @return Response
      */
-    public function listen($event)
+    public function handle(Webhook $webhook, $event): Response
     {
         return Response::build($event)
             ->setTitle(
@@ -34,7 +36,7 @@ class Started extends Action
             ->setURL('discussion', [
                 'id' => $event->discussion->id,
             ])
-            ->setDescription(Post::getContent($event->discussion->firstPost))
+            ->setDescription(Post::getContent($event->discussion->firstPost, $webhook))
             ->setAuthor($event->actor)
             ->setColor('fed330')
             ->setTimestamp($event->discussion->created_at);
