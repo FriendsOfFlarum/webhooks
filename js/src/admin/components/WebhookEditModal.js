@@ -183,8 +183,9 @@ export default class WebhookEditModal extends Modal {
     isDirty() {
         return (
             this.extraText() !== this.webhook.extraText() ||
-            this.groupId() != this.webhook.groupId() ||
-            this.usePlainText() != this.webhook.usePlainText()
+            this.groupId() !== this.webhook.groupId() ||
+            this.usePlainText() !== this.webhook.usePlainText() ||
+            this.maxPostContentLength() !== this.webhook.maxPostContentLength()
         );
     }
 
