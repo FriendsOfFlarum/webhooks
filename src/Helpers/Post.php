@@ -45,7 +45,9 @@ class Post
 
                 $content = trim(substr($content, 0, $maxLength));
 
-                if ($origLen > $maxLength + 1) $content .= '...';
+                if ($origLen > $maxLength + 1) {
+                    $content .= '...';
+                }
             }
         }
 
