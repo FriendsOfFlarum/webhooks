@@ -90,6 +90,7 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
      */
     public static function isValidURL(string $url): bool
     {
-        return preg_match('/^https?:\/\/hooks\.slack\.com\/services\/T.{8,}\/B.{8,}\/.{24}$/', $url);
+        // allow any URL as multiple services support Slack webhook payloads
+        return true;
     }
 }
