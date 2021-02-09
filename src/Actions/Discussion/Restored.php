@@ -15,6 +15,7 @@ namespace FoF\Webhooks\Actions\Discussion;
 
 use Carbon\Carbon;
 use FoF\Webhooks\Helpers\Post;
+use FoF\Webhooks\Models\Webhook;
 use FoF\Webhooks\Response;
 
 class Restored extends Action
@@ -22,11 +23,12 @@ class Restored extends Action
     const EVENT = \Flarum\Discussion\Event\Restored::class;
 
     /**
+     * @param Webhook                           $webhook
      * @param \Flarum\Discussion\Event\Restored $event
      *
      * @return Response
      */
-    public function listen($event)
+    public function handle(Webhook $webhook, $event): Response
     {
         $firstPost = $event->discussion->firstPost;
 
@@ -37,7 +39,7 @@ class Restored extends Action
             ->setURL('discussion', [
                 'id' => $event->discussion->id,
             ])
-            ->setDescription(Post::getContent($firstPost))
+            ->setDescription(Post::getContent($firstPost, $webhook))
             ->setAuthor($event->actor)
             ->setColor('fed330')
             ->setTimestamp(Carbon::now());

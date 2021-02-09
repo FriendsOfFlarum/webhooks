@@ -34,10 +34,10 @@ export default class WebhookEditModal extends Modal {
 
         const events = app.data['fof-webhooks.events'];
 
-        this.loadingGroup = Stream(false);
-
         this.groupId = Stream(this.webhook.groupId() || Group.GUEST_ID);
         this.extraText = Stream(this.webhook.extraText() || '');
+        this.usePlainText = Stream(this.webhook.usePlainText());
+        this.maxPostContentLength = Stream(this.webhook.maxPostContentLength());
 
         this.events = groupBy(
             events.reduce(
@@ -90,9 +90,25 @@ export default class WebhookEditModal extends Modal {
 
         return (
             <div className="FofWebhooksModal Modal-body">
-                {app.translator.trans('fof-webhooks.admin.settings.modal.description')}
-
                 <form className="Form" onsubmit={this.onsubmit.bind(this)}>
+                    <Switch state={this.usePlainText()} onchange={this.usePlainText}>
+                        {app.translator.trans('fof-webhooks.admin.settings.modal.use_plain_text_label')}
+                    </Switch>
+
+                    <div className="Form-group">
+                        <label className="label">{app.translator.trans('fof-webhooks.admin.settings.modal.max_post_content_length_label')}</label>
+
+                        <p className="helpText">{app.translator.trans('fof-webhooks.admin.settings.modal.max_post_content_length_help')}</p>
+
+                        <input
+                            type="number"
+                            min="0"
+                            className="FormControl"
+                            bidi={this.maxPostContentLength}
+                            onkeypress={this.onkeypress.bind(this)}
+                        />
+                    </div>
+
                     <div className="Form-group hasLoading">
                         <label className="label">{app.translator.trans('fof-webhooks.admin.settings.modal.extra_text_label')}</label>
 
@@ -124,6 +140,8 @@ export default class WebhookEditModal extends Modal {
 
                     <div className="Form-group Webhook-events">
                         <label className="label">{app.translator.trans('fof-webhooks.admin.settings.modal.events_label')}</label>
+
+                        {app.translator.trans('fof-webhooks.admin.settings.modal.description')}
 
                         {Object.entries(this.events).map(([, events]) => (
                             <div>
@@ -163,7 +181,12 @@ export default class WebhookEditModal extends Modal {
     }
 
     isDirty() {
-        return this.extraText() !== this.webhook.extraText() || this.groupId() != this.webhook.groupId();
+        return (
+            this.extraText() != this.webhook.extraText() ||
+            this.groupId() !== this.webhook.groupId() ||
+            this.usePlainText() !== this.webhook.usePlainText() ||
+            this.maxPostContentLength() != this.webhook.maxPostContentLength()
+        );
     }
 
     onsubmit(e) {
@@ -175,10 +198,15 @@ export default class WebhookEditModal extends Modal {
             .save({
                 extraText: this.extraText(),
                 group_id: this.groupId(),
+                use_plain_text: this.usePlainText(),
+                max_post_content_length: this.maxPostContentLength() || 0,
             })
             .then(() => {
                 this.loading = false;
-
+                m.redraw();
+            })
+            .catch(() => {
+                this.loading = false;
                 m.redraw();
             });
     }

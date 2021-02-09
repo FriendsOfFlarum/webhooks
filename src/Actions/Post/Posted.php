@@ -22,11 +22,12 @@ class Posted extends Action
     const EVENT = \Flarum\Post\Event\Posted::class;
 
     /**
+     * @param Webhook                   $webhook
      * @param \Flarum\Post\Event\Posted $event
      *
      * @return Response
      */
-    public function listen($event)
+    public function handle(Webhook $webhook, $event): Response
     {
         return Response::build($event)
             ->setTitle(
@@ -39,7 +40,7 @@ class Posted extends Action
                 ],
                 '/'.$event->post->number
             )
-            ->setDescription(Post::getContent($event->post))
+            ->setDescription(Post::getContent($event->post, $webhook))
             ->setAuthor($event->actor)
             ->setColor('26de81')
             ->setTimestamp($event->post->created_at);
@@ -51,8 +52,8 @@ class Posted extends Action
      *
      * @return bool
      */
-    public function ignore($event, Webhook $webhook): bool
+    public function ignore(Webhook $webhook, $event): bool
     {
-        return parent::ignore($event, $webhook) || !isset($event->post->discussion->first_post_id) || $event->post->id == $event->post->discussion->first_post_id;
+        return parent::ignore($webhook, $event) || !isset($event->post->discussion->first_post_id) || $event->post->id == $event->post->discussion->first_post_id;
     }
 }

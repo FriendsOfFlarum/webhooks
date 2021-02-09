@@ -40,9 +40,27 @@ abstract class Action
     /**
      * @param $event
      *
-     * @return Response
+     * @return Response|null
+     *
+     * @deprecated
      */
-    abstract public function listen($event);
+    public function listen($event)
+    {
+        return null;
+    }
+
+    /**
+     * @param Webhook $webhook
+     * @param $event
+     *
+     * @return Response|null
+     *
+     * @abstract
+     */
+    public function handle(Webhook $webhook, $event): Response
+    {
+        return $this->listen($event);
+    }
 
     /**
      * @param $event
@@ -50,7 +68,7 @@ abstract class Action
      *
      * @return bool
      */
-    public function ignore($event, Webhook $webhook): bool
+    public function ignore(Webhook $webhook, $event): bool
     {
         return false;
     }

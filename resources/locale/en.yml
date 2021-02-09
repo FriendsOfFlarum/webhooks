@@ -52,6 +52,11 @@ fof-webhooks:
         title: Webhook Settings
         description: Here you modify what events the webhook is fired on.
 
+        use_plain_text_label: Reduce amount of formatting in post content
+
+        max_post_content_length_label: Maximum Post Content Length
+        max_post_content_length_help: Set a number to limit the post content in all post-related events. Change to 0 or nothing to remove limit.
+
         extra_text_label: Extra Text
         extra_text_help: Extra text to include in the sent webhook.
 

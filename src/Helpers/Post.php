@@ -13,14 +13,44 @@
 
 namespace FoF\Webhooks\Helpers;
 
+use Flarum\Post\CommentPost;
+use FoF\Webhooks\Models\Webhook;
+use Html2Text\Html2Text;
+
 class Post
 {
-    public static function getContent(\Flarum\Post\Post $post): ?string
+    /**
+     * @param \Flarum\Post\Post $post
+     * @param Webhook|null      $webhook
+     *
+     * @return string|null
+     */
+    public static function getContent(\Flarum\Post\Post $post, Webhook $webhook = null): ?string
     {
         if (!$post || is_array($post->content)) {
             return null;
         }
 
-        return $post->content;
+        $content = $post->content;
+
+        if (isset($webhook) && $post instanceof CommentPost) {
+            $maxLength = $webhook->max_post_content_length;
+
+            if ($webhook->use_plain_text) {
+                $content = (new Html2Text($post->formatContent()))->getText();
+            }
+
+            if ($maxLength) {
+                $origLen = strlen($content);
+
+                $content = trim(substr($content, 0, $maxLength));
+
+                if ($origLen > $maxLength + 1) {
+                    $content .= '...';
+                }
+            }
+        }
+
+        return $content;
     }
 }

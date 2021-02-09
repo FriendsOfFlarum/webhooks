@@ -49,12 +49,17 @@ class UpdateWebhookHandler
 
         $actor->assertAdmin();
 
+        /**
+         * @var Webhook $webhook
+         */
         $webhook = Webhook::findOrFail($command->webhookId);
 
         $service = Arr::get($data, 'attributes.service');
         $url = Arr::get($data, 'attributes.url');
         $events = Arr::get($data, 'attributes.events');
         $groupId = Arr::get($data, 'attributes.group_id');
+        $usePlainText = Arr::get($data, 'attributes.use_plain_text');
+        $maxPostContentLength = Arr::get($data, 'attributes.max_post_content_length');
 
         if (isset($service)) {
             $webhook->service = $service;
@@ -82,6 +87,14 @@ class UpdateWebhookHandler
             } else {
                 $webhook->tag_id = null;
             }
+        }
+
+        if (isset($usePlainText)) {
+            $webhook->use_plain_text = $usePlainText;
+        }
+
+        if (isset($maxPostContentLength)) {
+            $webhook->max_post_content_length = $maxPostContentLength == 0 ? null : $maxPostContentLength;
         }
 
         $this->validator->assertValid($webhook->getDirty());
