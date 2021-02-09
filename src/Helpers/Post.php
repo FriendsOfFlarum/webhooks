@@ -34,8 +34,18 @@ class Post
         $content = $post->content;
 
         if (isset($webhook) && $post instanceof CommentPost) {
+            $maxLength = $webhook->max_post_content_length;
+
             if ($webhook->use_plain_text) {
                 $content = (new Html2Text($post->formatContent()))->getText();
+            }
+
+            if ($maxLength) {
+                $origLen = strlen($content);
+
+                $content = trim(substr($content, 0, $maxLength));
+
+                if ($origLen > $maxLength + 1) $content .= '...';
             }
         }
 
