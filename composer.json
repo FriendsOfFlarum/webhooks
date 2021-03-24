@@ -52,7 +52,10 @@
         "name": "fas fa-external-link-alt",
         "backgroundColor": "#e74c3c",
         "color": "#fff"
-      }
+      },
+      "optional-dependencies": [
+        "flarum/tags"
+      ]
     },
     "flagrow": {
       "discuss": "https://discuss.flarum.org/d/17812"

@@ -5,9 +5,6 @@ import Select from 'flarum/common/components/Select';
 import Alert from 'flarum/common/components/Alert';
 import Stream from 'flarum/common/utils/Stream';
 import withAttr from 'flarum/common/utils/withAttr';
-import icon from 'flarum/common/helpers/icon';
-
-import tagIcon from 'flarum/tags/common/helpers/tagIcon';
 
 import WebhookEditModal from './WebhookEditModal';
 
@@ -38,7 +35,7 @@ export default class SettingsListItem extends Component {
             errors.push(app.translator.trans('fof-webhooks.admin.errors.url_invalid'));
         }
 
-        const tagsEnabled = app.initializers.has('flarum-tags');
+        const tagIcon = require('flarum/tags/common/helpers/tagIcon');
         const tag = webhook.tag();
         const tagIdLoading = !!this.loading['tag_id'];
 
@@ -56,7 +53,7 @@ export default class SettingsListItem extends Component {
                         placeholder={app.translator.trans('fof-webhooks.admin.settings.help.url')}
                     />
 
-                    {tagsEnabled && (
+                    {tagIcon && (
                         <Dropdown
                             buttonClassName="Button"
                             label={
