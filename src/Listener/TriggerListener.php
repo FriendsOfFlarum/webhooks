@@ -13,7 +13,6 @@
 
 namespace FoF\Webhooks\Listener;
 
-use ArrayObject;
 use Flarum\Settings\SettingsRepositoryInterface;
 use FoF\Webhooks\Action;
 use FoF\Webhooks\Actions;
@@ -35,7 +34,7 @@ class TriggerListener
     protected $queue;
 
     /**
-     * @var ArrayObject<String, String>
+     * @var \ArrayObject<String, String>
      */
     public static $listeners = null;
 

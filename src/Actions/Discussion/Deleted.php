@@ -25,7 +25,7 @@ class Deleted extends Action
      *
      * @return Response
      */
-    public function listen($event)
+    public function listen($event): Response
     {
         return Response::build($event)
             ->setTitle(

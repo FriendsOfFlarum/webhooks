@@ -38,6 +38,7 @@ class HandleEvent implements ShouldQueue
     public function handle()
     {
         $clazz = TriggerListener::$listeners[$this->name];
+        /** @var Action $action */
         $action = (new ReflectionClass($clazz))->newInstance();
 
         $this->send($this->name, $action);

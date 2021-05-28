@@ -35,7 +35,7 @@ class FoFWebhooksExtender implements ExtenderInterface
      *
      * @return $this
      */
-    public function listener($action)
+    public function listener($action): FoFWebhooksExtender
     {
         assert(isset($action), '$action is required');
 
@@ -53,7 +53,7 @@ class FoFWebhooksExtender implements ExtenderInterface
      *
      * @return $this
      */
-    public function adapter($adapter)
+    public function adapter($adapter): FoFWebhooksExtender
     {
         assert(isset($adapter), '$adapter is required');
 

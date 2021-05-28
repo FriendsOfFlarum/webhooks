@@ -73,7 +73,7 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
                 'icon_url' => $response->author->avatar_url,
             ] : null,
             'color'     => $response->getColor(),
-            'timestamp' => isset($response->timestamp) ? $response->timestamp : date('c'),
+            'timestamp' => $response->timestamp ?? date('c'),
             'type'      => 'rich',
         ];
     }

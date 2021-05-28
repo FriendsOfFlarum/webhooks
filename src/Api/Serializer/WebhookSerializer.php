@@ -27,7 +27,7 @@ class WebhookSerializer extends AbstractSerializer
     /**
      * {@inheritdoc}
      */
-    protected function getDefaultAttributes($webhook)
+    protected function getDefaultAttributes($webhook): array
     {
         if (!($webhook instanceof Webhook)) {
             throw new InvalidArgumentException(

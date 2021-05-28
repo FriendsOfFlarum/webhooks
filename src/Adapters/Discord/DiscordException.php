@@ -37,7 +37,7 @@ class DiscordException extends Exception
         $body = json_decode($contents);
 
         if (!Arr::get($body, 'message')) {
-            app('log')->error("\t— $contents");
+            resolve('log')->error("\t— $contents");
         }
 
         parent::__construct(

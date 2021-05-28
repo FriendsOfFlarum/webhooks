@@ -33,7 +33,7 @@ abstract class Action extends \FoF\Webhooks\Action
         }
 
         $tag = $webhook->tag;
-        $tagsIsEnabled = app(ExtensionManager::class)->isEnabled('flarum-tags');
+        $tagsIsEnabled = resolve(ExtensionManager::class)->isEnabled('flarum-tags');
 
         if ($tag && $tagsIsEnabled && !$discussion->tags()->where('id', $tag->id)->exists()) {
             return true;

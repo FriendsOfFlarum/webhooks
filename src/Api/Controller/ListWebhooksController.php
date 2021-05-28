@@ -31,9 +31,8 @@ class ListWebhooksController extends AbstractListController
      * @param ServerRequestInterface $request
      * @param Document               $document
      *
+     * @return \Illuminate\Database\Eloquent\Collection|Webhook[]
      * @throws PermissionDeniedException
-     *
-     * @return mixed
      */
     protected function data(ServerRequestInterface $request, Document $document)
     {

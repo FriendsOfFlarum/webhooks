@@ -70,7 +70,7 @@ class Response
     public function __construct($event)
     {
         $this->event = $event;
-        $this->urlGenerator = app(UrlGenerator::class);
+        $this->urlGenerator = resolve(UrlGenerator::class);
     }
 
     public function setTitle(string $title): self

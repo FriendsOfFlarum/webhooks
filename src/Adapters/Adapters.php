@@ -46,7 +46,7 @@ class Adapters
         $adapter = Arr::get(self::$adapters, $name);
 
         if (isset($adapter)) {
-            return app()->make($adapter);
+            return resolve($adapter);
         }
 
         return null;
