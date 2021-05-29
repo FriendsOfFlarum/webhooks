@@ -5,8 +5,6 @@
  *
  * Copyright (c) FriendsOfFlarum.
  *
- * https://friendsofflarum.org
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -32,7 +30,7 @@ class CreateWebhook
     public $data;
 
     /**
-     * @param User $actor
+     * @param User  $actor
      * @param array $data
      */
     public function __construct(User $actor, array $data)

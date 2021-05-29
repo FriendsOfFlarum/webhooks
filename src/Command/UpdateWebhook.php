@@ -5,8 +5,6 @@
  *
  * Copyright (c) FriendsOfFlarum.
  *
- * https://friendsofflarum.org
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -40,7 +38,7 @@ class UpdateWebhook
     public $data;
 
     /**
-     * @param int $webhookId The ID of the webhook to edit.
+     * @param int   $webhookId The ID of the webhook to edit.
      * @param User  $actor     The user performing the action.
      * @param array $data      Any other reaction input associated with the action. This
      *                         is unused by default, but may be used by extensions.

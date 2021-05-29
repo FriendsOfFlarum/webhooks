@@ -5,8 +5,6 @@
  *
  * Copyright (c) FriendsOfFlarum.
  *
- * https://friendsofflarum.org
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -31,8 +29,9 @@ class ListWebhooksController extends AbstractListController
      * @param ServerRequestInterface $request
      * @param Document               $document
      *
-     * @return \Illuminate\Database\Eloquent\Collection|Webhook[]
      * @throws PermissionDeniedException
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|Webhook[]
      */
     protected function data(ServerRequestInterface $request, Document $document)
     {
