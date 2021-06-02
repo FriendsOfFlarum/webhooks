@@ -5,8 +5,6 @@
  *
  * Copyright (c) FriendsOfFlarum.
  *
- * https://friendsofflarum.org
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -21,7 +19,6 @@ use FoF\Webhooks\Adapters\Adapters;
 use FoF\Webhooks\Api\Serializer\WebhookSerializer;
 use FoF\Webhooks\Listener\TriggerListener;
 use FoF\Webhooks\Models\Webhook;
-use Illuminate\Contracts\Events\Dispatcher;
 use Psr\Http\Message\ServerRequestInterface;
 
 return [
@@ -30,7 +27,7 @@ return [
         ->css(__DIR__.'/resources/less/admin.less')
         ->content(function (Document $document) {
             $document->payload['fof-webhooks.services'] = array_keys(Adapters::all());
-            $document->payload['fof-webhooks.events'] = array_keys(TriggerListener::$listeners);
+            $document->payload['fof-webhooks.events'] = array_keys((array) TriggerListener::$listeners);
         }),
 
     new Extend\Locales(__DIR__.'/resources/locale'),
@@ -52,7 +49,6 @@ return [
             $data['webhooks'] = $actor->isAdmin() ? Webhook::all() : [];
         }),
 
-    function (Dispatcher $dispatcher) {
-        $dispatcher->subscribe(Listener\TriggerListener::class);
-    },
+    (new Extend\Event())
+        ->subscribe(Listener\TriggerListener::class),
 ];

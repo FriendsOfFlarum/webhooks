@@ -5,8 +5,6 @@
  *
  * Copyright (c) FriendsOfFlarum.
  *
- * https://friendsofflarum.org
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -35,7 +33,7 @@ class FoFWebhooksExtender implements ExtenderInterface
      *
      * @return $this
      */
-    public function listener($action)
+    public function listener($action): FoFWebhooksExtender
     {
         assert(isset($action), '$action is required');
 
@@ -53,7 +51,7 @@ class FoFWebhooksExtender implements ExtenderInterface
      *
      * @return $this
      */
-    public function adapter($adapter)
+    public function adapter($adapter): FoFWebhooksExtender
     {
         assert(isset($adapter), '$adapter is required');
 

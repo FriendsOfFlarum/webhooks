@@ -5,8 +5,6 @@
  *
  * Copyright (c) FriendsOfFlarum.
  *
- * https://friendsofflarum.org
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -20,6 +18,7 @@ use FoF\Webhooks\Response;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
+use Psr\Http\Message\ResponseInterface;
 use ReflectionClass;
 use ReflectionException;
 use Throwable;
@@ -79,8 +78,8 @@ abstract class Adapter
         } catch (RequestException $e) {
             $clazz = new ReflectionClass($this->exception);
 
-            app('log')->error(self::NAME.' Webhook Error:');
-            app('log')->error("\t— $response");
+            resolve('log')->error(self::NAME.' Webhook Error:');
+            resolve('log')->error("\t— $response");
 
             if ($e->hasResponse()) {
                 $webhook->setAttribute(
@@ -118,7 +117,7 @@ abstract class Adapter
      *
      * @return array
      */
-    abstract public function toArray(Response $response);
+    abstract public function toArray(Response $response): array;
 
     /**
      * @param string $url
@@ -133,9 +132,9 @@ abstract class Adapter
      *
      * @throws GuzzleException
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
      */
-    protected function request(string $url, array $json)
+    protected function request(string $url, array $json): ResponseInterface
     {
         return $this->client->request('POST', $url, [
             'json'            => $json,
@@ -146,12 +145,12 @@ abstract class Adapter
     /**
      * @return null|string
      */
-    protected function getAvatarUrl()
+    protected function getAvatarUrl(): ?string
     {
         $faviconPath = $this->settings->get('favicon_path');
         $logoPath = $this->settings->get('logo_path');
         $path = $faviconPath ?: $logoPath;
 
-        return isset($path) ? app(UrlGenerator::class)->to('forum')->path("assets/$path") : null;
+        return isset($path) ? resolve(UrlGenerator::class)->to('forum')->path("assets/$path") : null;
     }
 }

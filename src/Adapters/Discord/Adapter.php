@@ -5,8 +5,6 @@
  *
  * Copyright (c) FriendsOfFlarum.
  *
- * https://friendsofflarum.org
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -73,7 +71,7 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
                 'icon_url' => $response->author->avatar_url,
             ] : null,
             'color'     => $response->getColor(),
-            'timestamp' => isset($response->timestamp) ? $response->timestamp : date('c'),
+            'timestamp' => $response->timestamp ?? date('c'),
             'type'      => 'rich',
         ];
     }

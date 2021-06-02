@@ -5,8 +5,6 @@
  *
  * Copyright (c) FriendsOfFlarum.
  *
- * https://friendsofflarum.org
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -38,6 +36,7 @@ class HandleEvent implements ShouldQueue
     public function handle()
     {
         $clazz = TriggerListener::$listeners[$this->name];
+        /** @var Action $action */
         $action = (new ReflectionClass($clazz))->newInstance();
 
         $this->send($this->name, $action);

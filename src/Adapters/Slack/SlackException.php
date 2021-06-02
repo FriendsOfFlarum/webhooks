@@ -5,8 +5,6 @@
  *
  * Copyright (c) FriendsOfFlarum.
  *
- * https://friendsofflarum.org
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -40,7 +38,7 @@ class SlackException extends Exception
         $body = json_decode($contents);
 
         if ($this->http == 404) {
-            parent::__construct(app('translator')->trans('fof-webhooks.adapters.errors.404'));
+            parent::__construct(resolve('translator')->trans('fof-webhooks.adapters.errors.404'));
         } else {
             parent::__construct($body->message ?: $contents, $body->code);
         }

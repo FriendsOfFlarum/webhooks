@@ -5,8 +5,6 @@
  *
  * Copyright (c) FriendsOfFlarum.
  *
- * https://friendsofflarum.org
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -24,7 +22,7 @@ class Renamed extends Action
      *
      * @return Response
      */
-    public function listen($event)
+    public function listen($event): Response
     {
         return Response::build($event)
             ->setTitle(

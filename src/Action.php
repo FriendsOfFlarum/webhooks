@@ -5,8 +5,6 @@
  *
  * Copyright (c) FriendsOfFlarum.
  *
- * https://friendsofflarum.org
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -33,8 +31,8 @@ abstract class Action
 
     public function __construct()
     {
-        $this->url = app(UrlGenerator::class);
-        $this->translator = app('translator');
+        $this->url = resolve(UrlGenerator::class);
+        $this->translator = resolve('translator');
     }
 
     /**
@@ -44,7 +42,7 @@ abstract class Action
      *
      * @deprecated
      */
-    public function listen($event)
+    public function listen($event): ?Response
     {
         return null;
     }
@@ -79,7 +77,7 @@ abstract class Action
      *
      * @return string
      */
-    protected function translate(string $id, $param1 = null)
+    protected function translate(string $id, $param1 = null): string
     {
         return $this->translator->trans('fof-webhooks.actions.'.$id, [
             '{1}' => $param1,

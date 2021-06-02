@@ -5,8 +5,6 @@
  *
  * Copyright (c) FriendsOfFlarum.
  *
- * https://friendsofflarum.org
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -27,7 +25,7 @@ abstract class Action extends \FoF\Webhooks\Action
 
         $discussion = $event->post->discussion;
         $tag = $webhook->tag;
-        $tagsIsEnabled = app(ExtensionManager::class)->isEnabled('flarum-tags');
+        $tagsIsEnabled = resolve(ExtensionManager::class)->isEnabled('flarum-tags');
 
         if ($discussion && $tag && $tagsIsEnabled && !$discussion->tags()->where('id', $tag->id)->exists()) {
             return true;

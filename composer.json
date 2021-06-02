@@ -23,8 +23,8 @@
     }
   ],
   "require": {
-    "flarum/core": "^0.1.0-beta.15",
-    "guzzlehttp/guzzle": "6.* || 7.*",
+    "flarum/core": "^1.0.0",
+    "guzzlehttp/guzzle": "7.*",
     "ssnepenthe/color-utils": "^0.4.2",
     "html2text/html2text": "^4.3.1"
   },

@@ -5,8 +5,6 @@
  *
  * Copyright (c) FriendsOfFlarum.
  *
- * https://friendsofflarum.org
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -17,6 +15,7 @@ use Flarum\Database\AbstractModel;
 use Flarum\Group\Group;
 use Flarum\Tags\Tag;
 use FoF\Webhooks\Adapters\Adapters;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property string service
@@ -44,7 +43,7 @@ class Webhook extends AbstractModel
      *
      * @return static
      */
-    public static function build(string $service, string $url)
+    public static function build(string $service, string $url): Webhook
     {
         $webhook = new static();
         $webhook->service = $service;
@@ -66,12 +65,12 @@ class Webhook extends AbstractModel
         return isset($adapter) && $adapter::isValidURL($this->url);
     }
 
-    public function group()
+    public function group(): BelongsTo
     {
         return $this->belongsTo(Group::class);
     }
 
-    public function tag()
+    public function tag(): BelongsTo
     {
         return $this->belongsTo(Tag::class);
     }

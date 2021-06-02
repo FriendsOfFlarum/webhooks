@@ -5,8 +5,6 @@
  *
  * Copyright (c) FriendsOfFlarum.
  *
- * https://friendsofflarum.org
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -42,7 +40,7 @@ class UpdateWebhookHandler
      *
      * @return Webhook
      */
-    public function handle(UpdateWebhook $command)
+    public function handle(UpdateWebhook $command): Webhook
     {
         $actor = $command->actor;
         $data = $command->data;

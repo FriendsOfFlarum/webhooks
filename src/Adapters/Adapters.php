@@ -5,8 +5,6 @@
  *
  * Copyright (c) FriendsOfFlarum.
  *
- * https://friendsofflarum.org
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -46,7 +44,7 @@ class Adapters
         $adapter = Arr::get(self::$adapters, $name);
 
         if (isset($adapter)) {
-            return app()->make($adapter);
+            return resolve($adapter);
         }
 
         return null;

@@ -5,15 +5,12 @@
  *
  * Copyright (c) FriendsOfFlarum.
  *
- * https://friendsofflarum.org
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
 namespace FoF\Webhooks\Listener;
 
-use ArrayObject;
 use Flarum\Settings\SettingsRepositoryInterface;
 use FoF\Webhooks\Action;
 use FoF\Webhooks\Actions;
@@ -35,7 +32,7 @@ class TriggerListener
     protected $queue;
 
     /**
-     * @var ArrayObject<String, String>
+     * @var \ArrayObject<String, String>
      */
     public static $listeners = null;
 
