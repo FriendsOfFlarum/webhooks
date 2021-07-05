@@ -11,6 +11,8 @@
 
 namespace FoF\Webhooks\Adapters;
 
+use Flarum\Foundation\ErrorHandling\LogReporter;
+use Flarum\Foundation\ErrorHandling\Reporter;
 use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;
 use FoF\Webhooks\Models\Webhook;
@@ -18,6 +20,7 @@ use FoF\Webhooks\Response;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
+use Illuminate\Container\Container;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionClass;
 use ReflectionException;
@@ -49,11 +52,6 @@ abstract class Adapter
      */
     protected $exception;
 
-    /**
-     * Set up the class.
-     *
-     * @param SettingsRepositoryInterface $settings
-     */
     public function __construct(SettingsRepositoryInterface $settings)
     {
         $this->settings = $settings;
@@ -78,24 +76,24 @@ abstract class Adapter
         } catch (RequestException $e) {
             $clazz = new ReflectionClass($this->exception);
 
-            resolve('log')->error(self::NAME.' Webhook Error:');
-            resolve('log')->error("\t— $response");
-
             if ($e->hasResponse()) {
-                $webhook->setAttribute(
-                    'error',
-                    $clazz->newInstance($e->getResponse(), $webhook->url)
-                );
-            } else {
-                $webhook->setAttribute(
-                    'error',
-                    $e->getMessage()
-                );
+                $e = $clazz->newInstance($e->getResponse(), $webhook->url);
             }
-        } catch (Throwable $e) {
+
+            $this->logException($webhook, $response, $e, true);
+
             $webhook->setAttribute(
                 'error',
-                $e instanceof $this->exception ? $e : $e->getMessage()
+                $e
+            );
+        } catch (Throwable $e) {
+            $handled = $e instanceof $this->exception;
+
+            $this->logException($webhook, $response, $e, $handled);
+
+            $webhook->setAttribute(
+                'error',
+                $handled ? $e : $e->getMessage()
             );
         }
 
@@ -152,5 +150,37 @@ abstract class Adapter
         $path = $faviconPath ?: $logoPath;
 
         return isset($path) ? resolve(UrlGenerator::class)->to('forum')->path("assets/$path") : null;
+    }
+
+    private function logException(Webhook $webhook, Response $response, Throwable $e, $handled = false)
+    {
+        resolve("log")->error(
+            sprintf(
+                "[fof/webhooks] %s: %s > %s error
+\t- \$webhook = %s
+\t- \$response = %s \n
+\t%s",
+                self::NAME,
+                get_class($response->event),
+                $handled ? "webhook" : "unknown",
+                $webhook->url,
+                $response,
+                $handled
+                    ? $e
+                    : sprintf("%s\n%s", $e->getMessage(), $e->getTraceAsString())
+            )
+        );
+
+        // Use reporters (e.g. Sentry) if it's an "unhandled" exception
+        if (!($e instanceof $this->exception)) {
+            /** @var Reporter[] $reporters */
+            $reporters = Container::getInstance()->tagged(Reporter::class);
+
+            foreach ($reporters as $reporter) {
+                if ($reporter instanceof LogReporter) continue;
+
+                $reporter->report($e);
+            }
+        }
     }
 }

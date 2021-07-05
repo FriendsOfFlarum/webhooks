@@ -40,7 +40,7 @@ class SlackException extends Exception
         if ($this->http == 404) {
             parent::__construct(resolve('translator')->trans('fof-webhooks.adapters.errors.404'));
         } else {
-            parent::__construct($body->message ?: $contents, $body->code);
+            parent::__construct(@$body->message ?? $contents, @$body->code);
         }
     }
 
