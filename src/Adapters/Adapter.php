@@ -154,7 +154,7 @@ abstract class Adapter
 
     private function logException(Webhook $webhook, Response $response, Throwable $e, $handled = false)
     {
-        resolve("log")->error(
+        resolve('log')->error(
             sprintf(
                 "[fof/webhooks] %s: %s > %s error
 \t- \$webhook = %s
@@ -162,7 +162,7 @@ abstract class Adapter
 \t%s",
                 self::NAME,
                 get_class($response->event),
-                $handled ? "webhook" : "unknown",
+                $handled ? 'webhook' : 'unknown',
                 $webhook->url,
                 $response,
                 $handled
@@ -177,7 +177,9 @@ abstract class Adapter
             $reporters = Container::getInstance()->tagged(Reporter::class);
 
             foreach ($reporters as $reporter) {
-                if ($reporter instanceof LogReporter) continue;
+                if ($reporter instanceof LogReporter) {
+                    continue;
+                }
 
                 $reporter->report($e);
             }
