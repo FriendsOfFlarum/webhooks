@@ -3,6 +3,7 @@ import Stream from 'flarum/common/utils/Stream';
 import withAttr from 'flarum/common/utils/withAttr';
 import Button from 'flarum/common/components/Button';
 import Select from 'flarum/common/components/Select';
+import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 
 import SettingsListItem from './SettingsListItem';
 
@@ -21,10 +22,28 @@ export default class WebhooksPage extends ExtensionPage {
             url: Stream(''),
             loading: Stream(false),
         };
+
+        this.loadingTags = this.isTagsEnabled();
+    }
+
+    oncreate(vnode) {
+        super.oncreate(vnode);
+
+        if (this.loadingTags) {
+            app.store.find('tags').then(() => {
+                this.loadingTags = false;
+
+                m.redraw();
+            });
+        }
     }
 
     content() {
         const webhooks = app.store.all('webhooks');
+
+        if (this.loadingTags) {
+            return <LoadingIndicator />;
+        }
 
         return (
             <div className="WebhookContent">
@@ -101,5 +120,9 @@ export default class WebhooksPage extends ExtensionPage {
      */
     changed() {
         return this.fields.some((key) => this.values[key]() !== (app.data.settings[this.addPrefix(key)] || ''));
+    }
+
+    isTagsEnabled() {
+        return !!flarum.extensions['flarum-tags'];
     }
 }
