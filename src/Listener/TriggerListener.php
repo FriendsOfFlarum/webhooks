@@ -37,6 +37,11 @@ class TriggerListener
     public static $listeners = null;
 
     /**
+     * @var bool
+     */
+    protected static $isDebugging = null;
+
+    /**
      * EventListener constructor.
      *
      * @param SettingsRepositoryInterface $settings
@@ -75,6 +80,8 @@ class TriggerListener
         if (!isset($event) || !array_key_exists($name, self::$listeners)) {
             return;
         }
+
+        self::debug("$name: queuing");
 
         /**
          * @var Action
@@ -115,6 +122,16 @@ class TriggerListener
             self::$listeners[$clazz] = $action;
         } elseif (!isset($clazz)) {
             echo "$action::EVENT does not exist";
+        }
+    }
+
+    public static function debug(string $message) {
+        if (is_null(self::$isDebugging)) {
+            self::$isDebugging = (bool) (int) resolve('flarum.settings')->get('fof-webhooks.debug');
+        }
+
+        if (self::$isDebugging) {
+            resolve('log')->debug('[fof/webhooks] ' . $message);
         }
     }
 }

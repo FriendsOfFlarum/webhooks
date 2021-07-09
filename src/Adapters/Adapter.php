@@ -15,6 +15,7 @@ use Flarum\Foundation\ErrorHandling\LogReporter;
 use Flarum\Foundation\ErrorHandling\Reporter;
 use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;
+use FoF\Webhooks\Listener\TriggerListener;
 use FoF\Webhooks\Models\Webhook;
 use FoF\Webhooks\Response;
 use GuzzleHttp\Client;
@@ -70,6 +71,8 @@ abstract class Adapter
         try {
             $this->send($webhook->url, $response);
 
+            TriggerListener::debug(get_class($response->event) . ": webhook $webhook->id --> sent");
+
             if (isset($webhook->error)) {
                 $webhook->setAttribute('error', null);
             }
@@ -80,6 +83,8 @@ abstract class Adapter
                 $e = $clazz->newInstance($e->getResponse(), $webhook->url);
             }
 
+            TriggerListener::debug(get_class($response->event) . ": webhook $webhook->id --> request error");
+
             $this->logException($webhook, $response, $e, true);
 
             $webhook->setAttribute(
@@ -88,6 +93,8 @@ abstract class Adapter
             );
         } catch (Throwable $e) {
             $handled = $e instanceof $this->exception;
+
+            TriggerListener::debug(get_class($response->event) . ": webhook $webhook->id --> other error");
 
             $this->logException($webhook, $response, $e, $handled);
 

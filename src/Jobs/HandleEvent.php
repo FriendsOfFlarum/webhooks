@@ -39,6 +39,8 @@ class HandleEvent implements ShouldQueue
         /** @var Action $action */
         $action = (new ReflectionClass($clazz))->newInstance();
 
+        TriggerListener::debug("{$this->name}: handling with $clazz");
+
         $this->send($this->name, $action);
     }
 
@@ -52,17 +54,23 @@ class HandleEvent implements ShouldQueue
     {
         foreach (Webhook::all() as $webhook) {
             if ($webhook->events != null && !in_array($event_name, $webhook->getEvents())) {
+                TriggerListener::debug("{$this->name}: webhook $webhook->id --> not subscribed");
                 continue;
             }
 
             if (!$webhook->isValid() || $action->ignore($webhook, $this->event)) {
+                TriggerListener::debug("{$this->name}: webhook $webhook->id --> invalid URL / ignored event");
                 continue;
             }
 
             $response = $action->handle($webhook, $this->event);
 
             if (isset($response)) {
+                TriggerListener::debug("{$this->name}: webhook $webhook->id --> sending response");
+
                 Adapters\Adapters::get($webhook->service)->handle($webhook, $response->withWebhook($webhook));
+            } else {
+                TriggerListener::debug("{$this->name}: webhook $webhook->id --> no response");
             }
         }
     }

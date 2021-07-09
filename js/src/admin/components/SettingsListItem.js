@@ -40,7 +40,7 @@ export default class SettingsListItem extends Component {
         const tagIdLoading = !!this.loading['tag_id'];
 
         return (
-            <div className="Webhooks--row">
+            <div className="Webhooks--row" data-webhook-id={webhook.id()}>
                 <div className="Webhook-input">
                     <Select options={services} value={service} onchange={this.update('service')} disabled={this.loading['service']} />
 

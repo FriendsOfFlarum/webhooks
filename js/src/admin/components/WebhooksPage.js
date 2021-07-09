@@ -48,6 +48,15 @@ export default class WebhooksPage extends ExtensionPage {
         return (
             <div className="WebhookContent">
                 <div className="container">
+                    <div className="Form-group">
+                        {this.buildSettingComponent({
+                            type: 'boolean',
+                            setting: 'fof-webhooks.debug',
+                            label: 'Debug',
+                            loading: this.loading,
+                            onchange: this.updateDebug.bind(this),
+                        })}
+                    </div>
                     <form>
                         <p className="helpText">{app.translator.trans('fof-webhooks.admin.settings.help.general')}</p>
                         <fieldset>
@@ -124,5 +133,11 @@ export default class WebhooksPage extends ExtensionPage {
 
     isTagsEnabled() {
         return !!flarum.extensions['flarum-tags'];
+    }
+
+    updateDebug(state) {
+        this.setting('fof-webhooks.debug')(state);
+
+        return this.saveSettings(new Event(null));
     }
 }
