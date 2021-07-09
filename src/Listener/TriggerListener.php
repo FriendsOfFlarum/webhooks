@@ -125,13 +125,14 @@ class TriggerListener
         }
     }
 
-    public static function debug(string $message) {
+    public static function debug(string $message)
+    {
         if (is_null(self::$isDebugging)) {
             self::$isDebugging = (bool) (int) resolve('flarum.settings')->get('fof-webhooks.debug');
         }
 
         if (self::$isDebugging) {
-            resolve('log')->debug('[fof/webhooks] ' . $message);
+            resolve('log')->debug('[fof/webhooks] '.$message);
         }
     }
 }
