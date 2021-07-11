@@ -16,11 +16,6 @@ return [
     'up' => function (Builder $schema) {
         $schema->table('webhooks', function (Blueprint $table) {
             $table->unsignedInteger('tag_id')->nullable();
-
-            $table->foreign('tag_id')
-                ->references('id')
-                ->on('tags')
-                ->onDelete('set null');
         });
     },
     'down' => function (Builder $schema) {

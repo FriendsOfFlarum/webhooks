@@ -33,6 +33,8 @@ export default class SettingsListItem extends Component {
             errors.push(app.translator.trans('fof-webhooks.admin.errors.service_not_found', { service }));
         } else if (!webhook.isValid()) {
             errors.push(app.translator.trans('fof-webhooks.admin.errors.url_invalid'));
+        } else if (!webhook.tag() && webhook.attribute('tag_id')) {
+            errors.push(app.translator.trans('fof-webhooks.admin.errors.tag_invalid'));
         }
 
         const tagIcon = require('flarum/tags/common/helpers/tagIcon');
