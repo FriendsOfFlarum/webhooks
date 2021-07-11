@@ -52,11 +52,15 @@ export default class WebhooksPage extends ExtensionPage {
                         {this.buildSettingComponent({
                             type: 'boolean',
                             setting: 'fof-webhooks.debug',
-                            label: 'Debug',
+                            label: app.translator.trans('fof-webhooks.admin.settings.debug_label'),
+                            help: app.translator.trans('fof-webhooks.admin.settings.debug_help'),
                             loading: this.loading,
                             onchange: this.updateDebug.bind(this),
                         })}
                     </div>
+
+                    <hr />
+
                     <form>
                         <p className="helpText">{app.translator.trans('fof-webhooks.admin.settings.help.general')}</p>
                         <fieldset>
