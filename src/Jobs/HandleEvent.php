@@ -18,12 +18,14 @@ use FoF\Webhooks\Models\Webhook;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Arr;
 use ReflectionClass;
 
 class HandleEvent implements ShouldQueue
 {
     use Queueable;
     use SerializesModels;
+
     protected $name;
     protected $event;
 
@@ -73,5 +75,19 @@ class HandleEvent implements ShouldQueue
                 TriggerListener::debug("{$this->name}: webhook $webhook->id --> no response");
             }
         }
+    }
+
+    public function __serialize(): array
+    {
+        return [
+            'name' => $this->name,
+            'event' => \Opis\Closure\serialize($this->event),
+        ];
+    }
+
+    public function __unserialize(array $values): void
+    {
+        $this->name = Arr::get($values, 'name');
+        $this->event = \Opis\Closure\unserialize(Arr::get($values, 'event'));
     }
 }
