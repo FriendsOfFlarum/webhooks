@@ -80,7 +80,7 @@ class HandleEvent implements ShouldQueue
     public function __serialize(): array
     {
         return [
-            'name' => $this->name,
+            'name'  => $this->name,
             'event' => \Opis\Closure\serialize($this->event),
         ];
     }
