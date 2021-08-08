@@ -124,7 +124,6 @@ export default class WebhookEditModal extends Modal {
                         <Dropdown label={[icon(group.icon() || icons[group.id()]), group.namePlural()]} buttonClassName="Button Button--danger">
                             {app.store
                                 .all('groups')
-                                .filter((g) => ['1', '2'].includes(g.id()))
                                 .map((g) => (
                                     <Button
                                         active={group.id() === g.id()}

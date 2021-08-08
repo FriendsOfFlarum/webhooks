@@ -28,7 +28,7 @@ class WebhookValidator extends AbstractValidator
         'group_id' => [
             'nullable',
             'int',
-            'in:1,2',
+            'exists:groups,id',
         ],
     ];
 }
