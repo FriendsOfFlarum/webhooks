@@ -95,6 +95,6 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
      */
     public static function isValidURL(string $url): bool
     {
-        return preg_match('/^https:\/\/outlook\.office\.com\/webhook\/\S+@\S+\/IncomingWebhook\/\S+\/\S+$/i', $url);
+        return preg_match('/^https:\/\/\S+\.office\.com\/webhook(b2)?\/\S+@\S+\/IncomingWebhook\/\S+\/\S+$/i', $url);
     }
 }
