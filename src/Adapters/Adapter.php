@@ -142,7 +142,7 @@ abstract class Adapter
     protected function request(string $url, array $json): ResponseInterface
     {
         return $this->client->request('POST', $url, [
-            'json'            => $json,
+            'json'            => mb_convert_encoding($json, 'UTF-8', 'auto'),
             'allow_redirects' => false,
         ]);
     }
