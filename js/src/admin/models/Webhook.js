@@ -1,3 +1,4 @@
+import app from 'flarum/admin/app';
 import Model from 'flarum/common/Model';
 
 export default class Webhook extends Model {

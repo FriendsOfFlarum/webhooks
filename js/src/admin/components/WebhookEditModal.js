@@ -1,3 +1,4 @@
+import app from 'flarum/admin/app';
 import Switch from 'flarum/common/components/Switch';
 import Button from 'flarum/common/components/Button';
 import Dropdown from 'flarum/common/components/Dropdown';
