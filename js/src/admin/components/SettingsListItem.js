@@ -10,131 +10,131 @@ import withAttr from 'flarum/common/utils/withAttr';
 import WebhookEditModal from './WebhookEditModal';
 
 export default class SettingsListItem extends Component {
-    oninit(vnode) {
-        super.oninit(vnode);
+  oninit(vnode) {
+    super.oninit(vnode);
 
-        this.webhook = this.attrs.webhook;
-        this.services = this.attrs.services;
+    this.webhook = this.attrs.webhook;
+    this.services = this.attrs.services;
 
-        this.url = Stream(this.webhook.url());
-        this.service = Stream(this.webhook.service());
-        this.events = Stream(this.webhook.events());
-        this.error = Stream(this.webhook.error());
+    this.url = Stream(this.webhook.url());
+    this.service = Stream(this.webhook.service());
+    this.events = Stream(this.webhook.events());
+    this.error = Stream(this.webhook.error());
 
-        this.loading = {};
+    this.loading = {};
+  }
+
+  view() {
+    const { webhook, services } = this;
+
+    const service = webhook.service();
+    const errors = [webhook.error && webhook.error()];
+
+    if (!services[service]) {
+      errors.push(app.translator.trans('fof-webhooks.admin.errors.service_not_found', { service }));
+    } else if (!webhook.isValid()) {
+      errors.push(app.translator.trans('fof-webhooks.admin.errors.url_invalid'));
+    } else if (!webhook.tag() && webhook.attribute('tag_id')) {
+      errors.push(app.translator.trans('fof-webhooks.admin.errors.tag_invalid'));
     }
 
-    view() {
-        const { webhook, services } = this;
+    const tagIcon = require('flarum/tags/common/helpers/tagIcon');
+    const tag = webhook.tag();
+    const tagIdLoading = !!this.loading['tag_id'];
 
-        const service = webhook.service();
-        const errors = [webhook.error && webhook.error()];
+    return (
+      <div className="Webhooks--row" data-webhook-id={webhook.id()}>
+        <div className="Webhook-input">
+          <Select options={services} value={service} onchange={this.update('service')} disabled={this.loading['service']} />
 
-        if (!services[service]) {
-            errors.push(app.translator.trans('fof-webhooks.admin.errors.service_not_found', { service }));
-        } else if (!webhook.isValid()) {
-            errors.push(app.translator.trans('fof-webhooks.admin.errors.url_invalid'));
-        } else if (!webhook.tag() && webhook.attribute('tag_id')) {
-            errors.push(app.translator.trans('fof-webhooks.admin.errors.tag_invalid'));
-        }
+          <input
+            className="FormControl Webhook-url"
+            type="url"
+            value={this.url()}
+            onchange={withAttr('value', this.update('url'))}
+            disabled={this.loading['url']}
+            placeholder={app.translator.trans('fof-webhooks.admin.settings.help.url')}
+          />
 
-        const tagIcon = require('flarum/tags/common/helpers/tagIcon');
-        const tag = webhook.tag();
-        const tagIdLoading = !!this.loading['tag_id'];
+          {tagIcon && (
+            <Dropdown
+              buttonClassName="Button"
+              label={
+                tag ? (
+                  <span>
+                    {!tagIdLoading && tagIcon(tag, { className: 'Button-icon' })} {tag.name()}
+                  </span>
+                ) : (
+                  app.translator.trans('fof-webhooks.admin.settings.item.tag_any_label')
+                )
+              }
+              icon={tagIdLoading ? 'fas fa-spinner fa-spin' : tag ? true : 'fas fa-tag'}
+              caretIcon={null}
+            >
+              <Button icon={'fas fa-tag'} onclick={() => this.update('tag_id')(null)}>
+                {app.translator.trans('fof-webhooks.admin.settings.item.tag_any_label')}
+              </Button>
 
-        return (
-            <div className="Webhooks--row" data-webhook-id={webhook.id()}>
-                <div className="Webhook-input">
-                    <Select options={services} value={service} onchange={this.update('service')} disabled={this.loading['service']} />
+              <hr />
 
-                    <input
-                        className="FormControl Webhook-url"
-                        type="url"
-                        value={this.url()}
-                        onchange={withAttr('value', this.update('url'))}
-                        disabled={this.loading['url']}
-                        placeholder={app.translator.trans('fof-webhooks.admin.settings.help.url')}
-                    />
+              {app.store.all('tags').map((tag) => (
+                <Button icon={true} onclick={() => this.update('tag_id')(tag.id())}>
+                  {tagIcon(tag, { className: 'Button-icon' })} {tag.name()}
+                </Button>
+              ))}
+            </Dropdown>
+          )}
 
-                    {tagIcon && (
-                        <Dropdown
-                            buttonClassName="Button"
-                            label={
-                                tag ? (
-                                    <span>
-                                        {!tagIdLoading && tagIcon(tag, { className: 'Button-icon' })} {tag.name()}
-                                    </span>
-                                ) : (
-                                    app.translator.trans('fof-webhooks.admin.settings.item.tag_any_label')
-                                )
-                            }
-                            icon={tagIdLoading ? 'fas fa-spinner fa-spin' : tag ? true : 'fas fa-tag'}
-                            caretIcon={null}
-                        >
-                            <Button icon={'fas fa-tag'} onclick={() => this.update('tag_id')(null)}>
-                                {app.translator.trans('fof-webhooks.admin.settings.item.tag_any_label')}
-                            </Button>
+          <Button
+            type="button"
+            className="Button Webhook-button"
+            icon="fas fa-edit"
+            onclick={() =>
+              app.modal.show(WebhookEditModal, {
+                webhook,
+                updateWebhook: this.update('events'),
+              })
+            }
+          />
 
-                            <hr />
+          <Button type="button" className="Button Button--warning Webhook-button" icon="fas fa-times" onclick={this.delete.bind(this)} />
+        </div>
 
-                            {app.store.all('tags').map((tag) => (
-                                <Button icon={true} onclick={() => this.update('tag_id')(tag.id())}>
-                                    {tagIcon(tag, { className: 'Button-icon' })} {tag.name()}
-                                </Button>
-                            ))}
-                        </Dropdown>
-                    )}
+        {!this.events().length && (
+          <Alert className="Webhook-error" dismissible={false}>
+            {app.translator.trans('fof-webhooks.admin.settings.help.disabled')}
+          </Alert>
+        )}
 
-                    <Button
-                        type="button"
-                        className="Button Webhook-button"
-                        icon="fas fa-edit"
-                        onclick={() =>
-                            app.modal.show(WebhookEditModal, {
-                                webhook,
-                                updateWebhook: this.update('events'),
-                            })
-                        }
-                    />
+        {errors.filter(Boolean).map((error) => (
+          <Alert className="Webhook-error" type="error" dismissible={false}>
+            {app.translator.trans(error)}
+          </Alert>
+        ))}
+      </div>
+    );
+  }
 
-                    <Button type="button" className="Button Button--warning Webhook-button" icon="fas fa-times" onclick={this.delete.bind(this)} />
-                </div>
+  update(field) {
+    return (value) => {
+      this.loading[field] = true;
 
-                {!this.events().length && (
-                    <Alert className="Webhook-error" dismissible={false}>
-                        {app.translator.trans('fof-webhooks.admin.settings.help.disabled')}
-                    </Alert>
-                )}
+      return this.webhook
+        .save({
+          [field]: value,
+        })
+        .catch(() => {})
+        .then(() => {
+          this.loading[field] = false;
 
-                {errors.filter(Boolean).map((error) => (
-                    <Alert className="Webhook-error" type="error" dismissible={false}>
-                        {app.translator.trans(error)}
-                    </Alert>
-                ))}
-            </div>
-        );
-    }
+          if (this[field]) this[field](value);
 
-    update(field) {
-        return (value) => {
-            this.loading[field] = true;
+          m.redraw();
+        });
+    };
+  }
 
-            return this.webhook
-                .save({
-                    [field]: value,
-                })
-                .catch(() => {})
-                .then(() => {
-                    this.loading[field] = false;
-
-                    if (this[field]) this[field](value);
-
-                    m.redraw();
-                });
-        };
-    }
-
-    delete() {
-        return this.webhook.delete().then(() => m.redraw());
-    }
+  delete() {
+    return this.webhook.delete().then(() => m.redraw());
+  }
 }
