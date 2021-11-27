@@ -32,7 +32,7 @@ class TriggerListener
     protected $queue;
 
     /**
-     * @var \ArrayObject<String, String>
+     * @var \ArrayObject<string, string>
      */
     public static $listeners = null;
 

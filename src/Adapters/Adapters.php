@@ -17,7 +17,7 @@ use Illuminate\Support\Arr;
 class Adapters
 {
     /**
-     * @var ArrayObject<String, String>
+     * @var ArrayObject<string, string>
      */
     private static $adapters = [
         Discord\Adapter::NAME          => Discord\Adapter::class,
