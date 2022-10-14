@@ -43,7 +43,10 @@
     "psr-4": {
       "FoF\\Webhooks\\": "src/",
       "Reflar\\Webhooks\\": "src/Legacy"
-    }
+    },
+    "files": [
+        "override/Opis/Closure/SerializableClosure.php"
+    ]
   },
   "extra": {
     "flarum-extension": {
