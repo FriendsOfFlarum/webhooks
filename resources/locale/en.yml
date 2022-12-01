@@ -34,7 +34,7 @@ fof-webhooks:
 
   admin:
     errors:
-      service_not_found: The service '{service}' cannot be found.
+      service_not_found: 'The service "{service}" cannot be found.'
       url_invalid: URL is not valid for selected service.
       tag_invalid: This webhook is restricted to an invalid tag. The restriction will not apply. Make sure this is intended.
 
