@@ -12,6 +12,7 @@
 namespace FoF\Webhooks\Adapters\MicrosoftTeams;
 
 use FoF\Webhooks\Response;
+
 use function SSNepenthe\ColorUtils\color;
 
 class Adapter extends \FoF\Webhooks\Adapters\Adapter
