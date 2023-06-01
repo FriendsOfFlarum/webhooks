@@ -27,7 +27,7 @@
     "guzzlehttp/guzzle": "7.*",
     "ssnepenthe/color-utils": "^0.4.2",
     "html2text/html2text": "^4.3.1",
-    "opis/closure": "^3.6"
+    "glowingblue/closure": "3.6.3-patch.2"
   },
   "replace": {
     "reflar/webhooks": "*"
@@ -43,10 +43,7 @@
     "psr-4": {
       "FoF\\Webhooks\\": "src/",
       "Reflar\\Webhooks\\": "src/Legacy"
-    },
-    "files": [
-        "override/Opis/Closure/SerializableClosure.php"
-    ]
+    }
   },
   "extra": {
     "flarum-extension": {
