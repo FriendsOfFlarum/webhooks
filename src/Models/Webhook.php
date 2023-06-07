@@ -72,7 +72,9 @@ class Webhook extends AbstractModel
 
     public function tags()
     {
-        if (!class_exists(Tag::class)) return null;
+        if (!class_exists(Tag::class)) {
+            return null;
+        }
 
         return Tag::whereIn('id', $this->tag_id)->get();
     }
@@ -86,8 +88,11 @@ class Webhook extends AbstractModel
 
     public function getTagIdAttribute($value): array
     {
-        if (is_numeric($value)) return [$value];
-        else if (is_array($value)) return $value;
+        if (is_numeric($value)) {
+            return [$value];
+        } elseif (is_array($value)) {
+            return $value;
+        }
 
         return json_decode($value) ?? [];
     }

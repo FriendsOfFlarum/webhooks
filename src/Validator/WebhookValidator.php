@@ -34,6 +34,6 @@ class WebhookValidator extends AbstractValidator
             'nullable',
             'array',
             'exists:tags,id',
-        ]
+        ],
     ];
 }
