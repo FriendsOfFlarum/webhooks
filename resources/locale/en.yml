@@ -20,6 +20,7 @@ fof-webhooks:
       hidden: "Hid post in `{1}`"
       restored: "Restored post in `{1}`"
       deleted: "Deleted post in `{1}`"
+      approved: "Approved post in `{1}`"
 
     user:
       registered: New user registered
@@ -107,6 +108,11 @@ fof-webhooks:
             registered: Registered
             renamed: => fof-webhooks.ref.renamed
             deleted: => fof-webhooks.ref.deleted
+
+          approval:
+            title: Flarum Approval
+
+            postwasapproved: Post Approved
 
   ref:
     deleted: Deleted

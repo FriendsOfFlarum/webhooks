@@ -108,6 +108,7 @@ class TriggerListener
         self::addListener(Actions\Post\Hidden::class);
         self::addListener(Actions\Post\Restored::class);
         self::addListener(Actions\Post\Deleted::class);
+        self::addListener(Actions\Post\Approved::class);
 
         self::addListener(Actions\User\Renamed::class);
         self::addListener(Actions\User\Registered::class);
