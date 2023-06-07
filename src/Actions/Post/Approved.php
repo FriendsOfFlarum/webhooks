@@ -19,7 +19,7 @@ class Approved extends Posted
     const EVENT = \Flarum\Approval\Event\PostWasApproved::class;
 
     /**
-     * @param Webhook                   $webhook
+     * @param Webhook                                $webhook
      * @param \Flarum\Approval\Event\PostWasApproved $event
      *
      * @return Response
