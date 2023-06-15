@@ -11,6 +11,8 @@
 
 namespace FoF\Webhooks\Actions\Post;
 
+use Flarum\Discussion\Event\Started as DiscussionStartedEvent;
+use FoF\Webhooks\Actions\Discussion\Started as DiscussionStartedAction;
 use FoF\Webhooks\Models\Webhook;
 use FoF\Webhooks\Response;
 
@@ -26,15 +28,22 @@ class Approved extends Posted
      */
     public function handle(Webhook $webhook, $event): Response
     {
+        if ($webhook->asGuest() && $event->post->number == 1) {
+            // Send the 'discussion started' message
+            return (new DiscussionStartedAction())->handle($webhook, new DiscussionStartedEvent($event->post->discussion, $event->post->user));
+        }
+
         $response = parent::handle($webhook, $event);
 
         if (!$webhook->asGuest()) {
+            // Send the 'approved' message as the user who approved the post
             $response
                 ->setTitle(
                     $this->translate('post.approved', $event->post->discussion->title)
                 )
                 ->setDescription(null);
         } else {
+            // Send the 'new post' message
             $response->setAuthor($event->post->user);
         }
 
