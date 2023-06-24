@@ -30,5 +30,10 @@ class WebhookValidator extends AbstractValidator
             'int',
             'in:1,2',
         ],
+        'tag_id' => [
+            'nullable',
+            'array',
+            'exists:tags,id',
+        ],
     ];
 }

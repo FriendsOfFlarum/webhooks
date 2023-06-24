@@ -24,10 +24,10 @@ abstract class Action extends \FoF\Webhooks\Action
         }
 
         $discussion = $event->post->discussion;
-        $tag = $webhook->tag;
+        $tagIds = $webhook->tag_id;
         $tagsIsEnabled = resolve(ExtensionManager::class)->isEnabled('flarum-tags');
 
-        if ($discussion && $tag && $tagsIsEnabled && !$discussion->tags()->where('id', $tag->id)->exists()) {
+        if ($discussion && !empty($tagIds) && $tagsIsEnabled && !$discussion->tags()->whereIn('id', $tagIds)->exists()) {
             return true;
         }
 

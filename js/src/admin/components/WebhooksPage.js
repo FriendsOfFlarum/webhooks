@@ -24,25 +24,22 @@ export default class WebhooksPage extends ExtensionPage {
       loading: Stream(false),
     };
 
-    this.loadingTags = this.isTagsEnabled();
+    this.loadingData = Stream(true);
   }
 
   oncreate(vnode) {
     super.oncreate(vnode);
 
-    if (this.loadingTags) {
-      app.store.find('tags').then(() => {
-        this.loadingTags = false;
-
-        m.redraw();
-      });
-    }
+    Promise.all([app.store.find('fof/webhooks'), this.isTagsEnabled() && app.store.find('tags')]).then(() => {
+      this.loadingData(false);
+      m.redraw();
+    });
   }
 
   content() {
     const webhooks = app.store.all('webhooks');
 
-    if (this.loadingTags) {
+    if (this.loadingData()) {
       return <LoadingIndicator />;
     }
 
@@ -64,6 +61,7 @@ export default class WebhooksPage extends ExtensionPage {
 
           <form>
             <p className="helpText">{app.translator.trans('fof-webhooks.admin.settings.help.general')}</p>
+            {this.isTagsEnabled() && <p className="helpText">{app.translator.trans('fof-webhooks.admin.settings.help.tags')}</p>}
             <fieldset>
               <div className="Webhooks--Container">
                 {webhooks.map((webhook) => (

@@ -78,13 +78,9 @@ class UpdateWebhookHandler
         }
 
         if (Arr::has($data, 'attributes.tag_id') && class_exists(Tag::class)) {
-            $tagId = Arr::get($data, 'attributes.tag_id');
+            $tagIds = Arr::get($data, 'attributes.tag_id');
 
-            if (is_numeric($tagId) && Tag::query()->where('id', $tagId)->exists()) {
-                $webhook->tag_id = $tagId;
-            } else {
-                $webhook->tag_id = null;
-            }
+            $webhook->tag_id = $tagIds;
         }
 
         if (isset($usePlainText)) {

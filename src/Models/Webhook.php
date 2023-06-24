@@ -70,9 +70,13 @@ class Webhook extends AbstractModel
         return $this->belongsTo(Group::class);
     }
 
-    public function tag(): BelongsTo
+    public function tags()
     {
-        return $this->belongsTo(Tag::class);
+        if (!class_exists(Tag::class)) {
+            return null;
+        }
+
+        return Tag::whereIn('id', $this->tag_id)->get();
     }
 
     public function asGuest(): bool
@@ -80,5 +84,16 @@ class Webhook extends AbstractModel
         $group = $this->group;
 
         return !$group || $group->id == Group::GUEST_ID;
+    }
+
+    public function getTagIdAttribute($value): array
+    {
+        if (is_numeric($value)) {
+            return [$value];
+        } elseif (is_array($value)) {
+            return $value;
+        }
+
+        return json_decode($value) ?? [];
     }
 }

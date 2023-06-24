@@ -7,6 +7,9 @@ import Alert from 'flarum/common/components/Alert';
 import Stream from 'flarum/common/utils/Stream';
 import withAttr from 'flarum/common/utils/withAttr';
 
+import tagsLabel from 'flarum/tags/common/helpers/tagsLabel';
+import TagSelectionModal from 'flarum/tags/common/components/TagSelectionModal';
+
 import WebhookEditModal from './WebhookEditModal';
 
 export default class SettingsListItem extends Component {
@@ -26,6 +29,8 @@ export default class SettingsListItem extends Component {
 
   view() {
     const { webhook, services } = this;
+    const isTagsEnabled = app.initializers.has('flarum-tags');
+    const tags = webhook.tags().filter(Boolean);
 
     const service = webhook.service();
     const errors = [webhook.error && webhook.error()];
@@ -34,13 +39,17 @@ export default class SettingsListItem extends Component {
       errors.push(app.translator.trans('fof-webhooks.admin.errors.service_not_found', { service }));
     } else if (!webhook.isValid()) {
       errors.push(app.translator.trans('fof-webhooks.admin.errors.url_invalid'));
-    } else if (!webhook.tag() && webhook.attribute('tag_id')) {
+    } else if (!isTagsEnabled && webhook.tags().length !== 0) {
+      errors.push(app.translator.trans('fof-webhooks.admin.errors.tag_disabled'));
+    } else if (tags.length !== webhook.attribute('tag_id').length) {
       errors.push(app.translator.trans('fof-webhooks.admin.errors.tag_invalid'));
     }
 
-    const tagIcon = require('flarum/tags/common/helpers/tagIcon');
-    const tag = webhook.tag();
-    const tagIdLoading = !!this.loading['tag_id'];
+    const changeTags = () =>
+      app.modal.show(TagSelectionModal, {
+        selectedTags: tags,
+        onsubmit: (tags) => this.update('tag_id')(tags.map((tag) => tag.id())),
+      });
 
     return (
       <div className="Webhooks--row" data-webhook-id={webhook.id()}>
@@ -56,34 +65,12 @@ export default class SettingsListItem extends Component {
             placeholder={app.translator.trans('fof-webhooks.admin.settings.help.url')}
           />
 
-          {tagIcon && (
-            <Dropdown
-              buttonClassName="Button"
-              label={
-                tag ? (
-                  <span>
-                    {!tagIdLoading && tagIcon(tag, { className: 'Button-icon' })} {tag.name()}
-                  </span>
-                ) : (
-                  app.translator.trans('fof-webhooks.admin.settings.item.tag_any_label')
-                )
-              }
-              icon={tagIdLoading ? 'fas fa-spinner fa-spin' : tag ? true : 'fas fa-tag'}
-              caretIcon={null}
-            >
-              <Button icon={'fas fa-tag'} onclick={() => this.update('tag_id')(null)}>
-                {app.translator.trans('fof-webhooks.admin.settings.item.tag_any_label')}
-              </Button>
-
-              <hr />
-
-              {app.store.all('tags').map((tag) => (
-                <Button icon={true} onclick={() => this.update('tag_id')(tag.id())}>
-                  {tagIcon(tag, { className: 'Button-icon' })} {tag.name()}
-                </Button>
-              ))}
-            </Dropdown>
-          )}
+          {isTagsEnabled &&
+            (tags.length ? (
+              tagsLabel(tags, { onclick: changeTags })
+            ) : (
+              <span className="tagsLabel">app.translator.trans('fof-webhooks.admin.settings.item.tag_any_label')</span>
+            ))}
 
           <Button
             type="button"
