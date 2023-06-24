@@ -64,6 +64,7 @@ export default class WebhooksPage extends ExtensionPage {
 
           <form>
             <p className="helpText">{app.translator.trans('fof-webhooks.admin.settings.help.general')}</p>
+            {this.isTagsEnabled() && <p className="helpText">{app.translator.trans('fof-webhooks.admin.settings.help.tags')}</p>}
             <fieldset>
               <div className="Webhooks--Container">
                 {webhooks.map((webhook) => (

@@ -29,6 +29,8 @@ export default class SettingsListItem extends Component {
 
   view() {
     const { webhook, services } = this;
+    const isTagsEnabled = app.initializers.has('flarum-tags');
+    const tags = webhook.tags().filter(Boolean);
 
     const service = webhook.service();
     const errors = [webhook.error && webhook.error()];
@@ -37,11 +39,11 @@ export default class SettingsListItem extends Component {
       errors.push(app.translator.trans('fof-webhooks.admin.errors.service_not_found', { service }));
     } else if (!webhook.isValid()) {
       errors.push(app.translator.trans('fof-webhooks.admin.errors.url_invalid'));
-    } else if (webhook.tags().filter(Boolean).length !== webhook.attribute('tag_id').length) {
+    } else if (!isTagsEnabled && webhook.tags().length !== 0) {
+      errors.push(app.translator.trans('fof-webhooks.admin.errors.tag_disabled'));
+    } else if (tags.length !== webhook.attribute('tag_id').length) {
       errors.push(app.translator.trans('fof-webhooks.admin.errors.tag_invalid'));
     }
-
-    const tags = webhook.tags();
 
     const changeTags = () =>
       app.modal.show(TagSelectionModal, {
@@ -63,11 +65,12 @@ export default class SettingsListItem extends Component {
             placeholder={app.translator.trans('fof-webhooks.admin.settings.help.url')}
           />
 
-          {tags.length ? (
-            tagsLabel(tags, { onclick: changeTags })
-          ) : (
-            <span className="tagsLabel">app.translator.trans('fof-webhooks.admin.settings.item.tag_any_label')</span>
-          )}
+          {isTagsEnabled &&
+            (tags.length ? (
+              tagsLabel(tags, { onclick: changeTags })
+            ) : (
+              <span className="tagsLabel">app.translator.trans('fof-webhooks.admin.settings.item.tag_any_label')</span>
+            ))}
 
           <Button
             type="button"

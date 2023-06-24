@@ -11,7 +11,7 @@
   "scripts": {
     "build": "webpack --mode production",
     "dev": "webpack --mode development --watch",
-    "lint": "prettier --write src"
+    "format": "prettier --write src"
   },
   "devDependencies": {
     "flarum-tsconfig": "^1.0.2",
