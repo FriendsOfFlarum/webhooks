@@ -11,15 +11,12 @@
 
 namespace FoF\Webhooks;
 
-use Flarum\Api\Controller\ShowForumController;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Extend;
 use Flarum\Frontend\Document;
 use FoF\Webhooks\Adapters\Adapters;
 use FoF\Webhooks\Api\Serializer\WebhookSerializer;
 use FoF\Webhooks\Listener\TriggerListener;
-use FoF\Webhooks\Models\Webhook;
-use Psr\Http\Message\ServerRequestInterface;
 
 return [
     (new Extend\Frontend('admin'))
