@@ -41,14 +41,6 @@ return [
     (new Extend\ApiSerializer(ForumSerializer::class))
         ->hasMany('webhooks', WebhookSerializer::class),
 
-    (new Extend\ApiController(ShowForumController::class))
-        ->addInclude('webhooks')
-        ->prepareDataForSerialization(function (ShowForumController $controller, &$data, ServerRequestInterface $request) {
-            $actor = $request->getAttribute('actor');
-
-            $data['webhooks'] = $actor->isAdmin() ? Webhook::all() : [];
-        }),
-
     (new Extend\Event())
         ->subscribe(Listener\TriggerListener::class),
 ];
