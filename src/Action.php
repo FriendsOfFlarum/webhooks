@@ -49,7 +49,7 @@ abstract class Action
 
     /**
      * @param Webhook $webhook
-     * @param $event
+     * @param         $event
      *
      * @return Response|null
      *
@@ -61,7 +61,7 @@ abstract class Action
     }
 
     /**
-     * @param $event
+     * @param         $event
      * @param Webhook $webhook
      *
      * @return bool
@@ -73,7 +73,7 @@ abstract class Action
 
     /**
      * @param string $id
-     * @param $param1
+     * @param        $param1
      *
      * @return string
      */
