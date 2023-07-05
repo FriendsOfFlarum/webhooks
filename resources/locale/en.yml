@@ -47,7 +47,7 @@ fof-webhooks:
       debug_help: Add extra logs to the Flarum log file to debug issues with webhooks and/or events not working corectly.
 
       item:
-        tag_any_label: Any
+        tag_any_label: Any Tag
 
       help:
         disabled: This webhook is disabled because it doesn't have any events enabled.
