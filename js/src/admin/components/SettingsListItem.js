@@ -69,7 +69,9 @@ export default class SettingsListItem extends Component {
             (tags.length ? (
               tagsLabel(tags, { onclick: changeTags })
             ) : (
-              <span className="tagsLabel">app.translator.trans('fof-webhooks.admin.settings.item.tag_any_label')</span>
+              <span className="TagsLabel" onclick={changeTags}>
+                {app.translator.trans('fof-webhooks.admin.settings.item.tag_any_label')}
+              </span>
             ))}
 
           <Button
