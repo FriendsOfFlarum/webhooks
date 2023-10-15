@@ -34,5 +34,5 @@ return [
     },
     'down' => static function (Builder $schema) {
         //
-    }
+    },
 ];
