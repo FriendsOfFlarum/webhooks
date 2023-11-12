@@ -32,12 +32,12 @@ class TriggerListener
     protected $queue;
 
     /**
-     * @var \ArrayObject<string, string>
+     * @var array<string, string>
      */
     public static $listeners = null;
 
     /**
-     * @var bool
+     * @var bool|null
      */
     protected static $isDebugging = null;
 
@@ -83,9 +83,6 @@ class TriggerListener
 
         self::debug("$name: queuing");
 
-        /**
-         * @var Action
-         */
         $this->queue->push(
             new HandleEvent($name, $event)
         );

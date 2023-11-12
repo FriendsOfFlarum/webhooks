@@ -17,7 +17,7 @@ use Illuminate\Support\Arr;
 class Adapters
 {
     /**
-     * @var ArrayObject<string, string>
+     * @var array<string, string>
      */
     private static $adapters = [
         Discord\Adapter::NAME          => Discord\Adapter::class,
@@ -52,7 +52,7 @@ class Adapters
 
     public static function length(): int
     {
-        return isset($adapters) ? count(self::$adapters) : 0;
+        return count(self::$adapters);
     }
 
     public static function all()

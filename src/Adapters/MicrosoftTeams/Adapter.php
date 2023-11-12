@@ -37,10 +37,6 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
      */
     public function send(string $url, Response $response)
     {
-        if (!isset($response)) {
-            return;
-        }
-
         $color = color($this->settings->get('theme_primary_color'));
 
         $this->request(

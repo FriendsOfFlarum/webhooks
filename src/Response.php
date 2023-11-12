@@ -131,7 +131,7 @@ class Response
 
     public function getAuthorUrl(): ?string
     {
-        return $this->author ? $this->urlGenerator->to('forum')->route('user', [
+        return $this->author->exists ? $this->urlGenerator->to('forum')->route('user', [
             'username' => $this->author->username,
         ]) : null;
     }

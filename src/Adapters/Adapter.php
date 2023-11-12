@@ -32,7 +32,7 @@ abstract class Adapter
     /**
      * Adapter name.
      *
-     * @var string
+     * @var string|null
      */
     const NAME = null;
 

@@ -55,7 +55,8 @@
                 "color": "#fff"
             },
             "optional-dependencies": [
-                "flarum/tags"
+                "flarum/tags",
+                "flarum/approval"
             ]
         },
         "flagrow": {
@@ -76,6 +77,7 @@
     },
     "require-dev": {
         "flarum/phpstan": "*",
-        "flarum/tags": "*"
+        "flarum/tags": "*",
+        "flarum/approval": "*"
     }
 }
