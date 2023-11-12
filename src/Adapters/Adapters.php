@@ -11,7 +11,6 @@
 
 namespace FoF\Webhooks\Adapters;
 
-use ArrayObject;
 use Illuminate\Support\Arr;
 
 class Adapters

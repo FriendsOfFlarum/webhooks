@@ -12,7 +12,6 @@
 namespace FoF\Webhooks\Listener;
 
 use Flarum\Settings\SettingsRepositoryInterface;
-use FoF\Webhooks\Action;
 use FoF\Webhooks\Actions;
 use FoF\Webhooks\Jobs\HandleEvent;
 use Illuminate\Contracts\Events\Dispatcher;
