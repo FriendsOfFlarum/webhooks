@@ -28,7 +28,7 @@ class Approved extends Posted
      */
     public function handle(Webhook $webhook, $event): Response
     {
-        if ($webhook->asGuest() && $event->post->number == 1) {
+        if ($webhook->asGuest() && $event->post->number === 1) {
             // Send the 'discussion started' message
             return (new DiscussionStartedAction())->handle($webhook, new DiscussionStartedEvent($event->post->discussion, $event->post->user));
         }

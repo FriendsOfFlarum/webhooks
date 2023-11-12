@@ -13,7 +13,7 @@ namespace FoF\Webhooks;
 
 use Flarum\Http\UrlGenerator;
 use FoF\Webhooks\Models\Webhook;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class Action
 {
@@ -32,7 +32,7 @@ abstract class Action
     public function __construct()
     {
         $this->url = resolve(UrlGenerator::class);
-        $this->translator = resolve('translator');
+        $this->translator = resolve(TranslatorInterface::class);
     }
 
     /**
@@ -55,7 +55,7 @@ abstract class Action
      *
      * @abstract
      */
-    public function handle(Webhook $webhook, $event): Response
+    public function handle(Webhook $webhook, $event): ?Response
     {
         return $this->listen($event);
     }

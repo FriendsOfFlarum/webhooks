@@ -18,17 +18,17 @@ use FoF\Webhooks\Adapters\Adapters;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property string service
- * @property string url
- * @property string error
- * @property string events
- * @property number group_id
- * @property number tag_id
- * @property string extra_text
- * @property Group|null group
- * @property Tag|null tag
- * @property bool use_plain_text
- * @property ?int max_post_content_length
+ * @property string      $service
+ * @property string      $url
+ * @property string|null $error
+ * @property string      $events
+ * @property number      $group_id
+ * @property number      $tag_id
+ * @property string      $extra_text
+ * @property Group|null  $group
+ * @property Tag|null    $tag
+ * @property bool        $use_plain_text
+ * @property ?int        $max_post_content_length
  */
 class Webhook extends AbstractModel
 {

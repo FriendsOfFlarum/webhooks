@@ -20,9 +20,6 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
      */
     const NAME = 'discord';
 
-    /**
-     * {@inheritdoc}
-     */
     protected $exception = DiscordException::class;
 
     /**
@@ -35,10 +32,6 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
      */
     public function send(string $url, Response $response)
     {
-        if (!isset($response)) {
-            return;
-        }
-
         $title = $this->settings->get('forum_title');
 
         if (strlen($title) > 32) {
@@ -65,13 +58,13 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
             'title'       => substr($response->title, 0, 256),
             'url'         => $response->url,
             'description' => $response->description ? substr($response->description, 0, 2048) : null,
-            'author'      => isset($response->author) ? [
+            'author'      => $response->author->exists ? [
                 'name'     => substr($response->author->display_name, 0, 256),
                 'url'      => $response->getAuthorUrl(),
                 'icon_url' => $response->author->avatar_url,
             ] : null,
             'color'     => $response->getColor(),
-            'timestamp' => $response->timestamp ?? date('c'),
+            'timestamp' => $response->timestamp,
             'type'      => 'rich',
         ];
     }

@@ -36,10 +36,6 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
      */
     public function send(string $url, Response $response)
     {
-        if (!isset($response)) {
-            return;
-        }
-
         $title = $this->settings->get('forum_title');
 
         $res = $this->request($url, [
@@ -64,7 +60,7 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
     public function toArray(Response $response): array
     {
         $data = [
-            'fallback'   => $response->description.($response->author ? ' - '.$response->author->display_name : ''),
+            'fallback'   => $response->description.($response->author->exists ? ' - '.$response->author->display_name : ''),
             'color'      => $response->color,
             'title'      => $response->title,
             'title_link' => $response->url,
@@ -72,7 +68,7 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
             'footer'     => $this->settings->get('forum_title'),
         ];
 
-        if (isset($response->author)) {
+        if ($response->author->exists) {
             $data['author_name'] = $response->author->display_name;
             $data['author_link'] = $response->getAuthorUrl();
             $data['author_icon'] = $response->author->avatar_url;

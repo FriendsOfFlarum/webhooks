@@ -25,10 +25,6 @@ class Post
      */
     public static function getContent(\Flarum\Post\Post $post, Webhook $webhook = null): ?string
     {
-        if (!$post || is_array($post->content)) {
-            return null;
-        }
-
         $content = $post->content;
 
         if (isset($webhook) && $post instanceof CommentPost) {

@@ -1,65 +1,83 @@
 {
-  "name": "fof/webhooks",
-  "description": "Flarum with webhooks",
-  "keywords": [
-    "flarum"
-  ],
-  "type": "flarum-extension",
-  "license": "MIT",
-  "support": {
-    "issues": "https://github.com/FriendsOfFlarum/webhooks/issues",
-    "source": "https://github.com/FriendsOfFlarum/webhooks",
-    "forum": "https://discuss.flarum.org/d/17812"
-  },
-  "homepage": "https://friendsofflarum.org",
-  "funding": [
-    {
-      "type": "opencollective",
-      "url": "https://opencollective.com/fof/donate"
+    "name": "fof/webhooks",
+    "description": "Flarum with webhooks",
+    "keywords": [
+        "flarum"
+    ],
+    "type": "flarum-extension",
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/FriendsOfFlarum/webhooks/issues",
+        "source": "https://github.com/FriendsOfFlarum/webhooks",
+        "forum": "https://discuss.flarum.org/d/17812"
     },
-    {
-      "type": "github",
-      "url": "https://github.com/sponsors/datitisev"
-    }
-  ],
-  "require": {
-    "flarum/core": "^1.7.0",
-    "guzzlehttp/guzzle": "7.*",
-    "ssnepenthe/color-utils": "^0.4.2",
-    "html2text/html2text": "^4.3.1",
-    "glowingblue/closure": "3.6.3-patch.2"
-  },
-  "replace": {
-    "reflar/webhooks": "*"
-  },
-  "authors": [
-    {
-      "name": "David Sevilla Martín",
-      "email": "me+fof@datitisev.me",
-      "role": "Developer"
-    }
-  ],
-  "autoload": {
-    "psr-4": {
-      "FoF\\Webhooks\\": "src/",
-      "Reflar\\Webhooks\\": "src/Legacy"
-    }
-  },
-  "extra": {
-    "flarum-extension": {
-      "title": "FoF Webhooks",
-      "category": "feature",
-      "icon": {
-        "name": "fas fa-external-link-alt",
-        "backgroundColor": "#e74c3c",
-        "color": "#fff"
-      },
-      "optional-dependencies": [
-        "flarum/tags"
-      ]
+    "homepage": "https://friendsofflarum.org",
+    "funding": [
+        {
+            "type": "opencollective",
+            "url": "https://opencollective.com/fof/donate"
+        },
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/datitisev"
+        }
+    ],
+    "require": {
+        "flarum/core": "^1.7.0",
+        "guzzlehttp/guzzle": "7.*",
+        "ssnepenthe/color-utils": "^0.4.2",
+        "html2text/html2text": "^4.3.1",
+        "glowingblue/closure": "3.6.3-patch.2"
     },
-    "flagrow": {
-      "discuss": "https://discuss.flarum.org/d/17812"
+    "replace": {
+        "reflar/webhooks": "*"
+    },
+    "authors": [
+        {
+            "name": "David Sevilla Martín",
+            "email": "me+fof@datitisev.me",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "FoF\\Webhooks\\": "src/",
+            "Reflar\\Webhooks\\": "src/Legacy"
+        }
+    },
+    "extra": {
+        "flarum-extension": {
+            "title": "FoF Webhooks",
+            "category": "feature",
+            "icon": {
+                "name": "fas fa-external-link-alt",
+                "backgroundColor": "#e74c3c",
+                "color": "#fff"
+            },
+            "optional-dependencies": [
+                "flarum/tags",
+                "flarum/approval"
+            ]
+        },
+        "flagrow": {
+            "discuss": "https://discuss.flarum.org/d/17812"
+        },
+        "flarum-cli": {
+            "modules": {
+                "githubActions": true
+            }
+        }
+    },
+    "scripts": {
+        "analyse:phpstan": "phpstan analyse",
+        "clear-cache:phpstan": "phpstan clear-result-cache"
+    },
+    "scripts-descriptions": {
+        "analyse:phpstan": "Run static analysis"
+    },
+    "require-dev": {
+        "flarum/phpstan": "*",
+        "flarum/tags": "*",
+        "flarum/approval": "*"
     }
-  }
 }

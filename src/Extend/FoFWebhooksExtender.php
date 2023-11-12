@@ -35,8 +35,6 @@ class FoFWebhooksExtender implements ExtenderInterface
      */
     public function listener($action): FoFWebhooksExtender
     {
-        assert(isset($action), '$action is required');
-
         $clazz = @constant("$action::EVENT");
 
         if (isset($clazz)) {
@@ -53,8 +51,6 @@ class FoFWebhooksExtender implements ExtenderInterface
      */
     public function adapter($adapter): FoFWebhooksExtender
     {
-        assert(isset($adapter), '$adapter is required');
-
         $name = @constant("$adapter::NAME");
 
         if (isset($name)) {

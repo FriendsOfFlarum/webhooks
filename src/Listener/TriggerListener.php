@@ -12,7 +12,6 @@
 namespace FoF\Webhooks\Listener;
 
 use Flarum\Settings\SettingsRepositoryInterface;
-use FoF\Webhooks\Action;
 use FoF\Webhooks\Actions;
 use FoF\Webhooks\Jobs\HandleEvent;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -32,12 +31,12 @@ class TriggerListener
     protected $queue;
 
     /**
-     * @var \ArrayObject<string, string>
+     * @var array<string, string>
      */
     public static $listeners = null;
 
     /**
-     * @var bool
+     * @var bool|null
      */
     protected static $isDebugging = null;
 
@@ -83,9 +82,6 @@ class TriggerListener
 
         self::debug("$name: queuing");
 
-        /**
-         * @var Action
-         */
         $this->queue->push(
             new HandleEvent($name, $event)
         );

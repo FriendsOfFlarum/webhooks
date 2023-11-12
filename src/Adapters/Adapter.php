@@ -32,7 +32,7 @@ abstract class Adapter
     /**
      * Adapter name.
      *
-     * @var string
+     * @var string|null
      */
     const NAME = null;
 
@@ -49,7 +49,7 @@ abstract class Adapter
     /**
      * Exception to use on request errors.
      *
-     * @var \Exception
+     * @var string
      */
     protected $exception;
 
