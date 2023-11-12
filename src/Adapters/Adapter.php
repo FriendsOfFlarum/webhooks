@@ -49,7 +49,7 @@ abstract class Adapter
     /**
      * Exception to use on request errors.
      *
-     * @var \Exception
+     * @var string
      */
     protected $exception;
 

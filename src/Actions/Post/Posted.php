@@ -21,7 +21,7 @@ class Posted extends Action
 
     /**
      * @param Webhook                   $webhook
-     * @param \Flarum\Post\Event\Posted $event
+     * @param \Flarum\Post\Event\Posted|\Flarum\Approval\Event\PostWasApproved $event
      *
      * @return Response
      */
