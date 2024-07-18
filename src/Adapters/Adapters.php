@@ -22,6 +22,7 @@ class Adapters
         Discord\Adapter::NAME          => Discord\Adapter::class,
         Slack\Adapter::NAME            => Slack\Adapter::class,
         MicrosoftTeams\Adapter::NAME   => MicrosoftTeams\Adapter::class,
+        Telegram\Adapter::NAME         => Telegram\Adapter::class,
     ];
 
     /**

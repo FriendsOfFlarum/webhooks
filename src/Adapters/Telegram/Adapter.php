@@ -11,7 +11,6 @@
 
 namespace FoF\Webhooks\Adapters\Telegram;
 
-use FoF\Webhooks\Adapters\Slack\SlackException;
 use FoF\Webhooks\Response;
 
 class Adapter extends \FoF\Webhooks\Adapters\Adapter
@@ -19,12 +18,12 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
     /**
      * {@inheritdoc}
      */
-    const NAME = 'slack';
+    const NAME = 'telegram';
 
     /**
      * {@inheritdoc}
      */
-    protected $exception = SlackException::class;
+    protected $exception = TelegramException::class;
 
     /**
      * Sends a message through the webhook.
@@ -33,7 +32,7 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
      * @param Response $response
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws SlackException
+     * @throws TelegramException
      */
   public function send(string $telegramBotUrl, Response $response)
   {
@@ -131,7 +130,7 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
      */
     public static function isValidURL(string $url): bool
     {
-        // allow any URL as multiple services support Slack webhook payloads
+        // allow any URL as multiple services support Telegram webhook payloads
         return true;
     }
 }

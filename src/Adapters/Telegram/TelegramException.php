@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace FoF\Webhooks\Adapters\Slack;
+namespace FoF\Webhooks\Adapters\Telegram;
 
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 
-class SlackException extends Exception
+class TelegramException extends Exception
 {
     private $http;
     private $url;

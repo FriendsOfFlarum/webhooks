@@ -76,6 +76,7 @@ fof-webhooks:
         discord: Discord
         slack: Slack
         microsoft-teams: Microsoft Teams
+        telegram: Telegram
 
       actions:
         flarum:
