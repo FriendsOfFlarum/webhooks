@@ -9,13 +9,13 @@ A [Flarum](http://flarum.org) extension. Flarum with webhooks.
 Install manually with composer:
 
 ```sh
-composer require fof/webhooks
+composer require behzadbabaei/webhooks
 ```
 
 ### Updating
 
 ```sh
-composer update fof/webhooks
+composer update behzadbabaei/webhooks
 ```
 
 ### Links
