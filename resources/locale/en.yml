@@ -1,4 +1,4 @@
-fof-webhooks:
+beb-webhooks:
   actions:
     discussion:
       started: "Started discussion `{1}`"
@@ -84,33 +84,33 @@ fof-webhooks:
             title: Flarum Discussion
 
             started: Started
-            renamed: => fof-webhooks.ref.renamed
-            hidden: => fof-webhooks.ref.hidden
-            restored: => fof-webhooks.ref.restored
-            deleted: => fof-webhooks.ref.deleted
+            renamed: => beb-webhooks.ref.renamed
+            hidden: => beb-webhooks.ref.hidden
+            restored: => beb-webhooks.ref.restored
+            deleted: => beb-webhooks.ref.deleted
 
           group:
             title: Flarum Group
 
             created: Created
-            renamed: => fof-webhooks.ref.renamed
-            deleted: => fof-webhooks.ref.deleted
+            renamed: => beb-webhooks.ref.renamed
+            deleted: => beb-webhooks.ref.deleted
 
           post:
             title: Flarum Post
 
             posted: Posted
             revised: Edited
-            hidden: => fof-webhooks.ref.hidden
-            restored: => fof-webhooks.ref.restored
-            deleted: => fof-webhooks.ref.deleted
+            hidden: => beb-webhooks.ref.hidden
+            restored: => beb-webhooks.ref.restored
+            deleted: => beb-webhooks.ref.deleted
 
           user:
             title: Flarum User
 
             registered: Registered
-            renamed: => fof-webhooks.ref.renamed
-            deleted: => fof-webhooks.ref.deleted
+            renamed: => beb-webhooks.ref.renamed
+            deleted: => beb-webhooks.ref.deleted
 
           approval:
             title: Flarum Approval

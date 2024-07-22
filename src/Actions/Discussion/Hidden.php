@@ -1,19 +1,10 @@
 <?php
 
-/*
- * This file is part of fof/webhooks.
- *
- * Copyright (c) FriendsOfFlarum.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+namespace BeB\Webhooks\Actions\Discussion;
 
-namespace FoF\Webhooks\Actions\Discussion;
-
-use FoF\Webhooks\Helpers\Post;
-use FoF\Webhooks\Models\Webhook;
-use FoF\Webhooks\Response;
+use BeB\Webhooks\Helpers\Post;
+use BeB\Webhooks\Models\Webhook;
+use BeB\Webhooks\Response;
 
 class Hidden extends Action
 {

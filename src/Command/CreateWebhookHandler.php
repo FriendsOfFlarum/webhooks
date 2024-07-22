@@ -1,19 +1,10 @@
 <?php
 
-/*
- * This file is part of fof/webhooks.
- *
- * Copyright (c) FriendsOfFlarum.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-namespace FoF\Webhooks\Command;
+namespace BeB\Webhooks\Command;
 
 use Flarum\User\Exception\PermissionDeniedException;
-use FoF\Webhooks\Models\Webhook;
-use FoF\Webhooks\Validator\WebhookValidator;
+use BeB\Webhooks\Models\Webhook;
+use BeB\Webhooks\Validator\WebhookValidator;
 use Illuminate\Support\Arr;
 
 class CreateWebhookHandler

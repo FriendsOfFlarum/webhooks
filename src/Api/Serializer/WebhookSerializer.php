@@ -1,18 +1,9 @@
 <?php
 
-/*
- * This file is part of fof/webhooks.
- *
- * Copyright (c) FriendsOfFlarum.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-namespace FoF\Webhooks\Api\Serializer;
+namespace BeB\Webhooks\Api\Serializer;
 
 use Flarum\Api\Serializer\AbstractSerializer;
-use FoF\Webhooks\Models\Webhook;
+use BeB\Webhooks\Models\Webhook;
 use InvalidArgumentException;
 
 class WebhookSerializer extends AbstractSerializer

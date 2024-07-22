@@ -1,19 +1,10 @@
 <?php
 
-/*
- * This file is part of fof/webhooks.
- *
- * Copyright (c) FriendsOfFlarum.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-namespace FoF\Webhooks\Actions\Group;
+namespace BeB\Webhooks\Actions\Group;
 
 use Carbon\Carbon;
-use FoF\Webhooks\Action;
-use FoF\Webhooks\Response;
+use BeB\Webhooks\Action;
+use BeB\Webhooks\Response;
 
 class Created extends Action
 {

@@ -1,20 +1,11 @@
 <?php
 
-/*
- * This file is part of fof/webhooks.
- *
- * Copyright (c) FriendsOfFlarum.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+namespace BeB\Webhooks\Jobs;
 
-namespace FoF\Webhooks\Jobs;
-
-use FoF\Webhooks\Action;
-use FoF\Webhooks\Adapters;
-use FoF\Webhooks\Listener\TriggerListener;
-use FoF\Webhooks\Models\Webhook;
+use BeB\Webhooks\Action;
+use BeB\Webhooks\Adapters;
+use BeB\Webhooks\Listener\TriggerListener;
+use BeB\Webhooks\Models\Webhook;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\SerializesModels;

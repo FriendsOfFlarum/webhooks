@@ -33,7 +33,7 @@ export default class WebhookEditModal extends Modal {
 
     this.webhook = this.attrs.webhook;
 
-    const events = app.data['fof-webhooks.events'];
+    const events = app.data['beb-webhooks.events'];
 
     this.groupId = Stream(this.webhook.groupId() || Group.GUEST_ID);
     this.extraText = Stream(this.webhook.extraText() || '');
@@ -79,7 +79,7 @@ export default class WebhookEditModal extends Modal {
   }
 
   title() {
-    return app.translator.trans('fof-webhooks.admin.settings.modal.title');
+    return app.translator.trans('beb-webhooks.admin.settings.modal.title');
   }
 
   content() {
@@ -91,31 +91,31 @@ export default class WebhookEditModal extends Modal {
     const group = app.store.getById('groups', this.groupId());
 
     return (
-      <div className="FofWebhooksModal Modal-body">
+      <div className="BeBWebhooksModal Modal-body">
         <form className="Form" onsubmit={this.onsubmit.bind(this)}>
           <Switch state={this.usePlainText()} onchange={this.usePlainText}>
-            {app.translator.trans('fof-webhooks.admin.settings.modal.use_plain_text_label')}
+            {app.translator.trans('beb-webhooks.admin.settings.modal.use_plain_text_label')}
           </Switch>
 
           <div className="Form-group">
-            <label className="label">{app.translator.trans('fof-webhooks.admin.settings.modal.max_post_content_length_label')}</label>
+            <label className="label">{app.translator.trans('beb-webhooks.admin.settings.modal.max_post_content_length_label')}</label>
 
-            <p className="helpText">{app.translator.trans('fof-webhooks.admin.settings.modal.max_post_content_length_help')}</p>
+            <p className="helpText">{app.translator.trans('beb-webhooks.admin.settings.modal.max_post_content_length_help')}</p>
 
             <input type="number" min="0" className="FormControl" bidi={this.maxPostContentLength} onkeypress={this.onkeypress.bind(this)} />
           </div>
 
           <div className="Form-group hasLoading">
-            <label className="label">{app.translator.trans('fof-webhooks.admin.settings.modal.extra_text_label')}</label>
+            <label className="label">{app.translator.trans('beb-webhooks.admin.settings.modal.extra_text_label')}</label>
 
-            <p className="helpText">{app.translator.trans('fof-webhooks.admin.settings.modal.extra_text_help')}</p>
+            <p className="helpText">{app.translator.trans('beb-webhooks.admin.settings.modal.extra_text_help')}</p>
 
             <input type="text" className="FormControl" bidi={this.extraText} onkeypress={this.onkeypress.bind(this)} />
           </div>
 
           <div className="Form-group">
-            <label className="label">{app.translator.trans('fof-webhooks.admin.settings.modal.group_label')}</label>
-            <p className="helpText">{app.translator.trans('fof-webhooks.admin.settings.modal.group_help')}</p>
+            <label className="label">{app.translator.trans('beb-webhooks.admin.settings.modal.group_label')}</label>
+            <p className="helpText">{app.translator.trans('beb-webhooks.admin.settings.modal.group_help')}</p>
 
             <Dropdown label={[icon(group.icon() || icons[group.id()]), group.namePlural()]} buttonClassName="Button Button--danger">
               {app.store
@@ -135,9 +135,9 @@ export default class WebhookEditModal extends Modal {
           </div>
 
           <div className="Form-group Webhook-events">
-            <label className="label">{app.translator.trans('fof-webhooks.admin.settings.modal.events_label')}</label>
+            <label className="label">{app.translator.trans('beb-webhooks.admin.settings.modal.events_label')}</label>
 
-            {app.translator.trans('fof-webhooks.admin.settings.modal.description')}
+            {app.translator.trans('beb-webhooks.admin.settings.modal.description')}
 
             {Object.entries(this.events).map(([, events]) => (
               <div>
@@ -170,7 +170,7 @@ export default class WebhookEditModal extends Modal {
   }
 
   translate(group, key = 'title') {
-    return app.translator.trans(`fof-webhooks.admin.settings.actions.${group}.${key}`);
+    return app.translator.trans(`beb-webhooks.admin.settings.actions.${group}.${key}`);
   }
 
   isDirty() {

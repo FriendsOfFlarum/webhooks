@@ -1,22 +1,13 @@
 <?php
 
-/*
- * This file is part of fof/webhooks.
- *
- * Copyright (c) FriendsOfFlarum.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-namespace FoF\Webhooks\Actions\Discussion;
+namespace BeB\Webhooks\Actions\Discussion;
 
 use Flarum\Discussion\Discussion;
 use Flarum\Extension\ExtensionManager;
 use Flarum\User\Guest;
-use FoF\Webhooks\Models\Webhook;
+use BeB\Webhooks\Models\Webhook;
 
-abstract class Action extends \FoF\Webhooks\Action
+abstract class Action extends \BeB\Webhooks\Action
 {
     public function ignore(Webhook $webhook, $event): bool
     {

@@ -1,18 +1,9 @@
 <?php
 
-/*
- * This file is part of fof/webhooks.
- *
- * Copyright (c) FriendsOfFlarum.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-namespace FoF\Webhooks\Api\Controller;
+namespace BeB\Webhooks\Api\Controller;
 
 use Flarum\Api\Controller\AbstractDeleteController;
-use FoF\Webhooks\Command\DeleteWebhook;
+use BeB\Webhooks\Command\DeleteWebhook;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;

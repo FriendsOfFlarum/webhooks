@@ -1,20 +1,11 @@
 <?php
 
-/*
- * This file is part of fof/webhooks.
- *
- * Copyright (c) FriendsOfFlarum.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-namespace FoF\Webhooks\Models;
+namespace BeB\Webhooks\Models;
 
 use Flarum\Database\AbstractModel;
 use Flarum\Group\Group;
 use Flarum\Tags\Tag;
-use FoF\Webhooks\Adapters\Adapters;
+use BeB\Webhooks\Adapters\Adapters;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**

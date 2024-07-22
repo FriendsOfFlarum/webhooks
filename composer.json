@@ -7,21 +7,10 @@
     "type": "flarum-extension",
     "license": "MIT",
     "support": {
-        "issues": "https://github.com/FriendsOfFlarum/webhooks/issues",
-        "source": "https://github.com/FriendsOfFlarum/webhooks",
-        "forum": "https://discuss.flarum.org/d/17812"
+        "issues": "https://github.com/behzadbabaei/webhooks/issues",
+        "source": "https://github.com/behzadbabaei/webhooks"
     },
-    "homepage": "https://friendsofflarum.org",
-    "funding": [
-        {
-            "type": "opencollective",
-            "url": "https://opencollective.com/fof/donate"
-        },
-        {
-            "type": "github",
-            "url": "https://github.com/sponsors/datitisev"
-        }
-    ],
+    "homepage": "https://behzadbabaei.com/",
     "require": {
         "flarum/core": "^1.7.0",
         "guzzlehttp/guzzle": "7.*",
@@ -42,13 +31,13 @@
     ],
     "autoload": {
         "psr-4": {
-            "FoF\\Webhooks\\": "src/",
-            "Reflar\\Webhooks\\": "src/Legacy"
+            "BeB\\Webhooks\\": "src/",
+            "Beb\\Reflar\\Webhooks\\": "src/Legacy"
         }
     },
     "extra": {
         "flarum-extension": {
-            "title": "FoF Webhooks",
+            "title": "BeB Webhooks",
             "category": "feature",
             "icon": {
                 "name": "fas fa-external-link-alt",
@@ -59,9 +48,6 @@
                 "flarum/tags",
                 "flarum/approval"
             ]
-        },
-        "flagrow": {
-            "discuss": "https://discuss.flarum.org/d/17812"
         },
         "flarum-cli": {
             "modules": {

@@ -20,7 +20,7 @@ export default class Webhook extends Model {
   maxPostContentLength = Model.attribute('max_post_content_length');
 
   apiEndpoint() {
-    return `/fof/webhooks${this.exists ? `/${this.data.id}` : ''}`;
+    return `/beb/webhooks${this.exists ? `/${this.data.id}` : ''}`;
   }
 
   tags() {

@@ -13,8 +13,8 @@ export default class WebhooksPage extends ExtensionPage {
     super.oninit(vnode);
 
     this.values = {};
-    this.services = app.data['fof-webhooks.services'].reduce((o, service) => {
-      o[service] = app.translator.trans(`fof-webhooks.admin.settings.services.${service}`);
+    this.services = app.data['beb-webhooks.services'].reduce((o, service) => {
+      o[service] = app.translator.trans(`beb-webhooks.admin.settings.services.${service}`);
       return o;
     }, {});
 
@@ -30,7 +30,7 @@ export default class WebhooksPage extends ExtensionPage {
   oncreate(vnode) {
     super.oncreate(vnode);
 
-    Promise.all([app.store.find('fof/webhooks'), this.isTagsEnabled() && app.store.find('tags')]).then(() => {
+    Promise.all([app.store.find('beb/webhooks'), this.isTagsEnabled() && app.store.find('tags')]).then(() => {
       this.loadingData(false);
       m.redraw();
     });
@@ -49,9 +49,9 @@ export default class WebhooksPage extends ExtensionPage {
           <div className="Form-group">
             {this.buildSettingComponent({
               type: 'boolean',
-              setting: 'fof-webhooks.debug',
-              label: app.translator.trans('fof-webhooks.admin.settings.debug_label'),
-              help: app.translator.trans('fof-webhooks.admin.settings.debug_help'),
+              setting: 'beb-webhooks.debug',
+              label: app.translator.trans('beb-webhooks.admin.settings.debug_label'),
+              help: app.translator.trans('beb-webhooks.admin.settings.debug_help'),
               loading: this.loading,
               onchange: this.updateDebug.bind(this),
             })}
@@ -60,8 +60,8 @@ export default class WebhooksPage extends ExtensionPage {
           <hr />
 
           <form>
-            <p className="helpText">{app.translator.trans('fof-webhooks.admin.settings.help.general')}</p>
-            {this.isTagsEnabled() && <p className="helpText">{app.translator.trans('fof-webhooks.admin.settings.help.tags')}</p>}
+            <p className="helpText">{app.translator.trans('beb-webhooks.admin.settings.help.general')}</p>
+            {this.isTagsEnabled() && <p className="helpText">{app.translator.trans('beb-webhooks.admin.settings.help.tags')}</p>}
             <fieldset>
               <div className="Webhooks--Container">
                 {webhooks.map((webhook) => (
@@ -74,7 +74,7 @@ export default class WebhooksPage extends ExtensionPage {
                     <input
                       className="FormControl Webhook-url"
                       type="url"
-                      placeholder={app.translator.trans('fof-webhooks.admin.settings.help.url')}
+                      placeholder={app.translator.trans('beb-webhooks.admin.settings.help.url')}
                       onchange={withAttr('value', this.newWebhook.url)}
                       onkeypress={this.onkeypress.bind(this)}
                     />
@@ -139,7 +139,7 @@ export default class WebhooksPage extends ExtensionPage {
   }
 
   updateDebug(state) {
-    this.setting('fof-webhooks.debug')(state);
+    this.setting('beb-webhooks.debug')(state);
 
     return this.saveSettings(new Event(null));
   }

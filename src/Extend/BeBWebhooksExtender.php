@@ -1,25 +1,16 @@
 <?php
 
-/*
- * This file is part of fof/webhooks.
- *
- * Copyright (c) FriendsOfFlarum.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-namespace FoF\Webhooks\Extend;
+namespace BeB\Webhooks\Extend;
 
 use Flarum\Extend\ExtenderInterface;
 use Flarum\Extension\Extension;
-use FoF\Webhooks\Action;
-use FoF\Webhooks\Adapters\Adapter;
-use FoF\Webhooks\Adapters\Adapters;
-use FoF\Webhooks\Listener\TriggerListener;
+use BeB\Webhooks\Action;
+use BeB\Webhooks\Adapters\Adapter;
+use BeB\Webhooks\Adapters\Adapters;
+use BeB\Webhooks\Listener\TriggerListener;
 use Illuminate\Contracts\Container\Container;
 
-class FoFWebhooksExtender implements ExtenderInterface
+class BeBWebhooksExtender implements ExtenderInterface
 {
     private $listeners = [];
     private $adapters = [];
@@ -33,7 +24,7 @@ class FoFWebhooksExtender implements ExtenderInterface
      *
      * @return $this
      */
-    public function listener($action): FoFWebhooksExtender
+    public function listener($action): BeBWebhooksExtender
     {
         $clazz = @constant("$action::EVENT");
 
@@ -49,7 +40,7 @@ class FoFWebhooksExtender implements ExtenderInterface
      *
      * @return $this
      */
-    public function adapter($adapter): FoFWebhooksExtender
+    public function adapter($adapter): BeBWebhooksExtender
     {
         $name = @constant("$adapter::NAME");
 

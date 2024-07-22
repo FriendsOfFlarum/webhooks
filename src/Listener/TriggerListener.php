@@ -1,19 +1,10 @@
 <?php
 
-/*
- * This file is part of fof/webhooks.
- *
- * Copyright (c) FriendsOfFlarum.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-namespace FoF\Webhooks\Listener;
+namespace BeB\Webhooks\Listener;
 
 use Flarum\Settings\SettingsRepositoryInterface;
-use FoF\Webhooks\Actions;
-use FoF\Webhooks\Jobs\HandleEvent;
+use BeB\Webhooks\Actions;
+use BeB\Webhooks\Jobs\HandleEvent;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Queue\Queue;
 use Illuminate\Support\Arr;
@@ -125,11 +116,11 @@ class TriggerListener
     public static function debug(string $message)
     {
         if (is_null(self::$isDebugging)) {
-            self::$isDebugging = (bool) (int) resolve('flarum.settings')->get('fof-webhooks.debug');
+            self::$isDebugging = (bool) (int) resolve('flarum.settings')->get('beb-webhooks.debug');
         }
 
         if (self::$isDebugging) {
-            resolve('log')->debug('[fof/webhooks] '.$message);
+            resolve('log')->debug('[beb/webhooks] '.$message);
         }
     }
 }

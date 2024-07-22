@@ -1,20 +1,11 @@
 <?php
 
-/*
- * This file is part of fof/webhooks.
- *
- * Copyright (c) FriendsOfFlarum.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-namespace FoF\Webhooks;
+namespace BeB\Webhooks;
 
 use Carbon\Carbon;
 use Flarum\Http\UrlGenerator;
 use Flarum\User\User;
-use FoF\Webhooks\Models\Webhook;
+use BeB\Webhooks\Models\Webhook;
 
 class Response
 {
@@ -146,6 +137,46 @@ class Response
         $this->setWebhook($webhook);
 
         return $this;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function getAuthor(): User
+    {
+        return $this->author;
+    }
+
+    public function getEvent()
+    {
+        return $this->event;
+    }
+
+    public function getTimestamp(): string
+    {
+        return $this->timestamp;
+    }
+
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
+    public function getUrlGenerator()
+    {
+        return $this->urlGenerator;
+    }
+
+    public function getWebhook(): Webhook
+    {
+        return $this->webhook;
     }
 
     protected function setWebhook(Webhook $webhook)

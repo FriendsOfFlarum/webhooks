@@ -1,20 +1,11 @@
 <?php
 
-/*
- * This file is part of fof/webhooks.
- *
- * Copyright (c) FriendsOfFlarum.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-namespace FoF\Webhooks\Api\Controller;
+namespace BeB\Webhooks\Api\Controller;
 
 use Flarum\Api\Controller\AbstractListController;
 use Flarum\User\Exception\PermissionDeniedException;
-use FoF\Webhooks\Api\Serializer\WebhookSerializer;
-use FoF\Webhooks\Models\Webhook;
+use BeB\Webhooks\Api\Serializer\WebhookSerializer;
+use BeB\Webhooks\Models\Webhook;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 

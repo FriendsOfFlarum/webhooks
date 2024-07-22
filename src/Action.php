@@ -1,18 +1,9 @@
 <?php
 
-/*
- * This file is part of fof/webhooks.
- *
- * Copyright (c) FriendsOfFlarum.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-namespace FoF\Webhooks;
+namespace BeB\Webhooks;
 
 use Flarum\Http\UrlGenerator;
-use FoF\Webhooks\Models\Webhook;
+use BeB\Webhooks\Models\Webhook;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class Action
@@ -79,7 +70,7 @@ abstract class Action
      */
     protected function translate(string $id, $param1 = null): string
     {
-        return $this->translator->trans('fof-webhooks.actions.'.$id, [
+        return $this->translator->trans('beb-webhooks.actions.'.$id, [
             '{1}' => $param1,
         ]);
     }

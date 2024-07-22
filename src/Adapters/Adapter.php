@@ -1,23 +1,14 @@
 <?php
 
-/*
- * This file is part of fof/webhooks.
- *
- * Copyright (c) FriendsOfFlarum.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-namespace FoF\Webhooks\Adapters;
+namespace BeB\Webhooks\Adapters;
 
 use Flarum\Foundation\ErrorHandling\LogReporter;
 use Flarum\Foundation\ErrorHandling\Reporter;
 use Flarum\Http\UrlGenerator;
 use Flarum\Settings\SettingsRepositoryInterface;
-use FoF\Webhooks\Listener\TriggerListener;
-use FoF\Webhooks\Models\Webhook;
-use FoF\Webhooks\Response;
+use BeB\Webhooks\Listener\TriggerListener;
+use BeB\Webhooks\Models\Webhook;
+use BeB\Webhooks\Response;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
@@ -163,7 +154,7 @@ abstract class Adapter
     {
         resolve('log')->error(
             sprintf(
-                "[fof/webhooks] %s: %s > %s error
+                "[beb/webhooks] %s: %s > %s error
 \t- \$webhook = %s
 \t- \$response = %s \n
 \t%s",

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-use FoF\Webhooks\Models\Webhook;
+use BeB\Webhooks\Models\Webhook;
 use Illuminate\Database\Schema\Builder;
 
 return [

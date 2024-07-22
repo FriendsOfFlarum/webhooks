@@ -1,21 +1,12 @@
 <?php
 
-/*
- * This file is part of fof/webhooks.
- *
- * Copyright (c) FriendsOfFlarum.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+namespace BeB\Webhooks\Adapters\MicrosoftTeams;
 
-namespace FoF\Webhooks\Adapters\MicrosoftTeams;
-
-use FoF\Webhooks\Response;
+use BeB\Webhooks\Response;
 
 use function SSNepenthe\ColorUtils\color;
 
-class Adapter extends \FoF\Webhooks\Adapters\Adapter
+class Adapter extends \BeB\Webhooks\Adapters\Adapter
 {
     /**
      * {@inheritdoc}

@@ -1,6 +1,5 @@
 import app from 'flarum/admin/app';
 import Component from 'flarum/common/Component';
-import Dropdown from 'flarum/common/components/Dropdown';
 import Button from 'flarum/common/components/Button';
 import Select from 'flarum/common/components/Select';
 import Alert from 'flarum/common/components/Alert';
@@ -36,13 +35,13 @@ export default class SettingsListItem extends Component {
     const errors = [webhook.error && webhook.error()];
 
     if (!services[service]) {
-      errors.push(app.translator.trans('fof-webhooks.admin.errors.service_not_found', { service }));
+      errors.push(app.translator.trans('beb-webhooks.admin.errors.service_not_found', { service }));
     } else if (!webhook.isValid()) {
-      errors.push(app.translator.trans('fof-webhooks.admin.errors.url_invalid'));
+      errors.push(app.translator.trans('beb-webhooks.admin.errors.url_invalid'));
     } else if (!isTagsEnabled && webhook.tags().length !== 0) {
-      errors.push(app.translator.trans('fof-webhooks.admin.errors.tag_disabled'));
+      errors.push(app.translator.trans('beb-webhooks.admin.errors.tag_disabled'));
     } else if (tags.length !== webhook.attribute('tag_id').length) {
-      errors.push(app.translator.trans('fof-webhooks.admin.errors.tag_invalid'));
+      errors.push(app.translator.trans('beb-webhooks.admin.errors.tag_invalid'));
     }
 
     const changeTags = () =>
@@ -62,7 +61,7 @@ export default class SettingsListItem extends Component {
             value={this.url()}
             onchange={withAttr('value', this.update('url'))}
             disabled={this.loading['url']}
-            placeholder={app.translator.trans('fof-webhooks.admin.settings.help.url')}
+            placeholder={app.translator.trans('beb-webhooks.admin.settings.help.url')}
           />
 
           {isTagsEnabled &&
@@ -70,7 +69,7 @@ export default class SettingsListItem extends Component {
               tagsLabel(tags, { onclick: changeTags })
             ) : (
               <span className="TagsLabel" onclick={changeTags}>
-                {app.translator.trans('fof-webhooks.admin.settings.item.tag_any_label')}
+                {app.translator.trans('beb-webhooks.admin.settings.item.tag_any_label')}
               </span>
             ))}
 
@@ -91,7 +90,7 @@ export default class SettingsListItem extends Component {
 
         {!this.events().length && (
           <Alert className="Webhook-error" dismissible={false}>
-            {app.translator.trans('fof-webhooks.admin.settings.help.disabled')}
+            {app.translator.trans('beb-webhooks.admin.settings.help.disabled')}
           </Alert>
         )}
 
