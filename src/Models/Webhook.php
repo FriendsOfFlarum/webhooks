@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Group|null  $group
  * @property Tag|null    $tag
  * @property bool        $use_plain_text
+ * @property bool        $include_tags
  * @property ?int        $max_post_content_length
  */
 class Webhook extends AbstractModel

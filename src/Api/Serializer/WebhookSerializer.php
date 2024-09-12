@@ -45,6 +45,7 @@ class WebhookSerializer extends AbstractSerializer
             'extra_text' => $webhook->extra_text ?: '',
 
             'use_plain_text'          => (bool) $webhook->use_plain_text,
+            'include_tags'            => (bool) $webhook->include_tags,
             'max_post_content_length' => ((int) $webhook->max_post_content_length) ?: null,
 
             'is_valid' => $webhook->isValid(),
