@@ -41,6 +41,11 @@ class Response
     /**
      * @var string
      */
+    public $tags;
+
+    /**
+     * @var string
+     */
     public $timestamp;
 
     /**
@@ -49,6 +54,7 @@ class Response
     public $author;
 
     public $event;
+
 
     /**
      * @var UrlGenerator
@@ -139,6 +145,15 @@ class Response
     public function getExtraText(): ?string
     {
         return $this->webhook->extra_text;
+    }
+
+    public function getIncludeTags(): bool
+    {
+        return $this->webhook->include_tags;
+    }
+    public function getTags(): ?array
+    {
+        return $this->webhook->appliedTags();
     }
 
     public function withWebhook(Webhook $webhook): self

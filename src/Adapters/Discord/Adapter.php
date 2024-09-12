@@ -63,7 +63,13 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
                 'url'      => $response->getAuthorUrl(),
                 'icon_url' => $response->author->avatar_url,
             ] : null,
-            'color'     => $response->getColor(),
+            'color'         => $response->getColor(),
+            'fields'        => $response->getIncludeTags() ? [
+                 [
+                    'name'    => 'Tags',
+                    'value'   =>  implode(', ', $response->getTags()),
+                 ]
+            ] : null,
             'timestamp' => $response->timestamp,
             'type'      => 'rich',
         ];

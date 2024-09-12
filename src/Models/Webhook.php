@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|null $error
  * @property string      $events
  * @property number      $group_id
- * @property number      $tag_id
+ * @property array|null  $tag_id
  * @property string      $extra_text
  * @property Group|null  $group
  * @property Tag|null    $tag
@@ -71,6 +71,7 @@ class Webhook extends AbstractModel
         return $this->belongsTo(Group::class);
     }
 
+    //FIXME: is this used?
     public function tags()
     {
         if (!class_exists(Tag::class)) {
@@ -78,6 +79,20 @@ class Webhook extends AbstractModel
         }
 
         return Tag::whereIn('id', $this->tag_id)->get();
+    }
+
+    public function appliedTags()
+    {
+        $tagsApplied = Tag::whereIn('id', $this->tag_id)->get();
+
+        return $tagsApplied->map(function ($tag) {
+            return $tag->name;
+        })->toArray();;
+    }
+
+    public function getIncludeTags(): bool
+    {
+        return $this->include_tags;
     }
 
     public function asGuest(): bool
