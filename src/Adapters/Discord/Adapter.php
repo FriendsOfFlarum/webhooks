@@ -65,10 +65,10 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
             ] : null,
             'color'         => $response->getColor(),
             'fields'        => $response->getIncludeTags() ? [
-                 [
+                [
                     'name'    => 'Tags',
-                    'value'   =>  implode(', ', $response->getTags()),
-                 ]
+                    'value'   => implode(', ', $response->getTags()),
+                ]
             ] : null,
             'timestamp' => $response->timestamp,
             'type'      => 'rich',
