@@ -68,7 +68,7 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
                 [
                     'name'    => 'Tags',
                     'value'   => implode(', ', $response->getTags()),
-                ]
+                ],
             ] : null,
             'timestamp' => $response->timestamp,
             'type'      => 'rich',
