@@ -86,7 +86,7 @@ class Webhook extends AbstractModel
 
         return $tagsApplied->map(function ($tag) {
             return $tag->name;
-        })->toArray();;
+        })->toArray();
     }
 
     public function getIncludeTags(): bool
