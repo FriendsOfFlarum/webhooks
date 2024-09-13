@@ -55,7 +55,6 @@ class Response
 
     public $event;
 
-
     /**
      * @var UrlGenerator
      */
@@ -151,6 +150,7 @@ class Response
     {
         return $this->webhook->include_tags;
     }
+
     public function getTags(): ?array
     {
         return $this->webhook->appliedTags();
