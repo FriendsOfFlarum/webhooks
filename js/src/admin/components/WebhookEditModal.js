@@ -138,10 +138,11 @@ export default class WebhookEditModal extends Modal {
           <div className="Form-group Webhook-events">
             <label className="label">{app.translator.trans('fof-webhooks.admin.settings.modal.events_label')}</label>
             <p className="helpText">{app.translator.trans('fof-webhooks.admin.settings.modal.description')}</p>
-
-            <div style={{display: "block", marginTop: "30px"}}>
+            {
+              this.webhook.service() !== 'microsoft-teams' && <div style={{display: "block", marginTop: "30px"}}>
               <Switch state={this.includeTags()} onchange={this.includeTags}>{"Include tags"}</Switch>
-            </div>
+              </div>
+            }
             {Object.entries(this.events).map(([, events]) => (
               <div>
                 {Object.entries(events)
