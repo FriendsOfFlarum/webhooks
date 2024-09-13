@@ -71,7 +71,6 @@ class Webhook extends AbstractModel
         return $this->belongsTo(Group::class);
     }
 
-    //FIXME: is this used?
     public function tags()
     {
         if (!class_exists(Tag::class)) {
