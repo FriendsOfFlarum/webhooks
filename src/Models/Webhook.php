@@ -23,11 +23,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|null $error
  * @property string      $events
  * @property number      $group_id
- * @property number      $tag_id
+ * @property array|null  $tag_id
  * @property string      $extra_text
  * @property Group|null  $group
  * @property Tag|null    $tag
  * @property bool        $use_plain_text
+ * @property bool        $include_tags
  * @property ?int        $max_post_content_length
  */
 class Webhook extends AbstractModel
@@ -77,6 +78,16 @@ class Webhook extends AbstractModel
         }
 
         return Tag::whereIn('id', $this->tag_id)->get();
+    }
+
+    public function appliedTags()
+    {
+        return Tag::select('name')->whereIn('id', $this->tag_id)->pluck('name')->toArray();
+    }
+
+    public function getIncludeTags(): bool
+    {
+        return $this->include_tags;
     }
 
     public function asGuest(): bool

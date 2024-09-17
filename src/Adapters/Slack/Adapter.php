@@ -66,6 +66,13 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
             'title_link' => $response->url,
             'text'       => $response->description,
             'footer'     => $this->settings->get('forum_title'),
+            'fields'     => $response->getIncludeTags() ? [
+                [
+                    'title' => 'Tags',
+                    'value' => implode(', ', $response->getTags()),
+                    'short' => false,
+                ],
+            ] : null,
         ];
 
         if ($response->author->exists) {

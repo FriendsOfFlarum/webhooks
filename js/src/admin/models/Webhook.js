@@ -19,6 +19,8 @@ export default class Webhook extends Model {
   usePlainText = Model.attribute('use_plain_text', Boolean);
   maxPostContentLength = Model.attribute('max_post_content_length');
 
+  includeTags = Model.attribute('include_tags', Boolean);
+
   apiEndpoint() {
     return `/fof/webhooks${this.exists ? `/${this.data.id}` : ''}`;
   }

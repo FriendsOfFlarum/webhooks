@@ -39,6 +39,7 @@ export default class WebhookEditModal extends Modal {
     this.extraText = Stream(this.webhook.extraText() || '');
     this.usePlainText = Stream(this.webhook.usePlainText());
     this.maxPostContentLength = Stream(this.webhook.maxPostContentLength());
+    this.includeTags = Stream(this.webhook.includeTags());
 
     this.events = groupBy(
       events.reduce(
@@ -136,9 +137,12 @@ export default class WebhookEditModal extends Modal {
 
           <div className="Form-group Webhook-events">
             <label className="label">{app.translator.trans('fof-webhooks.admin.settings.modal.events_label')}</label>
-
-            {app.translator.trans('fof-webhooks.admin.settings.modal.description')}
-
+            <p className="helpText">{app.translator.trans('fof-webhooks.admin.settings.modal.description')}</p>
+            {
+              this.webhook.service() !== 'microsoft-teams' && <div style={{display: "block", marginTop: "30px"}}>
+              <Switch state={this.includeTags()} onchange={this.includeTags}>{"Include tags"}</Switch>
+              </div>
+            }
             {Object.entries(this.events).map(([, events]) => (
               <div>
                 {Object.entries(events)
@@ -148,7 +152,8 @@ export default class WebhookEditModal extends Modal {
                       <div>
                         <h3>{this.translate(group)}</h3>
                         {events.map((event) => (
-                          <Switch state={this.webhook.events().includes(event.full)} onchange={this.onchange.bind(this, event.full)}>
+                          <Switch state={this.webhook.events().includes(event.full)}
+                                  onchange={this.onchange.bind(this, event.full)}>
                             {this.translate(group, event.name.toLowerCase())}
                           </Switch>
                         ))}
@@ -178,9 +183,11 @@ export default class WebhookEditModal extends Modal {
       this.extraText() != this.webhook.extraText() ||
       this.groupId() !== this.webhook.groupId() ||
       this.usePlainText() !== this.webhook.usePlainText() ||
+      this.includeTags() !== this.webhook.includeTags() ||
       this.maxPostContentLength() != this.webhook.maxPostContentLength()
     );
   }
+
 
   onsubmit(e) {
     e.preventDefault();
@@ -192,6 +199,7 @@ export default class WebhookEditModal extends Modal {
         extraText: this.extraText(),
         group_id: this.groupId(),
         use_plain_text: this.usePlainText(),
+        include_tags: this.includeTags(),
         max_post_content_length: this.maxPostContentLength() || 0,
       })
       .then(() => {

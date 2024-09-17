@@ -57,6 +57,7 @@ class UpdateWebhookHandler
         $events = Arr::get($data, 'attributes.events');
         $groupId = Arr::get($data, 'attributes.group_id');
         $usePlainText = Arr::get($data, 'attributes.use_plain_text');
+        $includeTags = Arr::get($data, 'attributes.include_tags');
         $maxPostContentLength = Arr::get($data, 'attributes.max_post_content_length');
 
         if (isset($service)) {
@@ -85,6 +86,10 @@ class UpdateWebhookHandler
 
         if (isset($usePlainText)) {
             $webhook->use_plain_text = $usePlainText;
+        }
+
+        if (isset($includeTags)) {
+            $webhook->include_tags = $includeTags;
         }
 
         if (isset($maxPostContentLength)) {
