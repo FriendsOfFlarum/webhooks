@@ -162,7 +162,9 @@ abstract class Adapter
     /**
      * Get the title of the webhook, used for eg. Discord webhook username.
      * Defaults to the forum title. Can be modified by the webhook.
+     *
      * @param Response $response
+     *
      * @return string
      */
     protected function getTitle(Response $response): string
