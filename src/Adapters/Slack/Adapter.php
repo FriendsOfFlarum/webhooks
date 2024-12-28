@@ -36,10 +36,8 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
      */
     public function send(string $url, Response $response)
     {
-        $title = $this->settings->get('forum_title');
-
         $res = $this->request($url, [
-            'username'    => $title,
+            'username'    => $this->getTitle($response),
             'avatar_url'  => $this->getAvatarUrl(),
             'text'        => $response->getExtraText(),
             'attachments' => [

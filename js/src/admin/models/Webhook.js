@@ -13,6 +13,7 @@ export default class Webhook extends Model {
 
   groupId = Model.attribute('group_id');
   extraText = Model.attribute('extra_text');
+  name = Model.attribute('name');
 
   isValid = Model.attribute('is_valid', Boolean);
 

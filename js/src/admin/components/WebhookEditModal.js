@@ -37,6 +37,7 @@ export default class WebhookEditModal extends Modal {
 
     this.groupId = Stream(this.webhook.groupId() || Group.GUEST_ID);
     this.extraText = Stream(this.webhook.extraText() || '');
+    this.name = Stream(this.webhook.name() || '');
     this.usePlainText = Stream(this.webhook.usePlainText());
     this.maxPostContentLength = Stream(this.webhook.maxPostContentLength());
     this.includeTags = Stream(this.webhook.includeTags());
@@ -115,6 +116,20 @@ export default class WebhookEditModal extends Modal {
           </div>
 
           <div className="Form-group">
+            <label className="label">{app.translator.trans('fof-webhooks.admin.settings.modal.name_label')}</label>
+
+            <p className="helpText">{app.translator.trans('fof-webhooks.admin.settings.modal.name_help')}</p>
+
+            <input
+              type="text"
+              className="FormControl"
+              bidi={this.name}
+              placeholder={app.forum.attribute('title')}
+              onkeypress={this.onkeypress.bind(this)}
+            />
+          </div>
+
+          <div className="Form-group">
             <label className="label">{app.translator.trans('fof-webhooks.admin.settings.modal.group_label')}</label>
             <p className="helpText">{app.translator.trans('fof-webhooks.admin.settings.modal.group_help')}</p>
 
@@ -128,6 +143,7 @@ export default class WebhookEditModal extends Modal {
                     disabled={group.id() === g.id()}
                     icon={g.icon() || icons[g.id()]}
                     onclick={() => this.groupId(g.id())}
+                    type="button"
                   >
                     {g.namePlural()}
                   </Button>
@@ -138,11 +154,13 @@ export default class WebhookEditModal extends Modal {
           <div className="Form-group Webhook-events">
             <label className="label">{app.translator.trans('fof-webhooks.admin.settings.modal.events_label')}</label>
             <p className="helpText">{app.translator.trans('fof-webhooks.admin.settings.modal.description')}</p>
-            {
-              this.webhook.service() !== 'microsoft-teams' && <div style={{display: "block", marginTop: "30px"}}>
-              <Switch state={this.includeTags()} onchange={this.includeTags}>{"Include tags"}</Switch>
+            {this.webhook.service() !== 'microsoft-teams' && (
+              <div style={{ display: 'block', marginTop: '30px' }}>
+                <Switch state={this.includeTags()} onchange={this.includeTags}>
+                  {'Include tags'}
+                </Switch>
               </div>
-            }
+            )}
             {Object.entries(this.events).map(([, events]) => (
               <div>
                 {Object.entries(events)
@@ -152,8 +170,7 @@ export default class WebhookEditModal extends Modal {
                       <div>
                         <h3>{this.translate(group)}</h3>
                         {events.map((event) => (
-                          <Switch state={this.webhook.events().includes(event.full)}
-                                  onchange={this.onchange.bind(this, event.full)}>
+                          <Switch state={this.webhook.events().includes(event.full)} onchange={this.onchange.bind(this, event.full)}>
                             {this.translate(group, event.name.toLowerCase())}
                           </Switch>
                         ))}
@@ -184,10 +201,10 @@ export default class WebhookEditModal extends Modal {
       this.groupId() !== this.webhook.groupId() ||
       this.usePlainText() !== this.webhook.usePlainText() ||
       this.includeTags() !== this.webhook.includeTags() ||
-      this.maxPostContentLength() != this.webhook.maxPostContentLength()
+      this.maxPostContentLength() != this.webhook.maxPostContentLength() ||
+      this.name() != this.webhook.name()
     );
   }
-
 
   onsubmit(e) {
     e.preventDefault();
@@ -201,6 +218,7 @@ export default class WebhookEditModal extends Modal {
         use_plain_text: this.usePlainText(),
         include_tags: this.includeTags(),
         max_post_content_length: this.maxPostContentLength() || 0,
+        name: this.name(),
       })
       .then(() => {
         this.loading = false;

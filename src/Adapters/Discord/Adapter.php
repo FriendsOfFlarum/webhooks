@@ -12,6 +12,7 @@
 namespace FoF\Webhooks\Adapters\Discord;
 
 use FoF\Webhooks\Response;
+use Illuminate\Support\Str;
 
 class Adapter extends \FoF\Webhooks\Adapters\Adapter
 {
@@ -32,14 +33,8 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
      */
     public function send(string $url, Response $response)
     {
-        $title = $this->settings->get('forum_title');
-
-        if (strlen($title) > 32) {
-            $title = substr($title, 0, 29).'...';
-        }
-
         $this->request($url, [
-            'username'   => $title,
+            'username'   => Str::limit($this->getTitle($response), 32, '...'),
             'content'    => $response->getExtraText(),
             'embeds'     => [
                 $this->toArray($response),

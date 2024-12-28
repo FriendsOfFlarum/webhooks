@@ -43,6 +43,7 @@ class WebhookSerializer extends AbstractSerializer
             'group_id'   => $webhook->group_id,
             'tag_id'     => $webhook->tag_id,
             'extra_text' => $webhook->extra_text ?: '',
+            'name'       => $webhook->name ?: '',
 
             'use_plain_text'          => (bool) $webhook->use_plain_text,
             'include_tags'            => (bool) $webhook->include_tags,

@@ -159,6 +159,19 @@ abstract class Adapter
         return isset($path) ? resolve(UrlGenerator::class)->to('forum')->path("assets/$path") : null;
     }
 
+    /**
+     * Get the title of the webhook, used for eg. Discord webhook username.
+     * Defaults to the forum title. Can be modified by the webhook.
+     * @param Response $response
+     * @return string
+     */
+    protected function getTitle(Response $response): string
+    {
+        $webhookTitle = trim($response->getWebhookName() ?? '');
+
+        return $webhookTitle ?: $this->settings->get('forum_title');
+    }
+
     private function logException(Webhook $webhook, Response $response, Throwable $e, $handled = false)
     {
         resolve('log')->error(

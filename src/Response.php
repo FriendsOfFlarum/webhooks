@@ -156,6 +156,11 @@ class Response
         return $this->webhook->appliedTags();
     }
 
+    public function getWebhookName(): ?string
+    {
+        return $this->webhook->name;
+    }
+
     public function withWebhook(Webhook $webhook): self
     {
         $this->setWebhook($webhook);

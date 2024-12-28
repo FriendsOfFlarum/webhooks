@@ -46,7 +46,7 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
                 '@type'      => 'MessageCard',
                 'themeColor' => $color->getRgb()->toHexString(),
 
-                'title'         => $this->settings->get('forum_title'),
+                'title'         => $this->getTitle($response),
                 'text'          => $response->getExtraText(),
                 'summary'       => $response->title,
 

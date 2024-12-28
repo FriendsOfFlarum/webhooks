@@ -59,6 +59,7 @@ class UpdateWebhookHandler
         $usePlainText = Arr::get($data, 'attributes.use_plain_text');
         $includeTags = Arr::get($data, 'attributes.include_tags');
         $maxPostContentLength = Arr::get($data, 'attributes.max_post_content_length');
+        $name = Arr::get($data, 'attributes.name');
 
         if (isset($service)) {
             $webhook->service = $service;
@@ -94,6 +95,10 @@ class UpdateWebhookHandler
 
         if (isset($maxPostContentLength)) {
             $webhook->max_post_content_length = $maxPostContentLength == 0 ? null : $maxPostContentLength;
+        }
+
+        if (isset($name)) {
+            $webhook->name = trim($name);
         }
 
         $this->validator->assertValid($webhook->getDirty());

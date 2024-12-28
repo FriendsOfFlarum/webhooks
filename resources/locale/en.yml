@@ -70,6 +70,9 @@ fof-webhooks:
         group_label: Group
         group_help: Send resources that can be seen by this group
 
+        name_label: Name
+        name_help: The name of the webhook. This will be used for things like the Discord username, Slack bot name, etc.
+
         events_label: Events
 
       services:

@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property number      $group_id
  * @property array|null  $tag_id
  * @property string      $extra_text
+ * @property string|null $name
  * @property Group|null  $group
  * @property Tag|null    $tag
  * @property bool        $use_plain_text
