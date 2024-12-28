@@ -129,7 +129,7 @@ class TriggerListener
         }
 
         if (self::$isDebugging) {
-            resolve('log')->debug('[fof/webhooks] '.$message);
+            resolve('log')->info('[fof/webhooks] #DEBUG# '.$message);
         }
     }
 }
