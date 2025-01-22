@@ -75,8 +75,8 @@ class UpdateWebhookHandler
             $webhook->group_id = $groupId;
         }
 
-        if ($extraText = Arr::get($data, 'attributes.extraText')) {
-            $webhook->extra_text = $extraText;
+        if (Arr::has($data, 'attributes.extraText')) {
+            $webhook->extra_text = trim(Arr::get($data, 'attributes.extraText'));
         }
 
         if (Arr::has($data, 'attributes.tag_id') && class_exists(Tag::class)) {
