@@ -57,7 +57,7 @@ class Webhook extends AbstractModel
 
     public function getEvents()
     {
-        return json_decode($this->events);
+        return isset($this->events) ? json_decode($this->events) : [];
     }
 
     public function isValid(): bool
@@ -104,6 +104,8 @@ class Webhook extends AbstractModel
             return [$value];
         } elseif (is_array($value)) {
             return $value;
+        }  elseif (!$value) {
+            return [];
         }
 
         return json_decode($value) ?? [];
