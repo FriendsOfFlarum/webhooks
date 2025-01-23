@@ -104,7 +104,7 @@ class Webhook extends AbstractModel
             return [$value];
         } elseif (is_array($value)) {
             return $value;
-        }  elseif (!$value) {
+        } elseif (!$value) {
             return [];
         }
 
