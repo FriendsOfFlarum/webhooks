@@ -91,6 +91,7 @@ export default class WebhookEditModal extends Modal {
     };
 
     const group = app.store.getById('groups', this.groupId());
+    const isFilteringTags = !!this.webhook.tags()?.length;
 
     return (
       <div className="FofWebhooksModal Modal-body">
@@ -156,8 +157,8 @@ export default class WebhookEditModal extends Modal {
             <p className="helpText">{app.translator.trans('fof-webhooks.admin.settings.modal.description')}</p>
             {this.webhook.service() !== 'microsoft-teams' && (
               <div style={{ display: 'block', marginTop: '30px' }}>
-                <Switch state={this.includeTags()} onchange={this.includeTags}>
-                  {'Include tags'}
+                <Switch state={this.includeTags()} onchange={this.includeTags} disabled={!isFilteringTags}>
+                  {app.translator.trans('fof-webhooks.admin.settings.modal.include_matching_tags_label')}
                 </Switch>
               </div>
             )}

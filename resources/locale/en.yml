@@ -75,6 +75,8 @@ fof-webhooks:
 
         events_label: Events
 
+        include_matching_tags_label: Include matching tags -- for webhooks restricted to specific tags, show which ones the event matched
+
       services:
         discord: Discord
         slack: Slack
