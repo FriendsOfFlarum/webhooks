@@ -17,6 +17,10 @@ use Flarum\Frontend\Document;
 use FoF\Webhooks\Adapters\Adapters;
 use FoF\Webhooks\Api\Serializer\WebhookSerializer;
 use FoF\Webhooks\Listener\TriggerListener;
+use Flarum\Api\Context;
+use Flarum\Api\Endpoint;
+use Flarum\Api\Resource;
+use Flarum\Api\Schema;
 
 return [
     (new Extend\Frontend('admin'))
@@ -35,6 +39,7 @@ return [
         ->patch('/fof/webhooks/{id}', 'fof.webhooks.update', Api\Controller\UpdateWebhookController::class)
         ->delete('/fof/webhooks/{id}', 'fof.webhooks.delete', Api\Controller\DeleteWebhookController::class),
 
+    // @TODO: Replace with the new implementation https://docs.flarum.org/2.x/extend/api#extending-api-resources
     (new Extend\ApiSerializer(ForumSerializer::class))
         ->hasMany('webhooks', WebhookSerializer::class),
 
