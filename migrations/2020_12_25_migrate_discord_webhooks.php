@@ -13,7 +13,7 @@ use FoF\Webhooks\Models\Webhook;
 use Illuminate\Database\Schema\Builder;
 
 return [
-    'up' => function (Builder $schema) {
+    'up' => static function (Builder $schema) {
         Webhook::query()
             ->where('service', 'discord')
             ->where('url', 'LIKE', '%discordapp.com/%')

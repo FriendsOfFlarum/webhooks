@@ -9,18 +9,10 @@
  * file that was distributed with this source code.
  */
 
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Schema\Builder;
+use Flarum\Database\Migration;
 
-return [
-    'up' => function (Builder $schema) {
-        $schema->table('webhooks', function (Blueprint $table) {
-            $table->unsignedInteger('max_post_content_length')->nullable();
-        });
-    },
-    'down' => function (Builder $schema) {
-        $schema->table('webhooks', function (Blueprint $table) {
-            $table->dropColumn('max_post_content_length');
-        });
-    },
-];
+
+return Migration::addColumns('webhooks', [
+    'max_post_content_length' => ['integer', 'unsigned' => true, 'nullable' => true],
+]);
+
