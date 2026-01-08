@@ -61,9 +61,7 @@ class HandleEvent implements ShouldQueue
      */
     private function send(string $event_name, Action $action): void
     {
-        $webhooks = Webhook::query()
-            ->whereJsonContains('events', $event_name)
-            ->get();
+        $webhooks = Webhook::all();
 
         foreach ($webhooks as $webhook) {
             /**
