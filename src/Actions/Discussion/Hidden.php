@@ -15,16 +15,13 @@ use FoF\Webhooks\Helpers\Post;
 use FoF\Webhooks\Models\Webhook;
 use FoF\Webhooks\Response;
 
+/**
+ * @extends Action<\Flarum\Discussion\Event\Hidden>
+ */
 class Hidden extends Action
 {
-    const EVENT = \Flarum\Discussion\Event\Hidden::class;
+    public const EVENT = \Flarum\Discussion\Event\Hidden::class;
 
-    /**
-     * @param Webhook                         $webhook
-     * @param \Flarum\Discussion\Event\Hidden $event
-     *
-     * @return Response
-     */
     public function handle(Webhook $webhook, $event): Response
     {
         $firstPost = $event->discussion->firstPost;

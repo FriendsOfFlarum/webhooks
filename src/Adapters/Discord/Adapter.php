@@ -19,9 +19,9 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
     /**
      * {@inheritdoc}
      */
-    const NAME = 'discord';
+    public const NAME = 'discord';
 
-    protected $exception = DiscordException::class;
+    protected ?string $exception = DiscordException::class;
 
     /**
      * Sends a message through the webhook.

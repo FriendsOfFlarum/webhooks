@@ -17,8 +17,8 @@ use Psr\Http\Message\ResponseInterface;
 
 class DiscordException extends Exception
 {
-    private $http;
-    private $url;
+    private int $http;
+    private string $url;
 
     /**
      * Exception constructor.

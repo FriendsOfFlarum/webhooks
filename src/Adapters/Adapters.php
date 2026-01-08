@@ -18,7 +18,7 @@ class Adapters
     /**
      * @var array<string, string>
      */
-    private static $adapters = [
+    private static array $adapters = [
         Discord\Adapter::NAME          => Discord\Adapter::class,
         Slack\Adapter::NAME            => Slack\Adapter::class,
         MicrosoftTeams\Adapter::NAME   => MicrosoftTeams\Adapter::class,
@@ -28,7 +28,7 @@ class Adapters
      * @param string $name
      * @param string $adapter
      */
-    public static function add(string $name, string $adapter)
+    public static function add(string $name, string $adapter): void
     {
         self::$adapters[$name] = $adapter;
     }
@@ -54,7 +54,7 @@ class Adapters
         return count(self::$adapters);
     }
 
-    public static function all()
+    public static function all(): array
     {
         return self::$adapters;
     }

@@ -11,18 +11,17 @@
 
 namespace FoF\Webhooks\Actions\Discussion;
 
+use FoF\Webhooks\Models\Webhook;
 use FoF\Webhooks\Response;
 
+/**
+ * @extends Action<\Flarum\Discussion\Event\Renamed>
+ */
 class Renamed extends Action
 {
-    const EVENT = \Flarum\Discussion\Event\Renamed::class;
+    public const EVENT = \Flarum\Discussion\Event\Renamed::class;
 
-    /**
-     * @param \Flarum\Discussion\Event\Renamed $event
-     *
-     * @return Response
-     */
-    public function listen($event): Response
+    public function handle(Webhook $webhook, $event): ?Response
     {
         return Response::build($event)
             ->setTitle(

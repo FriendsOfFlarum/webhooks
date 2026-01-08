@@ -15,16 +15,13 @@ use FoF\Webhooks\Helpers\Post;
 use FoF\Webhooks\Models\Webhook;
 use FoF\Webhooks\Response;
 
+/**
+ * @extends Action<\Flarum\Post\Event\Posted>
+ */
 class Posted extends Action
 {
-    const EVENT = \Flarum\Post\Event\Posted::class;
+    public const EVENT = \Flarum\Post\Event\Posted::class;
 
-    /**
-     * @param Webhook                                                          $webhook
-     * @param \Flarum\Post\Event\Posted|\Flarum\Approval\Event\PostWasApproved $event
-     *
-     * @return Response
-     */
     public function handle(Webhook $webhook, $event): Response
     {
         return Response::build($event)
@@ -52,6 +49,6 @@ class Posted extends Action
      */
     public function ignore(Webhook $webhook, $event): bool
     {
-        return parent::ignore($webhook, $event) || !isset($event->post->discussion->first_post_id) || $event->post->id == $event->post->discussion->first_post_id;
+        return parent::ignore($webhook, $event) || !isset($event->post->discussion->first_post_id) || $event->post->id === $event->post->discussion->first_post_id;
     }
 }

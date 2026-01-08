@@ -15,16 +15,14 @@ use Carbon\Carbon;
 use FoF\Webhooks\Action;
 use FoF\Webhooks\Response;
 
+/**
+ * @extends Action<\Flarum\User\Event\Deleted>
+ */
 class Deleted extends Action
 {
-    const EVENT = \Flarum\User\Event\Deleted::class;
+    public const EVENT = \Flarum\User\Event\Deleted::class;
 
-    /**
-     * @param \Flarum\User\Event\Deleted $event
-     *
-     * @return Response
-     */
-    public function listen($event): Response
+    public function handle($webhook, $event): Response
     {
         return Response::build($event)
             ->setTitle(

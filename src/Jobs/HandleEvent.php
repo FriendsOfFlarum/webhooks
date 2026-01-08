@@ -20,7 +20,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Arr;
 use JsonException;
-use ReflectionClass;
 use ReflectionException;
 use RuntimeException;
 
@@ -46,7 +45,7 @@ class HandleEvent implements ShouldQueue
         }
 
         /** @var Action $action */
-        $action = (new ReflectionClass($clazz))->newInstance();
+        $action = resolve($clazz);
 
         TriggerListener::debug("{$this->name}: handling with $clazz");
 

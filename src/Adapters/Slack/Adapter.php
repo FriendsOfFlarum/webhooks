@@ -18,12 +18,12 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
     /**
      * {@inheritdoc}
      */
-    const NAME = 'slack';
+    public const NAME = 'slack';
 
     /**
      * {@inheritdoc}
      */
-    protected $exception = SlackException::class;
+    protected ?string $exception = SlackException::class;
 
     /**
      * Sends a message through the webhook.

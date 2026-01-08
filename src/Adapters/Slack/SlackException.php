@@ -16,8 +16,8 @@ use Psr\Http\Message\ResponseInterface;
 
 class SlackException extends Exception
 {
-    private $http;
-    private $url;
+    private int $http;
+    private string $url;
 
     /**
      * Exception constructor.

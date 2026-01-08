@@ -34,29 +34,20 @@ abstract class Adapter
      *
      * @var string|null
      */
-    const NAME = null;
+    public const NAME = null;
 
     /**
-     * @var SettingsRepositoryInterface
+     * @var Client Guzzle HTTP client.
      */
-    protected $settings;
+    protected Client $client;
 
     /**
-     * @var Client
+     * Exception class to use on request errors.
      */
-    protected $client;
+    protected ?string $exception;
 
-    /**
-     * Exception to use on request errors.
-     *
-     * @var string
-     */
-    protected $exception;
-
-    public function __construct(SettingsRepositoryInterface $settings)
+    public function __construct(protected SettingsRepositoryInterface $settings)
     {
-        $this->settings = $settings;
-
         $this->client = new Client();
     }
 
@@ -160,7 +151,7 @@ abstract class Adapter
     }
 
     /**
-     * Get the title of the webhook, used for eg. Discord webhook username.
+     * Get the title of the webhook, used for e.g. Discord webhook username.
      * Defaults to the forum title. Can be modified by the webhook.
      *
      * @param Response $response

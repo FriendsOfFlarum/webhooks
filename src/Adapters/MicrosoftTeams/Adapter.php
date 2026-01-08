@@ -20,12 +20,12 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
     /**
      * {@inheritdoc}
      */
-    const NAME = 'microsoft-teams';
+    public const NAME = 'microsoft-teams';
 
     /**
      * {@inheritdoc}
      */
-    protected $exception = TeamsException::class;
+    protected ?string $exception = TeamsException::class;
 
     /**
      * Sends a message through the webhook.

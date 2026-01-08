@@ -73,7 +73,10 @@ class Webhook extends AbstractModel
         return $this->belongsTo(Group::class);
     }
 
-    public function tags()
+    /**
+     * @return Tag[]|null
+     */
+    public function tags(): ?array
     {
         if (!class_exists(Tag::class)) {
             return null;
@@ -96,7 +99,7 @@ class Webhook extends AbstractModel
     {
         $group = $this->group;
 
-        return !$group || $group->id == Group::GUEST_ID;
+        return !$group || $group->id === Group::GUEST_ID;
     }
 
     public function getTagIdAttribute($value): array

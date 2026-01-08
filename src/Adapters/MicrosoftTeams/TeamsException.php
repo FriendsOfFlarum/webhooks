@@ -16,8 +16,8 @@ use Psr\Http\Message\ResponseInterface;
 
 class TeamsException extends Exception
 {
-    private $http;
-    private $url;
+    private int $http;
+    private string $url;
 
     /**
      * Exception constructor.
@@ -35,7 +35,7 @@ class TeamsException extends Exception
         parent::__construct($error ?: $res->getReasonPhrase());
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return "HTTP $this->http – $this->message ($this->url)";
     }

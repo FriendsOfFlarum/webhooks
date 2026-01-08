@@ -16,8 +16,15 @@ use Flarum\Extension\ExtensionManager;
 use Flarum\User\Guest;
 use FoF\Webhooks\Models\Webhook;
 
+/**
+ * @template T
+ * @extends \FoF\Webhooks\Action<T>
+ */
 abstract class Action extends \FoF\Webhooks\Action
 {
+    /**
+     * @inheritdoc
+     */
     public function ignore(Webhook $webhook, $event): bool
     {
         /**
