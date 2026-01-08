@@ -17,6 +17,7 @@ use FoF\Webhooks\Models\Webhook;
 
 /**
  * @template T
+ *
  * @extends \FoF\Webhooks\Action<T>
  */
 abstract class Action extends \FoF\Webhooks\Action

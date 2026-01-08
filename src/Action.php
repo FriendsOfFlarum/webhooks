@@ -23,15 +23,14 @@ abstract class Action
     /**
      * The event class string handled by this action.
      *
-     * @type class-string<T>
+     * @var class-string<T>
      */
     public const EVENT = '';
 
     public function __construct(
         protected UrlGenerator $urlGenerator,
         protected TranslatorInterface $translator
-    )
-    {
+    ) {
     }
 
     /**
@@ -67,7 +66,7 @@ abstract class Action
     {
         $replacements = [];
         foreach ($params as $i => $param) {
-            $replacements['{' . ($i + 1) . '}'] = $param;
+            $replacements['{'.($i + 1).'}'] = $param;
         }
 
         return $this->translator->trans('fof-webhooks.actions.'.$id, $replacements);
