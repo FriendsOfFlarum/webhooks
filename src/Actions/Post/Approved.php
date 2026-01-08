@@ -25,7 +25,6 @@ class Approved extends Posted
         /**
          * @var \Flarum\Approval\Event\PostWasApproved $event
          */
-
         if ($event->post->number === 1 && $webhook->asGuest()) {
             // Send the 'discussion started' message
             return resolve(DiscussionStartedAction::class)
