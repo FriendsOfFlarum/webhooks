@@ -21,37 +21,15 @@ use Illuminate\Support\Arr;
 class TriggerListener
 {
     /**
-     * @var SettingsRepositoryInterface
-     */
-    protected $settings;
-
-    /**
-     * @var Queue
-     */
-    protected $queue;
-
-    /**
      * @var array<string, string>
      */
-    public static $listeners = null;
+    public static ?array $listeners = null;
 
-    /**
-     * @var bool|null
-     */
-    protected static $isDebugging = null;
+    protected static ?bool $isDebugging = null;
 
-    /**
-     * EventListener constructor.
-     *
-     * @param SettingsRepositoryInterface $settings
-     * @param Queue                       $queue
-     */
-    public function __construct(SettingsRepositoryInterface $settings, Queue $queue)
+    public function __construct(protected SettingsRepositoryInterface $settings, protected Queue $queue)
     {
-        $this->settings = $settings;
-        $this->queue = $queue;
-
-        if (self::$listeners == null) {
+        if (self::$listeners === null) {
             self::setupDefaultListeners();
         }
     }
@@ -61,7 +39,7 @@ class TriggerListener
      *
      * @param Dispatcher $events
      */
-    public function subscribe(Dispatcher $events)
+    public function subscribe(Dispatcher $events): void
     {
         $events->listen('*', [$this, 'run']);
     }
@@ -72,7 +50,7 @@ class TriggerListener
      *
      * @throws \ReflectionException
      */
-    public function run($name, $data)
+    public function run($name, $data): void
     {
         $event = Arr::get($data, 0);
 
@@ -87,7 +65,7 @@ class TriggerListener
         );
     }
 
-    public static function setupDefaultListeners()
+    public static function setupDefaultListeners(): void
     {
         self::addListener(Actions\Discussion\Deleted::class);
         self::addListener(Actions\Discussion\Hidden::class);
@@ -111,7 +89,7 @@ class TriggerListener
         self::addListener(Actions\User\Deleted::class);
     }
 
-    public static function addListener(string $action)
+    public static function addListener(string $action): void
     {
         $clazz = @constant("$action::EVENT");
 
@@ -122,7 +100,7 @@ class TriggerListener
         }
     }
 
-    public static function debug(string $message)
+    public static function debug(string $message): void
     {
         if (is_null(self::$isDebugging)) {
             self::$isDebugging = (bool) (int) resolve('flarum.settings')->get('fof-webhooks.debug');
