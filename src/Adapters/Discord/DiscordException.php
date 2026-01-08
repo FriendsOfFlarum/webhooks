@@ -32,7 +32,7 @@ class DiscordException extends Exception
         $this->url = $url;
 
         $contents = $res->getBody()->getContents();
-        $body = json_decode($contents);
+        $body = json_decode($contents, false);
         $message = Arr::get($body, 'message') ?: $res->getReasonPhrase();
 
         if (!Arr::get($body, 'message')) {
@@ -45,7 +45,7 @@ class DiscordException extends Exception
         );
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return "HTTP $this->http – $this->code $this->message ($this->url)";
     }

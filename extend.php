@@ -11,16 +11,10 @@
 
 namespace FoF\Webhooks;
 
-use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Extend;
 use Flarum\Frontend\Document;
 use FoF\Webhooks\Adapters\Adapters;
-use FoF\Webhooks\Api\Serializer\WebhookSerializer;
 use FoF\Webhooks\Listener\TriggerListener;
-use Flarum\Api\Context;
-use Flarum\Api\Endpoint;
-use Flarum\Api\Resource;
-use Flarum\Api\Schema;
 
 return [
     (new Extend\Frontend('admin'))
@@ -33,16 +27,7 @@ return [
 
     new Extend\Locales(__DIR__.'/resources/locale'),
 
-//    (new Extend\Routes('api'))
-//        ->get('/fof/webhooks', 'fof.webhooks.index', Api\Controller\ListWebhooksController::class)
-//        ->post('/fof/webhooks', 'fof.webhooks.create', Api\Controller\CreateWebhookController::class)
-//        ->patch('/fof/webhooks/{id}', 'fof.webhooks.update', Api\Controller\UpdateWebhookController::class)
-//        ->delete('/fof/webhooks/{id}', 'fof.webhooks.delete', Api\Controller\DeleteWebhookController::class),
-
-    // @TODO: Replace with the new implementation https://docs.flarum.org/2.x/extend/api#extending-api-resources
     (new Extend\ApiResource(Api\WebhookResource::class)),
-//    (new Extend\ApiSerializer(ForumSerializer::class))
-//        ->hasMany('webhooks', WebhookSerializer::class),
 
     (new Extend\Event())
         ->subscribe(Listener\TriggerListener::class),

@@ -34,7 +34,7 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
     public function send(string $url, Response $response)
     {
         $this->request($url, [
-            'username'   => Str::limit($this->getTitle($response), 32, '...'),
+            'username'   => Str::limit($this->getTitle($response), 32),
             'content'    => $response->getExtraText(),
             'embeds'     => [
                 $this->toArray($response),

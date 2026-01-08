@@ -34,7 +34,7 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws SlackException
      */
-    public function send(string $url, Response $response)
+    public function send(string $url, Response $response): void
     {
         $res = $this->request($url, [
             'username'    => $this->getTitle($response),
@@ -45,7 +45,7 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
             ],
         ]);
 
-        if ($res->getStatusCode() == 302) {
+        if ($res->getStatusCode() === 302) {
             throw new SlackException($res, $url);
         }
     }

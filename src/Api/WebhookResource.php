@@ -5,7 +5,6 @@ namespace FoF\Webhooks\Api;
 use Flarum\Api\Endpoint;
 use Flarum\Api\Schema;
 use Flarum\Api\Resource\AbstractDatabaseResource;
-use Flarum\Foundation\ValidationException;
 use FoF\Webhooks\Models\Webhook;
 use Tobyz\JsonApiServer\Context;
 

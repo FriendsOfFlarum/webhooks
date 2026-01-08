@@ -4,11 +4,9 @@ import Stream from 'flarum/common/utils/Stream';
 import withAttr from 'flarum/common/utils/withAttr';
 import Button from 'flarum/common/components/Button';
 import Select from 'flarum/common/components/Select';
-import Tooltip from 'flarum/common/components/Tooltip';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 
 import SettingsListItem from './SettingsListItem';
-import extractText from 'flarum/common/utils/extractText';
 import Mithril from 'mithril';
 import { SaveSubmitEvent } from 'flarum/admin/components/AdminPage';
 

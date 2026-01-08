@@ -21,19 +21,19 @@ use Illuminate\Contracts\Container\Container;
 
 class FoFWebhooksExtender implements ExtenderInterface
 {
-    private $listeners = [];
-    private $adapters = [];
+    private array $listeners = [];
+    private array $adapters = [];
 
     public function __construct()
     {
     }
 
     /**
-     * @param Action|string $action
+     * @param string|Action $action
      *
      * @return $this
      */
-    public function listener($action): FoFWebhooksExtender
+    public function listener(Action|string $action): self
     {
         $clazz = @constant("$action::EVENT");
 
@@ -45,11 +45,11 @@ class FoFWebhooksExtender implements ExtenderInterface
     }
 
     /**
-     * @param Adapter|string $adapter
+     * @param string|Adapter $adapter
      *
      * @return $this
      */
-    public function adapter($adapter): FoFWebhooksExtender
+    public function adapter(Adapter|string $adapter): self
     {
         $name = @constant("$adapter::NAME");
 
@@ -60,9 +60,9 @@ class FoFWebhooksExtender implements ExtenderInterface
         return $this;
     }
 
-    public function extend(Container $container, Extension $extension = null)
+    public function extend(Container $container, Extension $extension = null): void
     {
-        if (TriggerListener::$listeners == null) {
+        if (TriggerListener::$listeners === null) {
             TriggerListener::setupDefaultListeners();
         }
 

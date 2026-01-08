@@ -88,7 +88,7 @@ class Response
         $url = $this->urlGenerator->to('forum')->route($name, $data);
 
         if (isset($extra)) {
-            $url = $url.$extra;
+            $url .= $extra;
         }
 
         $this->url = $url;

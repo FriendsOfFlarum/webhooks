@@ -47,8 +47,6 @@ class TriggerListener
     /**
      * @param $name
      * @param $data
-     *
-     * @throws \ReflectionException
      */
     public function run($name, $data): void
     {

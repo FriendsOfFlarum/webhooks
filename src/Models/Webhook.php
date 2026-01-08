@@ -18,6 +18,7 @@ use FoF\Webhooks\Adapters\Adapters;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
+ * @property string      $id
  * @property string      $service
  * @property string      $url
  * @property string|null $error
@@ -45,7 +46,7 @@ class Webhook extends AbstractModel
      *
      * @return static
      */
-    public static function build(string $service, string $url): Webhook
+    public static function build(string $service, string $url): self
     {
         $webhook = new static();
         $webhook->service = $service;
@@ -57,7 +58,7 @@ class Webhook extends AbstractModel
 
     public function getEvents()
     {
-        return isset($this->events) ? json_decode($this->events) : [];
+        return isset($this->events) ? json_decode($this->events, false, 512, JSON_THROW_ON_ERROR) : [];
     }
 
     public function isValid(): bool
@@ -78,12 +79,12 @@ class Webhook extends AbstractModel
             return null;
         }
 
-        return Tag::whereIn('id', $this->tag_id)->get();
+        return Tag::query()->whereIn('id', $this->tag_id)->get();
     }
 
-    public function appliedTags()
+    public function appliedTags(): array
     {
-        return Tag::select('name')->whereIn('id', $this->tag_id)->pluck('name')->toArray();
+        return Tag::query()->select('name')->whereIn('id', $this->tag_id)->pluck('name')->toArray();
     }
 
     public function getIncludeTags(): bool
@@ -102,12 +103,16 @@ class Webhook extends AbstractModel
     {
         if (is_numeric($value)) {
             return [$value];
-        } elseif (is_array($value)) {
+        }
+
+        if (is_array($value)) {
             return $value;
-        } elseif (!$value) {
+        }
+
+        if (!$value) {
             return [];
         }
 
-        return json_decode($value) ?? [];
+        return json_decode($value, false, 512, JSON_THROW_ON_ERROR) ?? [];
     }
 }
