@@ -1,22 +1,42 @@
 import app from 'flarum/admin/app';
-import ExtensionPage from 'flarum/admin/components/ExtensionPage';
+import ExtensionPage, { ExtensionPageAttrs } from 'flarum/admin/components/ExtensionPage';
 import Stream from 'flarum/common/utils/Stream';
 import withAttr from 'flarum/common/utils/withAttr';
 import Button from 'flarum/common/components/Button';
 import Select from 'flarum/common/components/Select';
+import Tooltip from 'flarum/common/components/Tooltip';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 
 import SettingsListItem from './SettingsListItem';
+import extractText from 'flarum/common/utils/extractText';
+import Mithril from 'mithril';
+import { SaveSubmitEvent } from 'flarum/admin/components/AdminPage';
 
 export default class WebhooksPage extends ExtensionPage {
-  oninit(vnode) {
+  services!: Record<string, string>;
+  values!: Record<string, Stream<string>>;
+
+  newWebhook!: {
+    service: Stream<string>;
+    url: Stream<string>;
+    loading: Stream<boolean>;
+  };
+
+  loadingData!: Stream<boolean>;
+
+  oninit(vnode: Mithril.Vnode<ExtensionPageAttrs, this>): any {
     super.oninit(vnode);
 
+    const services = app.data['fof-webhooks.services'] as string[];
+
     this.values = {};
-    this.services = app.data['fof-webhooks.services'].reduce((o, service) => {
-      o[service] = app.translator.trans(`fof-webhooks.admin.settings.services.${service}`);
-      return o;
-    }, {});
+    this.services = services.reduce(
+      (o, service) => {
+        o[service] = app.translator.trans(`fof-webhooks.admin.settings.services.${service}`, {}, true);
+        return o;
+      },
+      {} as typeof this.services
+    );
 
     this.newWebhook = {
       service: Stream('discord'),
@@ -27,17 +47,17 @@ export default class WebhooksPage extends ExtensionPage {
     this.loadingData = Stream(true);
   }
 
-  oncreate(vnode) {
+  oncreate(vnode: Mithril.VnodeDOM<ExtensionPageAttrs, this>) {
     super.oncreate(vnode);
 
-    Promise.all([app.store.find('fof/webhooks'), this.isTagsEnabled() && app.store.find('tags')]).then(() => {
+    Promise.all([app.store.find('fof-webhooks'), this.isTagsEnabled() && app.store.find('tags')]).then(() => {
       this.loadingData(false);
       m.redraw();
     });
   }
 
   content() {
-    const webhooks = app.store.all('webhooks');
+    const webhooks = app.store.all('fof-webhooks');
 
     if (this.loadingData()) {
       return <LoadingIndicator />;
@@ -82,10 +102,12 @@ export default class WebhooksPage extends ExtensionPage {
                     <Button
                       type="button"
                       loading={this.newWebhook.loading()}
-                      className="Button Button--warning Webhook-button"
+                      className="Button Button--success Webhook-button"
                       icon="fas fa-plus"
                       onclick={this.addWebhook.bind(this)}
-                    />
+                    >
+                      {app.translator.trans('fof-webhooks.admin.settings.item.create_button')}
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -102,7 +124,7 @@ export default class WebhooksPage extends ExtensionPage {
     this.newWebhook.loading(true);
 
     return app.store
-      .createRecord('webhooks')
+      .createRecord('fof-webhooks')
       .save({
         service: this.newWebhook.service(),
         url: this.newWebhook.url(),
@@ -121,26 +143,19 @@ export default class WebhooksPage extends ExtensionPage {
       });
   }
 
-  onkeypress(e) {
+  onkeypress(e: KeyboardEvent) {
     if (e.key === 'Enter') {
       this.addWebhook();
     }
-  }
-
-  /**
-   * @returns boolean
-   */
-  changed() {
-    return this.fields.some((key) => this.values[key]() !== (app.data.settings[this.addPrefix(key)] || ''));
   }
 
   isTagsEnabled() {
     return !!flarum.extensions['flarum-tags'];
   }
 
-  updateDebug(state) {
+  updateDebug(state: boolean) {
     this.setting('fof-webhooks.debug')(state);
 
-    return this.saveSettings(new Event(null));
+    return this.saveSettings(new Event('') as SaveSubmitEvent);
   }
 }
