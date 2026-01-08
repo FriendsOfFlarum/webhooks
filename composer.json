@@ -19,7 +19,7 @@
         },
         {
             "type": "github",
-            "url": "https://github.com/sponsors/datitisev"
+            "url": "https://github.com/sponsors/dsevillamartin"
         }
     ],
     "require": {
@@ -37,7 +37,7 @@
     "authors": [
         {
             "name": "David Sevilla Martín",
-            "email": "me+fof@datitisev.me",
+            "email": "me+fof@dsevilla.dev",
             "role": "Developer"
         }
     ],
