@@ -31,7 +31,7 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function send(string $url, Response $response)
+    public function send(string $url, Response $response): void
     {
         $this->request($url, [
             'username'   => Str::limit($this->getTitle($response), 32),

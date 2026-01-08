@@ -66,7 +66,7 @@ abstract class Adapter
      *
      * @throws ReflectionException
      */
-    public function handle(Webhook $webhook, Response $response)
+    public function handle(Webhook $webhook, Response $response): void
     {
         try {
             $this->send($webhook->url, $response);
@@ -115,7 +115,7 @@ abstract class Adapter
      *
      * @throws RequestException
      */
-    abstract public function send(string $url, Response $response);
+    abstract public function send(string $url, Response $response): void;
 
     /**
      * @param Response $response
@@ -174,7 +174,7 @@ abstract class Adapter
         return $webhookTitle ?: $this->settings->get('forum_title');
     }
 
-    private function logException(Webhook $webhook, Response $response, Throwable $e, $handled = false)
+    private function logException(Webhook $webhook, Response $response, Throwable $e, $handled = false): void
     {
         resolve('log')->error(
             sprintf(

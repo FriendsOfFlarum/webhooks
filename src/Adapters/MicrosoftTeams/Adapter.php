@@ -35,7 +35,7 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function send(string $url, Response $response)
+    public function send(string $url, Response $response): void
     {
         $color = color($this->settings->get('theme_primary_color'));
 
