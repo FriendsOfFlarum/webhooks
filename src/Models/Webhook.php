@@ -73,18 +73,6 @@ class Webhook extends AbstractModel
         return $this->belongsTo(Group::class);
     }
 
-    /**
-     * @return Tag[]|null
-     */
-    public function tags(): ?array
-    {
-        if (!class_exists(Tag::class)) {
-            return null;
-        }
-
-        return Tag::query()->whereIn('id', $this->tag_id)->get();
-    }
-
     public function appliedTags(): array
     {
         return Tag::query()->select('name')->whereIn('id', $this->tag_id)->pluck('name')->toArray();

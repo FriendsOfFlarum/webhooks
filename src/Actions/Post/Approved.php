@@ -16,15 +16,16 @@ use FoF\Webhooks\Actions\Discussion\Started as DiscussionStartedAction;
 use FoF\Webhooks\Models\Webhook;
 use FoF\Webhooks\Response;
 
-/**
- * @extends Action<\Flarum\Approval\Event\PostWasApproved>
- */
 class Approved extends Posted
 {
     public const EVENT = \Flarum\Approval\Event\PostWasApproved::class;
 
     public function handle(Webhook $webhook, $event): Response
     {
+        /**
+         * @var \Flarum\Approval\Event\PostWasApproved $event
+         */
+
         if ($event->post->number === 1 && $webhook->asGuest()) {
             // Send the 'discussion started' message
             return resolve(DiscussionStartedAction::class)

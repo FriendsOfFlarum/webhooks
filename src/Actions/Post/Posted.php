@@ -15,15 +15,16 @@ use FoF\Webhooks\Helpers\Post;
 use FoF\Webhooks\Models\Webhook;
 use FoF\Webhooks\Response;
 
-/**
- * @extends Action<\Flarum\Post\Event\Posted>
- */
 class Posted extends Action
 {
     public const EVENT = \Flarum\Post\Event\Posted::class;
 
     public function handle(Webhook $webhook, $event): Response
     {
+        /**
+         * @var \Flarum\Post\Event\Posted $event
+         */
+
         return Response::build($event)
             ->setTitle(
                 $this->translate('post.posted', $event->post->discussion->title)
