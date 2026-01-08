@@ -83,7 +83,7 @@ class Response
         return $this;
     }
 
-    public function setURL(string $name, array $data = null, ?string $extra = null): self
+    public function setURL(string $name, ?array $data = null, ?string $extra = null): self
     {
         $url = $this->urlGenerator->to('forum')->route($name, $data);
 

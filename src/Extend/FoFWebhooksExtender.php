@@ -60,7 +60,7 @@ class FoFWebhooksExtender implements ExtenderInterface
         return $this;
     }
 
-    public function extend(Container $container, Extension $extension = null): void
+    public function extend(Container $container, ?Extension $extension = null): void
     {
         if (TriggerListener::$listeners === null) {
             TriggerListener::setupDefaultListeners();

@@ -1,17 +1,25 @@
 <?php
 
+/*
+ * This file is part of fof/webhooks.
+ *
+ * Copyright (c) FriendsOfFlarum.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FoF\Webhooks\Api;
 
 use Flarum\Api\Endpoint;
-use Flarum\Api\Schema;
 use Flarum\Api\Resource\AbstractDatabaseResource;
+use Flarum\Api\Schema;
 use FoF\Webhooks\Models\Webhook;
 use Tobyz\JsonApiServer\Context;
 
 /** @extends AbstractDatabaseResource<Webhook> */
 class WebhookResource extends AbstractDatabaseResource
 {
-
     public function model(): string
     {
         return Webhook::class;
@@ -30,8 +38,8 @@ class WebhookResource extends AbstractDatabaseResource
             Schema\Str::make('error'),
 
             Schema\Attribute::make('events')
-                ->get(fn(Webhook $model) => json_decode($model->events) ?: [])
-                ->set(fn(Webhook $model, $value) => $model->events = json_encode($value))
+                ->get(fn (Webhook $model) => json_decode($model->events) ?: [])
+                ->set(fn (Webhook $model, $value) => $model->events = json_encode($value))
                 ->writable(),
 
             Schema\Number::make('groupId')->rule('in:1,2')->nullable()->writable(),
@@ -44,7 +52,7 @@ class WebhookResource extends AbstractDatabaseResource
             Schema\Number::make('maxPostContentLength')->min(0)->nullable()->writable(),
 
             Schema\Boolean::make('isValid')
-                ->get(fn(Webhook $model) => $model->isValid()),
+                ->get(fn (Webhook $model) => $model->isValid()),
         ];
     }
 

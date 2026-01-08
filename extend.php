@@ -27,7 +27,7 @@ return [
 
     new Extend\Locales(__DIR__.'/resources/locale'),
 
-    (new Extend\ApiResource(Api\WebhookResource::class)),
+    new Extend\ApiResource(Api\WebhookResource::class),
 
     (new Extend\Event())
         ->subscribe(Listener\TriggerListener::class),

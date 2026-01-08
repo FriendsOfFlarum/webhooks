@@ -11,8 +11,6 @@
 
 use Flarum\Database\Migration;
 
-
 return Migration::addColumns('webhooks', [
     'max_post_content_length' => ['integer', 'unsigned' => true, 'nullable' => true],
 ]);
-

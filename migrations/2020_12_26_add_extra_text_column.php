@@ -12,7 +12,6 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
-
 return [
     'up' => static function (Builder $schema) {
         if ($schema->hasColumn('webhooks', 'extra_text')) {
