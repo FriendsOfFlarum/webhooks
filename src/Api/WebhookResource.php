@@ -39,7 +39,7 @@ class WebhookResource extends AbstractDatabaseResource
 
             Schema\Attribute::make('events')
                 ->get(fn (Webhook $model) => json_decode($model->events) ?: [])
-                ->set(fn (Webhook $model, $value) => $model->events = json_encode($value))
+                ->set(fn (Webhook $model, $value) => $model->events = json_encode($value, JSON_THROW_ON_ERROR))
                 ->writable(),
 
             Schema\Number::make('groupId')->rule('in:1,2')->nullable()->writable(),
