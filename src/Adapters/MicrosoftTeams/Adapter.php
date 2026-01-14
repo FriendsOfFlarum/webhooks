@@ -20,12 +20,12 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
     /**
      * {@inheritdoc}
      */
-    const NAME = 'microsoft-teams';
+    public const NAME = 'microsoft-teams';
 
     /**
      * {@inheritdoc}
      */
-    protected $exception = TeamsException::class;
+    protected ?string $exception = TeamsException::class;
 
     /**
      * Sends a message through the webhook.
@@ -35,7 +35,7 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function send(string $url, Response $response)
+    public function send(string $url, Response $response): void
     {
         $color = color($this->settings->get('theme_primary_color'));
 

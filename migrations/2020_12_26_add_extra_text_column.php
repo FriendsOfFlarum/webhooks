@@ -13,7 +13,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
 return [
-    'up' => function (Builder $schema) {
+    'up' => static function (Builder $schema) {
         if ($schema->hasColumn('webhooks', 'extra_text')) {
             return;
         }
@@ -22,7 +22,7 @@ return [
             $table->string('extra_text', 256)->nullable();
         });
     },
-    'down' => function (Builder $schema) {
+    'down' => static function (Builder $schema) {
         $schema->table('webhooks', function (Blueprint $table) {
             $table->dropColumn('extra_text');
         });

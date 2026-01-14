@@ -9,18 +9,8 @@
  * file that was distributed with this source code.
  */
 
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Schema\Builder;
+use Flarum\Database\Migration;
 
-return [
-    'up' => function (Builder $schema) {
-        $schema->table('webhooks', function (Blueprint $table) {
-            $table->unsignedInteger('tag_id')->nullable();
-        });
-    },
-    'down' => function (Builder $schema) {
-        $schema->table('webhooks', function (Blueprint $table) {
-            $table->dropColumn('tag_id');
-        });
-    },
-];
+return Migration::addColumns('webhooks', [
+    'tag_id' => ['integer', 'unsigned' => true, 'nullable' => true],
+]);

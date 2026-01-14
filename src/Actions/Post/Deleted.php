@@ -16,16 +16,13 @@ use FoF\Webhooks\Helpers\Post;
 use FoF\Webhooks\Models\Webhook;
 use FoF\Webhooks\Response;
 
+/**
+ * @extends Action<\Flarum\Post\Event\Deleted>
+ */
 class Deleted extends Action
 {
-    const EVENT = \Flarum\Post\Event\Deleted::class;
+    public const EVENT = \Flarum\Post\Event\Deleted::class;
 
-    /**
-     * @param Webhook                    $webhook
-     * @param \Flarum\Post\Event\Deleted $event
-     *
-     * @return Response
-     */
     public function handle(Webhook $webhook, $event): Response
     {
         return Response::build($event)

@@ -18,19 +18,17 @@ use FoF\Webhooks\Response;
 
 class Approved extends Posted
 {
-    const EVENT = \Flarum\Approval\Event\PostWasApproved::class;
+    public const EVENT = \Flarum\Approval\Event\PostWasApproved::class;
 
-    /**
-     * @param Webhook                                $webhook
-     * @param \Flarum\Approval\Event\PostWasApproved $event
-     *
-     * @return Response
-     */
     public function handle(Webhook $webhook, $event): Response
     {
-        if ($webhook->asGuest() && $event->post->number === 1) {
+        /**
+         * @var \Flarum\Approval\Event\PostWasApproved $event
+         */
+        if ($event->post->number === 1 && $webhook->asGuest()) {
             // Send the 'discussion started' message
-            return (new DiscussionStartedAction())->handle($webhook, new DiscussionStartedEvent($event->post->discussion, $event->post->user));
+            return resolve(DiscussionStartedAction::class)
+                ->handle($webhook, new DiscussionStartedEvent($event->post->discussion, $event->post->user));
         }
 
         $response = parent::handle($webhook, $event);

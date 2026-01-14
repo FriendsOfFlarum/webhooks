@@ -16,8 +16,16 @@ use Flarum\Extension\ExtensionManager;
 use Flarum\User\Guest;
 use FoF\Webhooks\Models\Webhook;
 
+/**
+ * @template T
+ *
+ * @extends \FoF\Webhooks\Action<T>
+ */
 abstract class Action extends \FoF\Webhooks\Action
 {
+    /**
+     * @inheritdoc
+     */
     public function ignore(Webhook $webhook, $event): bool
     {
         /**
@@ -26,7 +34,7 @@ abstract class Action extends \FoF\Webhooks\Action
         $discussion = $event->discussion;
         $post = $discussion->firstPost ?? $discussion->posts()->where('number', 1)->first();
 
-        if ($webhook->asGuest() && $post && !$post->isVisibleTo(new Guest())) {
+        if ($post && $webhook->asGuest() && !$post->isVisibleTo(new Guest())) {
             return true;
         }
 
@@ -34,10 +42,6 @@ abstract class Action extends \FoF\Webhooks\Action
         $tagsIsEnabled = resolve(ExtensionManager::class)->isEnabled('flarum-tags');
 
         /** @phpstan-ignore-next-line */
-        if (!empty($tagIds) && $tagsIsEnabled && !$discussion->tags()->whereIn('id', $webhook->tag_id)->exists()) {
-            return true;
-        }
-
-        return false;
+        return !empty($tagIds) && $tagsIsEnabled && !$discussion->tags()->whereIn('id', $webhook->tag_id)->exists();
     }
 }

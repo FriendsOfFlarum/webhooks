@@ -1,14 +1,19 @@
 {
-    // Use Flarum's tsconfig as a starting point
-    "extends": "flarum-tsconfig",
-    // This will match all .ts, .tsx, .d.ts, .js, .jsx files
-    "include": ["src/**/*"],
-    "compilerOptions": {
-        // This will output typings to `dist-typings`
-        "declarationDir": "./dist-typings",
-        "baseUrl": ".",
-        "paths": {
-            "flarum/*": ["../vendor/flarum/core/js/dist-typings/*"]
-        }
+  // Use Flarum's tsconfig as a starting point
+  "extends": "flarum-tsconfig",
+  // This will match all .ts, .tsx, .d.ts, .js, .jsx files
+  "include": [
+    "src/**/*",
+    "../vendor/flarum/core/js/dist-typings/@types/**/*",
+    "../vendor/flarum/tags/js/dist-typings/@types/**/*",
+  ],
+  "compilerOptions": {
+    // This will output typings to `dist-typings`
+    "declarationDir": "./dist-typings",
+    "baseUrl": ".",
+    "paths": {
+      "flarum/*": ["../vendor/flarum/core/js/dist-typings/*"],
+      "ext:flarum/tags/*": ["../vendor/flarum/tags/js/dist-typings/*"]
     }
+  }
 }

@@ -17,13 +17,13 @@ use Illuminate\Database\Schema\Builder;
 return [
     'up' => static function (Builder $schema) {
         $schema->table('webhooks', function (Blueprint $table) use ($schema) {
-            $indexes = $schema->getConnection()->getDoctrineSchemaManager()->listTableIndexes($table->getTable());
+            $indexes = $schema->getIndexes($table->getTable());
 
             /**
              * @var \Doctrine\DBAL\Schema\Index $index
              */
             $index = collect($indexes)->first(function ($index) {
-                return in_array('tag_id', $index->getColumns(), true);
+                return in_array('tag_id', $index['columns'], true);
             });
 
             if ($index) {

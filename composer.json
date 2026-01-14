@@ -1,6 +1,6 @@
 {
     "name": "fof/webhooks",
-    "description": "Flarum with webhooks",
+    "description": "Automatically notify Discord, Slack, and Microsoft Teams when events happen on your Flarum forum.",
     "keywords": [
         "flarum"
     ],
@@ -19,11 +19,11 @@
         },
         {
             "type": "github",
-            "url": "https://github.com/sponsors/datitisev"
+            "url": "https://github.com/sponsors/dsevillamartin"
         }
     ],
     "require": {
-        "flarum/core": "^1.7.0",
+        "flarum/core": "^2.0.0",
         "guzzlehttp/guzzle": "7.*",
         "ssnepenthe/color-utils": "^0.4.2",
         "html2text/html2text": "^4.3.1",
@@ -32,20 +32,24 @@
     "replace": {
         "reflar/webhooks": "*"
     },
+    "minimum-stability": "beta",
+    "prefer-stable": true,
     "authors": [
         {
             "name": "David Sevilla Martín",
-            "email": "me+fof@datitisev.me",
+            "email": "me+fof@dsevilla.dev",
             "role": "Developer"
         }
     ],
     "autoload": {
         "psr-4": {
-            "FoF\\Webhooks\\": "src/",
-            "Reflar\\Webhooks\\": "src/Legacy"
+            "FoF\\Webhooks\\": "src/"
         }
     },
     "extra": {
+        "branch-alias": {
+            "dev-main": "2.x-dev"
+        },
         "flarum-extension": {
             "title": "FoF Webhooks",
             "category": "feature",
@@ -58,9 +62,6 @@
                 "flarum/tags",
                 "flarum/approval"
             ]
-        },
-        "flagrow": {
-            "discuss": "https://discuss.flarum.org/d/17812"
         },
         "flarum-cli": {
             "modules": {
@@ -76,7 +77,7 @@
         "analyse:phpstan": "Run static analysis"
     },
     "require-dev": {
-        "flarum/phpstan": "*",
+        "flarum/phpstan": "^2.0.0-beta",
         "flarum/tags": "*",
         "flarum/approval": "*"
     }

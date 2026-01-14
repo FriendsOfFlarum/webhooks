@@ -34,29 +34,20 @@ abstract class Adapter
      *
      * @var string|null
      */
-    const NAME = null;
+    public const NAME = null;
 
     /**
-     * @var SettingsRepositoryInterface
+     * @var Client Guzzle HTTP client.
      */
-    protected $settings;
+    protected Client $client;
 
     /**
-     * @var Client
+     * Exception class to use on request errors.
      */
-    protected $client;
+    protected ?string $exception;
 
-    /**
-     * Exception to use on request errors.
-     *
-     * @var string
-     */
-    protected $exception;
-
-    public function __construct(SettingsRepositoryInterface $settings)
+    public function __construct(protected SettingsRepositoryInterface $settings)
     {
-        $this->settings = $settings;
-
         $this->client = new Client();
     }
 
@@ -66,7 +57,7 @@ abstract class Adapter
      *
      * @throws ReflectionException
      */
-    public function handle(Webhook $webhook, Response $response)
+    public function handle(Webhook $webhook, Response $response): void
     {
         try {
             $this->send($webhook->url, $response);
@@ -115,7 +106,7 @@ abstract class Adapter
      *
      * @throws RequestException
      */
-    abstract public function send(string $url, Response $response);
+    abstract public function send(string $url, Response $response): void;
 
     /**
      * @param Response $response
@@ -160,7 +151,7 @@ abstract class Adapter
     }
 
     /**
-     * Get the title of the webhook, used for eg. Discord webhook username.
+     * Get the title of the webhook, used for e.g. Discord webhook username.
      * Defaults to the forum title. Can be modified by the webhook.
      *
      * @param Response $response
@@ -174,7 +165,7 @@ abstract class Adapter
         return $webhookTitle ?: $this->settings->get('forum_title');
     }
 
-    private function logException(Webhook $webhook, Response $response, Throwable $e, $handled = false)
+    private function logException(Webhook $webhook, Response $response, Throwable $e, $handled = false): void
     {
         resolve('log')->error(
             sprintf(

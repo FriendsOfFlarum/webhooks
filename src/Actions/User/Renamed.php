@@ -15,16 +15,14 @@ use Carbon\Carbon;
 use FoF\Webhooks\Action;
 use FoF\Webhooks\Response;
 
+/**
+ * @extends Action<\Flarum\User\Event\Renamed>
+ */
 class Renamed extends Action
 {
-    const EVENT = \Flarum\User\Event\Renamed::class;
+    public const EVENT = \Flarum\User\Event\Renamed::class;
 
-    /**
-     * @param \Flarum\User\Event\Renamed $event
-     *
-     * @return Response
-     */
-    public function listen($event): Response
+    public function handle($webhook, $event): Response
     {
         return Response::build($event)
             ->setTitle(

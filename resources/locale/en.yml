@@ -48,6 +48,11 @@ fof-webhooks:
 
       item:
         tag_any_label: Any Tag
+        edit_tooltip: Edit webhook settings
+        delete_tooltip: Delete webhook
+        delete_confirm_alert: Are you sure you want to delete this {service} webhook?
+        create_button: Create
+        edit_tags_button: Edit tags
 
       help:
         disabled: This webhook is disabled because it doesn't have any events enabled.

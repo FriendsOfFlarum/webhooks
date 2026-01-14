@@ -18,62 +18,33 @@ use FoF\Webhooks\Models\Webhook;
 
 class Response
 {
-    /**
-     * @var string
-     */
-    public $title;
+    public ?string $title;
 
-    /**
-     * @var string
-     */
-    public $url;
+    public ?string $url;
 
-    /**
-     * @var string
-     */
-    public $description;
+    public ?string $description;
 
-    /**
-     * @var string
-     */
-    public $color;
+    public ?string $color;
 
-    /**
-     * @var string
-     */
-    public $tags;
+    public ?string $tags;
 
-    /**
-     * @var string
-     */
-    public $timestamp;
+    public ?string $timestamp;
 
-    /**
-     * @var User
-     */
-    public $author;
+    public ?User $author;
 
-    public $event;
+    public object $event;
 
-    /**
-     * @var UrlGenerator
-     */
-    private $urlGenerator;
+    protected ?Webhook $webhook;
 
-    /**
-     * @var Webhook
-     */
-    protected $webhook;
+    public function __construct(protected UrlGenerator $urlGenerator)
+    {
+    }
 
-    /**
-     * Response constructor.
-     *
-     * @param $event
-     */
-    public function __construct($event)
+    public function withEvent($event): self
     {
         $this->event = $event;
-        $this->urlGenerator = resolve(UrlGenerator::class);
+
+        return $this;
     }
 
     public function setTitle(string $title): self
@@ -83,12 +54,12 @@ class Response
         return $this;
     }
 
-    public function setURL(string $name, array $data = null, ?string $extra = null): self
+    public function setURL(string $name, ?array $data = null, ?string $extra = null): self
     {
         $url = $this->urlGenerator->to('forum')->route($name, $data);
 
         if (isset($extra)) {
-            $url = $url.$extra;
+            $url .= $extra;
         }
 
         $this->url = $url;
@@ -124,14 +95,14 @@ class Response
         return $this;
     }
 
-    public function getColor()
+    public function getColor(): float|int|null
     {
         return $this->color ? hexdec(substr($this->color, 1)) : null;
     }
 
     public static function build($event): self
     {
-        return new self($event);
+        return resolve(self::class)->withEvent($event);
     }
 
     public function getAuthorUrl(): ?string
@@ -168,7 +139,7 @@ class Response
         return $this;
     }
 
-    protected function setWebhook(Webhook $webhook)
+    protected function setWebhook(Webhook $webhook): void
     {
         $this->webhook = $webhook;
     }

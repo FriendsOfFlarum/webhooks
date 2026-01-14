@@ -16,16 +16,13 @@ use FoF\Webhooks\Helpers\Post;
 use FoF\Webhooks\Models\Webhook;
 use FoF\Webhooks\Response;
 
+/**
+ * @extends Action<\Flarum\Post\Event\Restored>
+ */
 class Restored extends Action
 {
-    const EVENT = \Flarum\Post\Event\Restored::class;
+    public const EVENT = \Flarum\Post\Event\Restored::class;
 
-    /**
-     * @param Webhook                     $webhook
-     * @param \Flarum\Post\Event\Restored $event
-     *
-     * @return Response
-     */
     public function handle(Webhook $webhook, $event): Response
     {
         return Response::build($event)

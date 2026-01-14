@@ -9,18 +9,8 @@
  * file that was distributed with this source code.
  */
 
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Schema\Builder;
+use Flarum\Database\Migration;
 
-return [
-    'up' => function (Builder $schema) {
-        $schema->table('webhooks', function (Blueprint $table) {
-            $table->boolean('include_tags')->default(false);
-        });
-    },
-    'down' => function (Builder $schema) {
-        $schema->table('webhooks', function (Blueprint $table) {
-            $table->dropColumn('include_tags');
-        });
-    },
-];
+return Migration::addColumns('webhooks', [
+    'include_tags' => ['boolean', 'default' => false],
+]);

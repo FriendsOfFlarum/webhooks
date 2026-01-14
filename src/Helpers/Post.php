@@ -23,7 +23,7 @@ class Post
      *
      * @return string|null
      */
-    public static function getContent(\Flarum\Post\Post $post, Webhook $webhook = null): ?string
+    public static function getContent(\Flarum\Post\Post $post, ?Webhook $webhook = null): ?string
     {
         $content = $post->content;
 

@@ -13,18 +13,17 @@ namespace FoF\Webhooks\Actions\Group;
 
 use Carbon\Carbon;
 use FoF\Webhooks\Action;
+use FoF\Webhooks\Models\Webhook;
 use FoF\Webhooks\Response;
 
+/**
+ * @extends Action<\Flarum\Group\Event\Renamed>
+ */
 class Renamed extends Action
 {
-    const EVENT = \Flarum\Group\Event\Renamed::class;
+    public const EVENT = \Flarum\Group\Event\Renamed::class;
 
-    /**
-     * @param \Flarum\Group\Event\Renamed $event
-     *
-     * @return Response
-     */
-    public function listen($event): Response
+    public function handle(Webhook $webhook, $event): ?Response
     {
         return Response::build($event)
             ->setTitle(

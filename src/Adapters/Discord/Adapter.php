@@ -19,9 +19,9 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
     /**
      * {@inheritdoc}
      */
-    const NAME = 'discord';
+    public const NAME = 'discord';
 
-    protected $exception = DiscordException::class;
+    protected ?string $exception = DiscordException::class;
 
     /**
      * Sends a message through the webhook.
@@ -31,10 +31,10 @@ class Adapter extends \FoF\Webhooks\Adapters\Adapter
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function send(string $url, Response $response)
+    public function send(string $url, Response $response): void
     {
         $this->request($url, [
-            'username'   => Str::limit($this->getTitle($response), 32, '...'),
+            'username'   => Str::limit($this->getTitle($response), 32),
             'content'    => $response->getExtraText(),
             'embeds'     => [
                 $this->toArray($response),

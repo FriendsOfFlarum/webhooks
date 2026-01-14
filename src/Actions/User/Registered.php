@@ -14,16 +14,14 @@ namespace FoF\Webhooks\Actions\User;
 use FoF\Webhooks\Action;
 use FoF\Webhooks\Response;
 
+/**
+ * @extends Action<\Flarum\User\Event\Registered>
+ */
 class Registered extends Action
 {
-    const EVENT = \Flarum\User\Event\Registered::class;
+    public const EVENT = \Flarum\User\Event\Registered::class;
 
-    /**
-     * @param \Flarum\User\Event\Registered $event
-     *
-     * @return Response
-     */
-    public function listen($event): Response
+    public function handle($webhook, $event): Response
     {
         return Response::build($event)
             ->setTitle(

@@ -15,54 +15,39 @@ use Flarum\Http\UrlGenerator;
 use FoF\Webhooks\Models\Webhook;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * @template T
+ */
 abstract class Action
 {
+    /**
+     * The event class string handled by this action.
+     *
+     * @var class-string<T>
+     */
     public const EVENT = '';
 
-    /**
-     * @var UrlGenerator
-     */
-    protected $url;
-
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
-
-    public function __construct()
-    {
-        $this->url = resolve(UrlGenerator::class);
-        $this->translator = resolve(TranslatorInterface::class);
+    public function __construct(
+        protected UrlGenerator $urlGenerator,
+        protected TranslatorInterface $translator
+    ) {
     }
 
     /**
-     * @param $event
+     * Handle the given event and return a Response to be sent to the webhook.
      *
-     * @return Response|null
-     *
-     * @deprecated
-     */
-    public function listen($event): ?Response
-    {
-        return null;
-    }
-
-    /**
      * @param Webhook $webhook
-     * @param         $event
+     * @param T       $event
      *
      * @return Response|null
      *
      * @abstract
      */
-    public function handle(Webhook $webhook, $event): ?Response
-    {
-        return $this->listen($event);
-    }
+    abstract public function handle(Webhook $webhook, $event): ?Response;
 
     /**
-     * @param         $event
      * @param Webhook $webhook
+     * @param T       $event
      *
      * @return bool
      */
@@ -72,15 +57,18 @@ abstract class Action
     }
 
     /**
-     * @param string $id
-     * @param        $param1
+     * @param string   $id
+     * @param string[] $params
      *
      * @return string
      */
-    protected function translate(string $id, $param1 = null): string
+    protected function translate(string $id, ...$params): string
     {
-        return $this->translator->trans('fof-webhooks.actions.'.$id, [
-            '{1}' => $param1,
-        ]);
+        $replacements = [];
+        foreach ($params as $i => $param) {
+            $replacements['{'.($i + 1).'}'] = $param;
+        }
+
+        return $this->translator->trans('fof-webhooks.actions.'.$id, $replacements);
     }
 }

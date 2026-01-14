@@ -18,6 +18,7 @@ use FoF\Webhooks\Adapters\Adapters;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
+ * @property string      $id
  * @property string      $service
  * @property string      $url
  * @property string|null $error
@@ -45,7 +46,7 @@ class Webhook extends AbstractModel
      *
      * @return static
      */
-    public static function build(string $service, string $url): Webhook
+    public static function build(string $service, string $url): self
     {
         $webhook = new static();
         $webhook->service = $service;
@@ -57,7 +58,7 @@ class Webhook extends AbstractModel
 
     public function getEvents()
     {
-        return isset($this->events) ? json_decode($this->events) : [];
+        return isset($this->events) ? json_decode($this->events, false, 512, JSON_THROW_ON_ERROR) : [];
     }
 
     public function isValid(): bool
@@ -72,18 +73,9 @@ class Webhook extends AbstractModel
         return $this->belongsTo(Group::class);
     }
 
-    public function tags()
+    public function appliedTags(): array
     {
-        if (!class_exists(Tag::class)) {
-            return null;
-        }
-
-        return Tag::whereIn('id', $this->tag_id)->get();
-    }
-
-    public function appliedTags()
-    {
-        return Tag::select('name')->whereIn('id', $this->tag_id)->pluck('name')->toArray();
+        return Tag::query()->select('name')->whereIn('id', $this->tag_id)->pluck('name')->toArray();
     }
 
     public function getIncludeTags(): bool
@@ -95,19 +87,23 @@ class Webhook extends AbstractModel
     {
         $group = $this->group;
 
-        return !$group || $group->id == Group::GUEST_ID;
+        return !$group || $group->id === Group::GUEST_ID;
     }
 
     public function getTagIdAttribute($value): array
     {
         if (is_numeric($value)) {
             return [$value];
-        } elseif (is_array($value)) {
+        }
+
+        if (is_array($value)) {
             return $value;
-        } elseif (!$value) {
+        }
+
+        if (!$value) {
             return [];
         }
 
-        return json_decode($value) ?? [];
+        return json_decode($value, false, 512, JSON_THROW_ON_ERROR) ?? [];
     }
 }

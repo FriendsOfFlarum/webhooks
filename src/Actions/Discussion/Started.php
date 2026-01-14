@@ -15,16 +15,13 @@ use FoF\Webhooks\Helpers\Post;
 use FoF\Webhooks\Models\Webhook;
 use FoF\Webhooks\Response;
 
+/**
+ * @extends Action<\Flarum\Discussion\Event\Started>
+ */
 class Started extends Action
 {
-    const EVENT = \Flarum\Discussion\Event\Started::class;
+    public const EVENT = \Flarum\Discussion\Event\Started::class;
 
-    /**
-     * @param Webhook                          $webhook
-     * @param \Flarum\Discussion\Event\Started $event
-     *
-     * @return Response
-     */
     public function handle(Webhook $webhook, $event): Response
     {
         return Response::build($event)

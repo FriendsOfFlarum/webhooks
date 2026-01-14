@@ -15,6 +15,11 @@ use Flarum\Extension\ExtensionManager;
 use Flarum\User\Guest;
 use FoF\Webhooks\Models\Webhook;
 
+/**
+ * @template T
+ *
+ * @extends \FoF\Webhooks\Action<T>
+ */
 abstract class Action extends \FoF\Webhooks\Action
 {
     public function ignore(Webhook $webhook, $event): bool
@@ -27,10 +32,6 @@ abstract class Action extends \FoF\Webhooks\Action
         $tagIds = $webhook->tag_id;
         $tagsIsEnabled = resolve(ExtensionManager::class)->isEnabled('flarum-tags');
 
-        if ($discussion && !empty($tagIds) && $tagsIsEnabled && !$discussion->tags()->whereIn('id', $tagIds)->exists()) {
-            return true;
-        }
-
-        return false;
+        return $discussion && !empty($tagIds) && $tagsIsEnabled && !$discussion->tags()->whereIn('id', $tagIds)->exists();
     }
 }

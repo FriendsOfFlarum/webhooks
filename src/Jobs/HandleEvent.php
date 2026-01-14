@@ -19,27 +19,33 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Arr;
-use ReflectionClass;
+use JsonException;
+use ReflectionException;
+use RuntimeException;
 
 class HandleEvent implements ShouldQueue
 {
     use Queueable;
     use SerializesModels;
 
-    protected $name;
-    protected $event;
-
-    public function __construct($name, $event)
+    public function __construct(protected $name, protected $event)
     {
-        $this->name = $name;
-        $this->event = $event;
     }
 
-    public function handle()
+    /**
+     * @throws ReflectionException
+     * @throws JsonException
+     */
+    public function handle(): void
     {
-        $clazz = TriggerListener::$listeners[$this->name];
+        $clazz = Arr::get(TriggerListener::$listeners, $this->name);
+
+        if (!isset($clazz)) {
+            throw new RuntimeException("FoF Webhooks expected a listener registered for event {$this->name}");
+        }
+
         /** @var Action $action */
-        $action = (new ReflectionClass($clazz))->newInstance();
+        $action = resolve($clazz);
 
         TriggerListener::debug("{$this->name}: handling with $clazz");
 
@@ -50,12 +56,18 @@ class HandleEvent implements ShouldQueue
      * @param string $event_name
      * @param Action $action
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
+     * @throws JsonException
      */
-    private function send(string $event_name, Action $action)
+    private function send(string $event_name, Action $action): void
     {
-        foreach (Webhook::all() as $webhook) {
-            if ($webhook->events != null && !in_array($event_name, $webhook->getEvents())) {
+        $webhooks = Webhook::all();
+
+        foreach ($webhooks as $webhook) {
+            /**
+             * @var Webhook $webhook
+             */
+            if ($webhook->events === null || !in_array($event_name, $webhook->getEvents(), true)) {
                 TriggerListener::debug("{$this->name}: webhook $webhook->id --> not subscribed");
                 continue;
             }
@@ -70,7 +82,14 @@ class HandleEvent implements ShouldQueue
             if (isset($response)) {
                 TriggerListener::debug("{$this->name}: webhook $webhook->id --> sending response");
 
-                Adapters\Adapters::get($webhook->service)->handle($webhook, $response->withWebhook($webhook));
+                $adapter = Adapters\Adapters::get($webhook->service);
+
+                if (!isset($adapter)) {
+                    TriggerListener::debug("{$this->name}: webhook $webhook->id --> unknown adapter {$webhook->service}");
+                    continue;
+                }
+
+                $adapter->handle($webhook, $response->withWebhook($webhook));
             } else {
                 TriggerListener::debug("{$this->name}: webhook $webhook->id --> no response");
             }
@@ -88,6 +107,6 @@ class HandleEvent implements ShouldQueue
     public function __unserialize(array $values): void
     {
         $this->name = Arr::get($values, 'name');
-        $this->event = \Opis\Closure\unserialize(Arr::get($values, 'event'));
+        $this->event = \Opis\Closure\unserialize(Arr::get($values, 'event'), null);
     }
 }

@@ -1,5 +1,7 @@
 .WebhookContent {
   margin-top: 20px;
+  margin-right: 20px;
+  position: relative;
 }
 
 .Webhooks--row {
@@ -42,8 +44,10 @@
     }
 
     .Webhook-button {
-      .Button-icon {
-        margin-right: 0;
+      &.loading {
+        .Button-icon {
+          display: none !important;
+        }
       }
     }
   }
@@ -67,10 +71,6 @@
 }
 
 .FofWebhooksModal {
-  .Form-group {
-    margin-top: 10px;
-    margin-bottom: 5px;
-  }
 
   .Form-group.hasLoading {
     > div {
@@ -88,16 +88,17 @@
     margin-right: 10px;
   }
 
-  .label {
-    margin-top: 20px;
-    margin-bottom: 0;
+  .Form-group {
+    gap: 6px;
   }
 
   .Webhook-events {
+
     > div {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
+      width: 100%;
 
       h2 {
         flex-basis: 100%;
@@ -106,7 +107,7 @@
       }
 
       > div {
-        flex: 50%;
+        flex-basis: 33%;
       }
     }
 
@@ -141,16 +142,10 @@
         }
       }
 
-      &.off {
-        .Checkbox-display {
-          background: darken(@control-bg, 10%);
-        }
-      }
-
-      .spinner {
-        transform: scale(0.7) !important;
-        left: -0.5px !important;
-        top: 35% !important;
+      .LoadingIndicator-container {
+        transform: scale(0.7);
+        margin-top: -4px;
+        margin-left: -1px;
       }
     }
   }

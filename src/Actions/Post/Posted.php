@@ -17,16 +17,14 @@ use FoF\Webhooks\Response;
 
 class Posted extends Action
 {
-    const EVENT = \Flarum\Post\Event\Posted::class;
+    public const EVENT = \Flarum\Post\Event\Posted::class;
 
-    /**
-     * @param Webhook                                                          $webhook
-     * @param \Flarum\Post\Event\Posted|\Flarum\Approval\Event\PostWasApproved $event
-     *
-     * @return Response
-     */
     public function handle(Webhook $webhook, $event): Response
     {
+        /**
+         * @var \Flarum\Post\Event\Posted $event
+         */
+
         return Response::build($event)
             ->setTitle(
                 $this->translate('post.posted', $event->post->discussion->title)
@@ -52,6 +50,6 @@ class Posted extends Action
      */
     public function ignore(Webhook $webhook, $event): bool
     {
-        return parent::ignore($webhook, $event) || !isset($event->post->discussion->first_post_id) || $event->post->id == $event->post->discussion->first_post_id;
+        return parent::ignore($webhook, $event) || !isset($event->post->discussion->first_post_id) || $event->post->id === $event->post->discussion->first_post_id;
     }
 }
