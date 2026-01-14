@@ -71,7 +71,7 @@ export default class SettingsListItem extends Component<SettingsListItemAttrs> {
     const changeTags = () =>
       app.modal.show(() => import('ext:flarum/tags/common/components/TagSelectionModal'), {
         selectedTags: tags,
-        onsubmit: (tags: Tag[]) => this.update('tagIds')(tags.map((tag) => tag.id()!)),
+        onsubmit: (tags: Tag[]) => this.update('tagId')(tags.map((tag) => tag.id()!)),
       });
 
     return (
