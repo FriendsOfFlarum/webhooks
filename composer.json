@@ -1,6 +1,6 @@
 {
     "name": "fof/webhooks",
-    "description": "Flarum with webhooks",
+    "description": "Automatically notify Discord, Slack, and Microsoft Teams when events happen on your Flarum forum.",
     "keywords": [
         "flarum"
     ],
@@ -43,11 +43,13 @@
     ],
     "autoload": {
         "psr-4": {
-            "FoF\\Webhooks\\": "src/",
-            "Reflar\\Webhooks\\": "src/Legacy"
+            "FoF\\Webhooks\\": "src/"
         }
     },
     "extra": {
+        "branch-alias": {
+            "dev-main": "2.x-dev"
+        },
         "flarum-extension": {
             "title": "FoF Webhooks",
             "category": "feature",
@@ -60,9 +62,6 @@
                 "flarum/tags",
                 "flarum/approval"
             ]
-        },
-        "flagrow": {
-            "discuss": "https://discuss.flarum.org/d/17812"
         },
         "flarum-cli": {
             "modules": {
