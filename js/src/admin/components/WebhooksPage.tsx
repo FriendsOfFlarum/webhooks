@@ -1,7 +1,6 @@
 import app from 'flarum/admin/app';
 import ExtensionPage, { ExtensionPageAttrs } from 'flarum/admin/components/ExtensionPage';
 import Stream from 'flarum/common/utils/Stream';
-import withAttr from 'flarum/common/utils/withAttr';
 import Button from 'flarum/common/components/Button';
 import Select from 'flarum/common/components/Select';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
@@ -83,7 +82,7 @@ export default class WebhooksPage extends ExtensionPage {
             <fieldset>
               <div className="Webhooks--Container">
                 {webhooks.map((webhook) => (
-                  <SettingsListItem webhook={webhook} services={this.services} />
+                  <SettingsListItem webhook={webhook} services={this.services} key={webhook.id()} />
                 ))}
                 <div className="Webhooks--row">
                   <div className="Webhook-input">
@@ -93,7 +92,7 @@ export default class WebhooksPage extends ExtensionPage {
                       className="FormControl Webhook-url"
                       type="url"
                       placeholder={app.translator.trans('fof-webhooks.admin.settings.help.url')}
-                      onchange={withAttr('value', this.newWebhook.url)}
+                      bidi={this.newWebhook.url}
                       onkeypress={this.onkeypress.bind(this)}
                     />
 
