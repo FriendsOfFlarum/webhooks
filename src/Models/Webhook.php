@@ -56,7 +56,7 @@ class Webhook extends AbstractModel
         return $webhook;
     }
 
-    public function getEvents()
+    public function getEvents(): array
     {
         return isset($this->events) ? json_decode($this->events, false, 512, JSON_THROW_ON_ERROR) : [];
     }
@@ -90,7 +90,7 @@ class Webhook extends AbstractModel
         return !$group || $group->id === Group::GUEST_ID;
     }
 
-    public function getTagIdAttribute($value): array
+    public function getTagIdAttribute(mixed $value): array
     {
         if (is_numeric($value)) {
             return [$value];

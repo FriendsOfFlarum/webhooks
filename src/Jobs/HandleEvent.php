@@ -28,7 +28,7 @@ class HandleEvent implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public function __construct(protected $name, protected $event)
+    public function __construct(protected string $name, protected object $event)
     {
         // Make the unserializer compatible with v3 data to continue working with queued jobs created before the upgrade.
         \Opis\Closure\init(null, true);

@@ -44,11 +44,7 @@ class TriggerListener
         $events->listen('*', [$this, 'run']);
     }
 
-    /**
-     * @param $name
-     * @param $data
-     */
-    public function run($name, $data): void
+    public function run(string $name, array $data): void
     {
         $event = Arr::get($data, 0);
 
