@@ -40,7 +40,7 @@ class Response
     {
     }
 
-    public function withEvent($event): self
+    public function withEvent(object $event): self
     {
         $this->event = $event;
 
@@ -100,7 +100,7 @@ class Response
         return $this->color ? hexdec(substr($this->color, 1)) : null;
     }
 
-    public static function build($event): self
+    public static function build(object $event): self
     {
         return resolve(self::class)->withEvent($event);
     }

@@ -165,7 +165,7 @@ abstract class Adapter
         return $webhookTitle ?: $this->settings->get('forum_title');
     }
 
-    private function logException(Webhook $webhook, Response $response, Throwable $e, $handled = false): void
+    private function logException(Webhook $webhook, Response $response, Throwable $e, bool $handled = false): void
     {
         resolve('log')->error(
             sprintf(
