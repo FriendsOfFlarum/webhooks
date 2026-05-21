@@ -83,7 +83,7 @@ abstract class Adapter
                 $e
             );
         } catch (Throwable $e) {
-            $handled = $e instanceof $this->exception;
+            $handled = $this->exception && $e instanceof $this->exception;
 
             TriggerListener::debug(get_class($response->event).": webhook $webhook->id --> other error");
 
@@ -185,7 +185,7 @@ abstract class Adapter
         );
 
         // Use reporters (e.g. Sentry) if it's an "unhandled" exception
-        if (!($e instanceof $this->exception)) {
+        if (!$this->exception || !($e instanceof $this->exception)) {
             /** @var Reporter[] $reporters */
             $reporters = Container::getInstance()->tagged(Reporter::class);
 
