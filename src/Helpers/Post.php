@@ -19,7 +19,7 @@ class Post
 {
     /**
      * @param \Flarum\Post\Post|null $post
-     * @param Webhook|null $webhook
+     * @param Webhook|null           $webhook
      *
      * @return string|null
      */
