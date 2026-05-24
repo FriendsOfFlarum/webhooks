@@ -18,13 +18,17 @@ use Html2Text\Html2Text;
 class Post
 {
     /**
-     * @param \Flarum\Post\Post $post
-     * @param Webhook|null      $webhook
+     * @param \Flarum\Post\Post|null $post
+     * @param Webhook|null $webhook
      *
      * @return string|null
      */
-    public static function getContent(\Flarum\Post\Post $post, ?Webhook $webhook = null): ?string
+    public static function getContent(?\Flarum\Post\Post $post, ?Webhook $webhook = null): ?string
     {
+        if (!$post) {
+            return null;
+        }
+
         $content = $post->content;
 
         if (isset($webhook) && $post instanceof CommentPost) {
