@@ -12,6 +12,7 @@
 namespace FoF\Webhooks\Models;
 
 use Flarum\Database\AbstractModel;
+use Flarum\Discussion\Discussion;
 use Flarum\Group\Group;
 use Flarum\Tags\Tag;
 use FoF\Webhooks\Adapters\Adapters;
@@ -68,6 +69,10 @@ class Webhook extends AbstractModel
         return isset($adapter) && $adapter::isValidURL($this->url);
     }
 
+    protected $casts = [
+        'tag_id' => 'array',
+    ];
+
     public function group(): BelongsTo
     {
         return $this->belongsTo(Group::class);
@@ -76,6 +81,22 @@ class Webhook extends AbstractModel
     public function appliedTags(): array
     {
         return Tag::query()->select('name')->whereIn('id', $this->tag_id)->pluck('name')->toArray();
+    }
+
+    public function hasMatchingTags(Discussion $discussion): bool
+    {
+        if (empty($this->tag_id)) {
+            return true;
+        }
+
+        return $discussion->tags()->whereIn('id', $this->tag_id)->exists();
+    }
+
+    public function setTagIdAttribute($value): void
+    {
+        $this->attributes['tag_id'] = is_array($value)
+            ? json_encode($value, JSON_THROW_ON_ERROR)
+            : $value;
     }
 
     public function getIncludeTags(): bool
