@@ -36,6 +36,13 @@ class TriggerListener
     public static $listeners = null;
 
     /**
+     * Maps a real Flarum event class to the webhook-selectable identifiers it should queue.
+     *
+     * @var array<string, string[]>
+     */
+    public static $eventMap = [];
+
+    /**
      * @var bool|null
      */
     protected static $isDebugging = null;
@@ -76,15 +83,17 @@ class TriggerListener
     {
         $event = Arr::get($data, 0);
 
-        if (!isset($event) || !array_key_exists($name, self::$listeners)) {
+        if (!isset($event) || empty(self::$eventMap[$name])) {
             return;
         }
 
-        self::debug("$name: queuing");
+        foreach (self::$eventMap[$name] as $identifier) {
+            self::debug("$name: queuing as $identifier");
 
-        $this->queue->push(
-            new HandleEvent($name, $event)
-        );
+            $this->queue->push(
+                new HandleEvent($identifier, $event)
+            );
+        }
     }
 
     public static function setupDefaultListeners()
@@ -105,6 +114,7 @@ class TriggerListener
         self::addListener(Actions\Post\Restored::class);
         self::addListener(Actions\Post\Deleted::class);
         self::addListener(Actions\Post\Approved::class);
+        self::addListener(Actions\Post\RequiresApproval::class);
 
         self::addListener(Actions\User\Renamed::class);
         self::addListener(Actions\User\Registered::class);
@@ -115,8 +125,17 @@ class TriggerListener
     {
         $clazz = @constant("$action::EVENT");
 
-        if (isset($clazz) && class_exists($clazz)) {
-            self::$listeners[$clazz] = $action;
+        // Some actions listen to a core event but only make sense when another
+        // (optional) extension's class is present, e.g. RequiresApproval needs flarum/approval.
+        $dependsOn = @constant("$action::DEPENDS_ON") ?: $clazz;
+
+        // Actions may expose a distinct identifier so they can be selected independently
+        // in the webhook UI even though they listen to the same underlying Flarum event.
+        $identifier = @constant("$action::NAME") ?: $clazz;
+
+        if (isset($clazz) && class_exists($dependsOn)) {
+            self::$listeners[$identifier] = $action;
+            self::$eventMap[$clazz][] = $identifier;
         } elseif (!isset($clazz)) {
             echo "$action::EVENT does not exist";
         }
