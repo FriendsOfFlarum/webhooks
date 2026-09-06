@@ -21,6 +21,7 @@ fof-webhooks:
       restored: "Restored post in `{1}`"
       deleted: "Deleted post in `{1}`"
       approved: "Approved post in `{1}`"
+      requires_approval: "Post in `{1}` is pending approval"
 
     user:
       registered: New user registered
@@ -120,6 +121,7 @@ fof-webhooks:
             title: Flarum Approval
 
             postwasapproved: Post Approved
+            postrequiresapproval: Requires Approval
 
   ref:
     deleted: Deleted
