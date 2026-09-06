@@ -123,15 +123,15 @@ class TriggerListener
 
     public static function addListener(string $action)
     {
-        $clazz = @constant("$action::EVENT");
+        $clazz = defined("$action::EVENT") ? constant("$action::EVENT") : null;
 
         // Some actions listen to a core event but only make sense when another
         // (optional) extension's class is present, e.g. RequiresApproval needs flarum/approval.
-        $dependsOn = @constant("$action::DEPENDS_ON") ?: $clazz;
+        $dependsOn = defined("$action::DEPENDS_ON") ? constant("$action::DEPENDS_ON") : $clazz;
 
         // Actions may expose a distinct identifier so they can be selected independently
         // in the webhook UI even though they listen to the same underlying Flarum event.
-        $identifier = @constant("$action::NAME") ?: $clazz;
+        $identifier = defined("$action::NAME") ? constant("$action::NAME") : $clazz;
 
         if (isset($clazz) && class_exists($dependsOn)) {
             self::$listeners[$identifier] = $action;
@@ -140,7 +140,7 @@ class TriggerListener
             echo "$action::EVENT does not exist";
         }
     }
-
+    
     public static function debug(string $message)
     {
         if (is_null(self::$isDebugging)) {

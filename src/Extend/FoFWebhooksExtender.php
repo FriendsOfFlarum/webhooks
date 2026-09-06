@@ -35,7 +35,7 @@ class FoFWebhooksExtender implements ExtenderInterface
      */
     public function listener($action): FoFWebhooksExtender
     {
-        $clazz = @constant("$action::EVENT");
+        $clazz = defined("$action::EVENT") ? constant("$action::EVENT") : null;
 
         if (isset($clazz)) {
             $this->listeners[$clazz] = $action;
@@ -51,7 +51,7 @@ class FoFWebhooksExtender implements ExtenderInterface
      */
     public function adapter($adapter): FoFWebhooksExtender
     {
-        $name = @constant("$adapter::NAME");
+        $name = defined("$adapter::NAME") ? constant("$adapter::NAME") : null;
 
         if (isset($name)) {
             $this->adapters[$name] = $adapter;
