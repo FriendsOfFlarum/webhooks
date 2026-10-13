@@ -56,7 +56,8 @@
             },
             "optional-dependencies": [
                 "flarum/tags",
-                "flarum/approval"
+                "flarum/approval",
+                "flarum/flags"
             ]
         },
         "flagrow": {
@@ -78,6 +79,7 @@
     "require-dev": {
         "flarum/phpstan": "*",
         "flarum/tags": "*",
-        "flarum/approval": "*"
+        "flarum/approval": "*",
+        "flarum/flags": "*"
     }
 }
