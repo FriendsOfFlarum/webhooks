@@ -22,6 +22,7 @@ fof-webhooks:
       deleted: "Deleted post in `{1}`"
       approved: "Approved post in `{1}`"
       requires_approval: "Post in `{1}` is pending approval"
+      flagged: "Flagged post in `{1}`"
 
     user:
       registered: New user registered
@@ -123,8 +124,14 @@ fof-webhooks:
             postwasapproved: Post Approved
             postrequiresapproval: Requires Approval
 
+          flags:
+            title: Flarum Flags
+
+            created: Post Flagged
+
   ref:
     deleted: Deleted
+    flagged: Flagged
     hidden: Hidden
     renamed: Renamed
     restored: Restored
